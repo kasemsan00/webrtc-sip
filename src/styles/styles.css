@@ -1,0 +1,52 @@
+:root {
+}
+
+.main {
+  height: 100vh;
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+.left-panel {
+  position: fixed;
+  width: 300px;
+  background: rebeccapurple;
+  height: 100%;
+  left: 0;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+.select-option {
+  text-align: center;
+  border-radius: 5px;
+  margin: 2px;
+  height: 40px;
+  width: 100%;
+}
+.setting-btn {
+  width: 40px;
+  height: 40px;
+}
+.btn-primary {
+  background: #a5ff6c;
+  border-radius: 5px;
+  outline: none;
+  border: none;
+  margin: 2px;
+  height: 40px;
+}
+.btn-secondary {
+  background: #e8e4ec;
+  border-radius: 5px;
+  outline: none;
+  border: none;
+  margin: 2px;
+  height: 40px;
+}
+.btn-primary:active,
+.btn-secondary:active {
+  background: antiquewhite;
+}

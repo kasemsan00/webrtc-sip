@@ -1,12 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const profileData = {
-  server: "",
-  websocket: "",
-  extension: "",
-  password: "",
-};
-const initialState: Array<typeof profileData> = [];
+interface IProfile {
+  [index: string]: IProfileData;
+}
+interface IProfileData {
+  server: string;
+  websocket: string;
+  extension: string;
+  password: string;
+}
+const initialState = {} as IProfile;
 
 const profileSlice = createSlice({
   name: "profile",

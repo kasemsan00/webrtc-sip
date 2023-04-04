@@ -7,6 +7,7 @@ import profileSelectSlice from "./slices/profileSelectSlice";
 import registerStatusSlice from "./slices/registerStatusSlice";
 import proxyServerSlice from "./slices/proxyServerSlice";
 import pcConfigSlice from "./slices/pcConfigSlice";
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 const middleware = [reduxThunk];
 
@@ -22,5 +23,9 @@ const store = configureStore({
   },
   middleware,
 });
+export type AppDispatch = typeof store.dispatch;
+export const useAppDispatch: () => AppDispatch = useDispatch;
+export type RootState = ReturnType<typeof store.getState>;
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 export default store;
