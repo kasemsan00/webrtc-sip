@@ -1,5 +1,4 @@
 import { IoMdSettings } from "react-icons/Io";
-import MyListbox from "@/components/LeftPanel/MyListBox";
 import StatusConnection from "@/components/LeftPanel/StatusConnection";
 
 export default function LeftPanel() {
