@@ -1,4 +1,4 @@
-import { BsFillCircleFill } from "react-icons/Bs";
+import { BsFillCircleFill } from "react-icons/bs";
 import { useEffect, useState } from "react";
 interface Props {
   status: string;
