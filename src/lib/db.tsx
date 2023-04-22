@@ -1,9 +1,7 @@
 const mysql = require("mysql2");
 const util = require("util");
 
-const pool = mysql.createPool(
-  'mysql://cu04f7qlbg6icmjm3j8q:pscale_pw_SScDRxIgLzLWDmypIRudIT7esZhGfcq6ba3myQh1y7L@aws.connect.psdb.cloud/mydb?ssl={"rejectUnauthorized":true}'
-);
+const pool = mysql.createPool(process.env.DATABASE_URL);
 pool.on("connection", (_conn: any) => {
   if (_conn) {
     console.log("Connected to database via threadId ", _conn.threadId);
