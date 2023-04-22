@@ -2,6 +2,8 @@ import type { NextApiRequest, NextApiResponse } from "next";
 require("dotenv").config();
 const mysql = require("mysql2");
 
+console.log(process.env.NODE_ENV);
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const connection = mysql.createConnection(process.env.DATABASE_URL);
   if (req.method === "GET") {
