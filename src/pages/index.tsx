@@ -8,14 +8,16 @@ import RemoteVideo from "@/components/Video/RemoteVideo";
 import ProfileList from "@/components/LeftPanel/ProfileList";
 import CallOut from "@/components/LeftPanel/CallOut";
 import ConnectSip from "@/components/LeftPanel/ConnectSip";
+import UserAgentHandler from "@/hooks/UserAgentHandler";
 
 export default function Home() {
   const [status, setStatus] = useState<string>("");
+  const [userAgent, setConfig] = UserAgentHandler();
 
   return (
     <>
       <Head>
-        <title>SipTest</title>
+        <title>WebRTC Test</title>
         <meta name="description" content="WebRTC" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />

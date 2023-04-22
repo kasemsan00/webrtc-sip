@@ -1,6 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState: string = "";
+interface IConfig {
+  domain: string;
+  webSocket: string;
+  extension: string;
+  secret: string;
+}
+
+const initialState: IConfig = {
+  domain: "",
+  webSocket: "",
+  extension: "",
+  secret: "",
+};
 
 const profileSelectSlice = createSlice({
   name: "profileSelect",

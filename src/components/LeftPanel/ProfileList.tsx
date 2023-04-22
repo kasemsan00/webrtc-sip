@@ -2,15 +2,10 @@ import { useState, Fragment, useEffect } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { getExtension } from "@/request/request";
+import { setSelectProfile } from "@/redux/slices/profileSelectSlice";
+import { useAppDispatch } from "@/redux/store";
+import useLocalStorageState from "use-local-storage-state";
 
-const people = [
-  { name: "Wade Cooper" },
-  { name: "Arlene Mccoy" },
-  { name: "Devon Webb" },
-  { name: "Tom Cook" },
-  { name: "Tanya Fox" },
-  { name: "Hellen Schmidt" },
-];
 interface IExtensionList {
   extension: string;
   secret: string;
@@ -19,31 +14,38 @@ interface IExtensionList {
 }
 
 export default function ProfileList() {
-  const [selected, setSelected] = useState<IExtensionList>();
+  const dispatch = useAppDispatch();
   const [extensionList, setExtensionList] = useState<any>([]);
+  const [localStorageProfile, setLocalStorageProfile] = useLocalStorageState<IExtensionList>("profileSelect", {
+    defaultValue: extensionList.length > 0 ? undefined : extensionList[0],
+  });
 
   useEffect(() => {
     (async () => {
-      setExtensionList(await getExtension());
+      const resp = await getExtension();
+      setExtensionList(resp);
     })();
-  }, []);
-
-  useEffect(() => {
-    if (extensionList.length > 0) {
-      setSelected(extensionList[0]);
-    }
-  }, [extensionList]);
+  }, [localStorageProfile, setLocalStorageProfile]);
 
   const handleListChange = (event: string) => {
-    console.log(event);
+    const extensionSelect = extensionList.find((state: IExtensionList) => {
+      return state.extension === event;
+    });
+    dispatch(setSelectProfile(extensionSelect));
+    setLocalStorageProfile(extensionSelect);
   };
 
   return (
     <div className="w-full">
-      <Listbox value={selected?.extension} onChange={handleListChange}>
+      <Listbox
+        value={localStorageProfile === undefined ? "Select Extension" : localStorageProfile.extension}
+        onChange={handleListChange}
+      >
         <div className="relative mt-1">
           <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-            <span className="block truncate">{selected?.extension}</span>
+            <span className="block truncate">
+              {localStorageProfile !== undefined ? localStorageProfile?.extension : "Select Extension"}
+            </span>
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
               <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
             </span>

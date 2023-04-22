@@ -1,29 +1,25 @@
 import JsSIP from "jssip";
-import { useAppSelector } from "@/redux/store";
 import { useCallback, useEffect, useState } from "react";
 
-interface Props {
-  server: string;
+interface IConfig {
+  domain: string;
   webSocket: string;
   extension: string;
-  password: string;
+  secret: string;
 }
-export default function UserAgentHandle({ server, webSocket, extension, password }: Props) {
+export default function UserAgentHandler() {
   const [userAgent, setUserAgent] = useState<JsSIP.UA>();
-  const [isStartUserRegister, setStartUserRegister] = useState(false);
+  const [config, setConfig] = useState<IConfig | undefined>(undefined);
 
-  const ConfigUserAgent = () => {
-    const socket = new JsSIP.WebSocketInterface(webSocket);
+  const UserAgentRegister = useCallback(() => {
+    if (config === undefined) return;
+    const socket = new JsSIP.WebSocketInterface(config.webSocket);
     const configuration = {
       sockets: [socket],
-      uri: "sip:" + extension + "@" + server,
-      password: password,
-      traceSip: true,
+      uri: "sip:" + config.extension + "@" + config.domain,
+      password: config.secret,
     };
-    setUserAgent(new JsSIP.UA(configuration));
-  };
-  const UserAgentRegister = useCallback(() => {
-    if (userAgent === undefined) return;
+    const userAgent = new JsSIP.UA(configuration);
     userAgent.start();
     userAgent.on("connecting", (event) => {
       console.log("connecting");
@@ -45,13 +41,13 @@ export default function UserAgentHandle({ server, webSocket, extension, password
       console.log("disconnected");
       console.log(event);
     });
-  }, [userAgent]);
+    setUserAgent(userAgent);
+  }, [config]);
 
   useEffect(() => {
-    if (userAgent !== undefined) {
-      UserAgentRegister();
-    }
-  }, [UserAgentRegister, userAgent]);
+    if (config === undefined) return;
+    UserAgentRegister();
+  }, [UserAgentRegister, config]);
 
-  return [userAgent, setStartUserRegister];
+  return [userAgent, setConfig];
 }

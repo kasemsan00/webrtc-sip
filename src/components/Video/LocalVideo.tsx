@@ -1,29 +1,30 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { setLocalStream } from "@/redux/slices/mediaStreamSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
 
 export default function LocalVideo() {
-  const [stream, setStream] = useState<MediaStream | null>(null);
+  const dispatch = useAppDispatch();
+  const mediaStream = useAppSelector((state) => state.mediaStream);
 
   useEffect(() => {
-    if (stream !== null) return;
     async function getLocalMedia() {
-      console.log("XX");
-      setStream(
-        await navigator.mediaDevices.getUserMedia({
-          video: true,
-          audio: true,
-        })
-      );
+      if (mediaStream !== null) return;
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: true,
+      });
+      dispatch(setLocalStream(stream));
       return null;
     }
     getLocalMedia().then((r) => r);
-  }, [stream]);
+  }, [dispatch, mediaStream]);
 
   return (
     <div className="h-40">
       <video
         ref={(video) => {
           if (video) {
-            video.srcObject = stream;
+            video.srcObject = mediaStream;
           }
         }}
         className="bg-black rounded-md h-full"
