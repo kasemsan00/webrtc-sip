@@ -10,7 +10,7 @@ interface IExtensionList {
   extension: string;
   secret: string;
   domain: string;
-  websocket: string;
+  webSocket: string;
 }
 
 export default function ProfileList() {
@@ -19,6 +19,12 @@ export default function ProfileList() {
   const [localStorageProfile, setLocalStorageProfile] = useLocalStorageState<IExtensionList>("profileSelect", {
     defaultValue: extensionList.length > 0 ? undefined : extensionList[0],
   });
+
+  useEffect(() => {
+    if (localStorageProfile !== undefined) {
+      dispatch(setSelectProfile(localStorageProfile));
+    }
+  }, [dispatch, localStorageProfile]);
 
   useEffect(() => {
     (async () => {
@@ -31,7 +37,6 @@ export default function ProfileList() {
     const extensionSelect = extensionList.find((state: IExtensionList) => {
       return state.extension === event;
     });
-    dispatch(setSelectProfile(extensionSelect));
     setLocalStorageProfile(extensionSelect);
   };
 

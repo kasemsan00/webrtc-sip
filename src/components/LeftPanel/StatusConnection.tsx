@@ -1,7 +1,7 @@
 import { BsFillCircleFill } from "react-icons/bs";
 import { useEffect, useState } from "react";
 interface Props {
-  status: string;
+  status: string | undefined;
 }
 export default function StatusConnection({ status }: Props) {
   const [statusColor, setStatusColor] = useState<string>("gray");

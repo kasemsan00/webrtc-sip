@@ -11,8 +11,7 @@ import ConnectSip from "@/components/LeftPanel/ConnectSip";
 import UserAgentHandler from "@/hooks/UserAgentHandler";
 
 export default function Home() {
-  const [status, setStatus] = useState<string>("");
-  const [userAgent, setConfig] = UserAgentHandler();
+  const [userAgent, status] = UserAgentHandler();
 
   return (
     <>
@@ -26,7 +25,7 @@ export default function Home() {
         <Sidebar>
           <LocalVideo />
           <ProfileList />
-          <ConnectSip status={status} setStatus={setStatus} />
+          {/*<ConnectSip status={status} setStatus={setStatus} />*/}
           <StatusConnection status={status} />
           <CallOut />
         </Sidebar>

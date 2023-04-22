@@ -36,19 +36,19 @@ const data = [
     extension: "0000168180001",
     secret: "Opy0SGsa2G5fiw64",
     domain: "sipagent.ttrs.in.th",
-    websocket: "wss://sipagent.ttrs.in.th:8089/ws",
+    webSocket: "wss://sipagent.ttrs.in.th:8089/ws",
   },
   {
     extension: "0000168180004",
     secret: "HENLwnvRcH9e5SNQ",
     domain: "sipagent.ttrs.in.th",
-    websocket: "wss://sipagent.ttrs.in.th:8089/ws",
+    webSocket: "wss://sipagent.ttrs.in.th:8089/ws",
   },
   {
     extension: "0000168180021",
     secret: "i7yVhkvojEUn4KvR",
     domain: "sipagent.ttrs.in.th",
-    websocket: "wss://sipagent.ttrs.in.th:8089/ws",
+    webSocket: "wss://sipagent.ttrs.in.th:8089/ws",
   },
 ];
 
