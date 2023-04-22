@@ -1,23 +1,14 @@
-// require("dotenv").config();
-// const mysql = require("mysql2");
-// const connection = mysql.createConnection(process.env.DATABASE_URL);
-// console.log("Connected to PlanetScale!");
-// connection.end();
-//
-// export default connection;
-
 const mysql = require("mysql2");
 const util = require("util");
 
 const pool = mysql.createPool(
-  'mysql://3fncfk160x7uweu5ymwk:pscale_pw_aHbAqqLGh0ViIGOJiOat6BvnPtL5OmaaPzXa8sR6PZR@aws.connect.psdb.cloud/mydb?ssl={"rejectUnauthorized":true}'
+  'mysql://cu04f7qlbg6icmjm3j8q:pscale_pw_SScDRxIgLzLWDmypIRudIT7esZhGfcq6ba3myQh1y7L@aws.connect.psdb.cloud/mydb?ssl={"rejectUnauthorized":true}'
 );
 pool.on("connection", (_conn: any) => {
   if (_conn) {
     console.log("Connected to database via threadId ", _conn.threadId);
   }
 });
-
 const keepAlive = () => {
   pool.getConnection((err: any, connection: any) => {
     if (err) {
@@ -30,9 +21,6 @@ const keepAlive = () => {
       if (err.code === "ECONNREFUSED") {
         console.log("Database connection was refused.");
       }
-    }
-    if (connection) {
-      connection.release();
     }
   });
 };
