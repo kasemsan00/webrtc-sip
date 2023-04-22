@@ -1,20 +1,25 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-const conn = require("../../lib/db");
+require("dotenv").config();
+const mysql = require("mysql2");
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const connection = mysql.createConnection(process.env.DATABASE_URL);
   if (req.method === "GET") {
-    const result = await conn.query("SELECT * FROM extension");
-    res.status(200).json(result);
+    connection.query("SELECT * FROM extension", (err: any, result: any) => {
+      res.status(200).json(result);
+    });
+    connection.end();
     return;
   }
   if (req.method === "POST") {
     const { extension, secret, domain, websocket } = req.body;
-    const result = await conn.query(`INSERT INTO extension (extension, secret, domain, websocket) VALUES (?,?,?,?)`, [
+    const result = connection.query(`INSERT INTO extension (extension, secret, domain, websocket) VALUES (?,?,?,?)`, [
       extension,
       secret,
       domain,
       websocket,
     ]);
+    connection.end();
     res.status(200).json(result);
     return;
   }
