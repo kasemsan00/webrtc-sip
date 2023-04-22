@@ -9,6 +9,8 @@ if (process.env.NODE_ENV === "development") {
     'mysql://8plhsi5dbdpkkg8crbz5:pscale_pw_mQgWAGvM2FeJ1l3lpAqWluhY9zTNNvbsjwooZq3yBj6@aws.connect.psdb.cloud/mydb?ssl={"rejectUnauthorized":true}';
 }
 
+console.log(DATABASE_URL);
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const connection = mysql.createConnection(DATABASE_URL);
   if (req.method === "GET") {
