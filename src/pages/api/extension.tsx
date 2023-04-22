@@ -2,15 +2,29 @@ import type { NextApiRequest, NextApiResponse } from "next";
 require("dotenv").config();
 const mysql = require("mysql2");
 
-console.log(process.env.NODE_ENV);
+let DATABASE_URL = process.env.DATABASE_URL;
+
+if (process.env.NODE_ENV === "development") {
+  DATABASE_URL =
+    'mysql://8plhsi5dbdpkkg8crbz5:pscale_pw_mQgWAGvM2FeJ1l3lpAqWluhY9zTNNvbsjwooZq3yBj6@aws.connect.psdb.cloud/mydb?ssl={"rejectUnauthorized":true}';
+}
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const connection = mysql.createConnection(process.env.DATABASE_URL);
+  const connection = mysql.createConnection(DATABASE_URL);
   if (req.method === "GET") {
-    connection.query("SELECT * FROM extension", (err: any, result: any) => {
-      res.status(200).json(result);
-    });
-    connection.end();
+    connection
+      .promise()
+      .query("SELECT extension, secret, domain, websocket FROM extension")
+      .then(([rows]: any) => {
+        res.status(200).json(rows);
+      })
+      .catch((error: any) => {
+        console.log("error", error);
+        res.status(200).json({});
+      })
+      .then(() => connection.end());
+
+    res.status(200).json({});
     return;
   }
   if (req.method === "POST") {
