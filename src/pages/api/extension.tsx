@@ -5,11 +5,6 @@ const mysql = require("mysql2");
 
 let DATABASE_URL = process.env.DATABASE_URL;
 
-if (process.env.NODE_ENV === "development") {
-  DATABASE_URL =
-    'mysql://yiljifq2d8232648owhp:pscale_pw_GfymxGwjg2qOOuSExPlEVkMfOC4GDVPRV5IzfrHI9iW@aws.connect.psdb.cloud/mydb?ssl={"rejectUnauthorized":true}';
-}
-
 console.log("DATABASE_URL", DATABASE_URL);
 
 const db = async () => {
