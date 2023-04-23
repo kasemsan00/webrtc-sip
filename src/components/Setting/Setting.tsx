@@ -1,6 +1,6 @@
 import { useState, Fragment } from "react";
 import { Dialog, Transition, Tab } from "@headlessui/react";
-import SipAccountsForm from "@/components/Setting/SipAccountsForm";
+import SipAccountsForm from "@/components/Setting/SipConfig/SipAccountsForm";
 import ProfileList from "@/components/LeftPanel/ProfileList";
 import SipAccountList from "@/components/Setting/SipAccountList";
 import SipAccountModal from "@/components/Setting/SipAccountModal";
@@ -9,16 +9,15 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function MyListbox() {
+export default function Setting() {
   let [isOpen, setIsOpen] = useState(true);
+  const [isSipConfigOpen, setIsSipConfigOpen] = useState(false);
+  const [selectSipAccountConfigIndex, setSelectSipAccountConfigIndex] = useState<undefined | number>();
 
-  function closeModal() {
+  const closeModal = () => {
+    setSelectSipAccountConfigIndex(undefined);
     setIsOpen(false);
-  }
-
-  function openModal() {
-    setIsOpen(true);
-  }
+  };
 
   let [categories] = useState({
     SipAccounts: [],
@@ -27,7 +26,13 @@ export default function MyListbox() {
 
   return (
     <>
-      <SipAccountModal />
+      <SipAccountModal
+        open={isSipConfigOpen}
+        onUpdate={(value) => {
+          setIsSipConfigOpen(value);
+        }}
+        configIndex={selectSipAccountConfigIndex}
+      />
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="fixed inset-0 z-10 overflow-y-auto pl-[200px]" onClose={closeModal}>
           <div className="min-h-screen px-4 text-center">
@@ -79,9 +84,11 @@ export default function MyListbox() {
                         "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2"
                       )}
                     >
-                      {/*<ProfileList />*/}
-                      <SipAccountList />
-                      {/*<SipAccountsForm />*/}
+                      <SipAccountList
+                        setIsSipConfigOpen={setIsSipConfigOpen}
+                        configIndex={selectSipAccountConfigIndex}
+                        onSelectIndex={setSelectSipAccountConfigIndex}
+                      />
                     </Tab.Panel>
                   </Tab.Panels>
                 </Tab.Group>
