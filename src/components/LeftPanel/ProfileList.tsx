@@ -3,14 +3,8 @@ import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { setSelectProfile } from "@/redux/slices/profileSelectSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { IExtensionDetail } from "@/interface/interface";
 import useLocalStorageState from "use-local-storage-state";
-
-interface IExtensionList {
-  extension: string;
-  secret: string;
-  domain: string;
-  webSocket: string;
-}
 
 export default function ProfileList() {
   const dispatch = useAppDispatch();
@@ -21,7 +15,7 @@ export default function ProfileList() {
   //   defaultValue: profileData.length && profileData === undefined > 0 ? undefined : profileData[0],
   // });
 
-  const [localStorageProfile, setLocalStorageProfile] = useLocalStorageState<IExtensionList>("profileSelect");
+  const [localStorageProfile, setLocalStorageProfile] = useLocalStorageState<IExtensionDetail>("profileSelect");
 
   useEffect(() => {
     if (profileSelect.id === undefined && localStorageProfile !== undefined) {
@@ -34,7 +28,7 @@ export default function ProfileList() {
     const profileSelect = profileData.find((state: any) => {
       return state.extension === event;
     });
-    setLocalStorageProfile(profileSelect as IExtensionList | undefined);
+    setLocalStorageProfile(profileSelect as IExtensionDetail | undefined);
     dispatch(setSelectProfile(profileSelect));
   };
 

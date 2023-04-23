@@ -7,7 +7,7 @@ let DATABASE_URL = process.env.DATABASE_URL;
 
 if (process.env.NODE_ENV === "development") {
   DATABASE_URL =
-    'mysql://2pebmyb7xz61au5hkze8:pscale_pw_ex9c54i93BQjNRt7gxQAoYKRF7wviVOskMRnTDSNkrp@aws.connect.psdb.cloud/mydb?ssl={"rejectUnauthorized":true}';
+    'mysql://yiljifq2d8232648owhp:pscale_pw_GfymxGwjg2qOOuSExPlEVkMfOC4GDVPRV5IzfrHI9iW@aws.connect.psdb.cloud/mydb?ssl={"rejectUnauthorized":true}';
 }
 
 console.log("DATABASE_URL", DATABASE_URL);
