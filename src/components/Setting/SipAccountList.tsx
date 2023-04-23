@@ -1,6 +1,7 @@
-import React, { useRef } from "react";
-import { useAppSelector } from "@/redux/store";
-import SipAccountModal from "@/components/Setting/SipAccountModal";
+import React, { useEffect, useRef } from "react";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { deleteExtension, getExtension } from "@/request/request";
+import { setProfile } from "@/redux/slices/profileDataSlice";
 
 interface Props {
   setIsSipConfigOpen: (arg0: boolean) => void;
@@ -9,6 +10,7 @@ interface Props {
 }
 
 export default function SipAccountList({ setIsSipConfigOpen, configIndex, onSelectIndex }: Props) {
+  const dispatch = useAppDispatch();
   const profileData = useAppSelector((state) => state.profileData);
   const handleClick = (e: React.MouseEvent<HTMLOptionElement>) => {
     onSelectIndex(parseInt(e.currentTarget.value));
@@ -24,6 +26,12 @@ export default function SipAccountList({ setIsSipConfigOpen, configIndex, onSele
   const handleClickAdd = () => {
     onSelectIndex(undefined);
     setIsSipConfigOpen(true);
+  };
+  const handleDelete = async () => {
+    const resp = await deleteExtension(configIndex);
+    if (resp.affectedRows !== 0) {
+      dispatch(setProfile(await getExtension()));
+    }
   };
 
   return (
@@ -44,7 +52,9 @@ export default function SipAccountList({ setIsSipConfigOpen, configIndex, onSele
         <button className="btn btn-warning btn-sm" onClick={handleClickEdit}>
           Edit
         </button>
-        <button className="btn btn-error btn-sm">Remove</button>
+        <button className="btn btn-error btn-sm" onClick={handleDelete}>
+          Remove
+        </button>
       </div>
     </div>
   );

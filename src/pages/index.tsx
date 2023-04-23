@@ -17,8 +17,7 @@ export default function Home() {
   const [userAgent, status] = UserAgentHandler();
   useEffect(() => {
     (async () => {
-      const resp = await getExtension();
-      dispatch(setProfile(resp));
+      dispatch(setProfile(await getExtension()));
     })();
   }, [dispatch]);
 

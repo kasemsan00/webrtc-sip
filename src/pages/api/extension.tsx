@@ -1,37 +1,6 @@
 require("dotenv").config();
 import type { NextApiRequest, NextApiResponse } from "next";
-
-const mysql = require("mysql2");
-
-let DATABASE_URL = process.env.DATABASE_URL;
-
-console.log("DATABASE_URL", DATABASE_URL);
-
-const db = async () => {
-  const pool = mysql.createPool(DATABASE_URL as any);
-  return pool.promise();
-};
-
-const data = [
-  {
-    extension: "0000168180001",
-    secret: "Opy0SGsa2G5fiw64",
-    domain: "sipagent.ttrs.in.th",
-    webSocket: "wss://sipagent.ttrs.in.th:8089/ws",
-  },
-  {
-    extension: "0000168180004",
-    secret: "HENLwnvRcH9e5SNQ",
-    domain: "sipagent.ttrs.in.th",
-    webSocket: "wss://sipagent.ttrs.in.th:8089/ws",
-  },
-  {
-    extension: "0000168180021",
-    secret: "i7yVhkvojEUn4KvR",
-    domain: "sipagent.ttrs.in.th",
-    webSocket: "wss://sipagent.ttrs.in.th:8089/ws",
-  },
-];
+import { db } from "@/lib/DB";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const connection = await db();
@@ -49,5 +18,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     ]);
     res.status(200).json(rows);
   }
-  connection.end();
+  if (req.method === "DELETE") {
+    console.log(req.query);
+    const { id } = req.query;
+    const [rows] = await connection.query(`DELETE FROM extension WHERE extension = ?`, [id]);
+    res.status(200).json(rows);
+  }
+  await connection.end();
 }

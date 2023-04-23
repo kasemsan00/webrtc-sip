@@ -43,3 +43,17 @@ export const insertExtension = async ({
     return e;
   }
 };
+export const deleteExtension = async (id: number | undefined) => {
+  if (id === undefined) return;
+  const response = await fetch(`/api/extension/${id}`, {
+    method: "DELETE",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  });
+  if (!response.ok) {
+    throw new Error("Get extension failed");
+  }
+  return await response.json();
+};

@@ -1,7 +1,8 @@
 import { useForm } from "react-hook-form";
-import { insertExtension } from "@/request/request";
+import { getExtension, insertExtension } from "@/request/request";
 import React, { useEffect } from "react";
-import { useAppSelector } from "@/redux/store";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { setProfile } from "@/redux/slices/profileDataSlice";
 
 interface Props {
   setIsOpen: (arg0: boolean) => void;
@@ -9,6 +10,7 @@ interface Props {
 }
 
 export default function SipAccountsForm({ setIsOpen, configIndex }: Props) {
+  const dispatch = useAppDispatch();
   const profileData = useAppSelector((state) => state.profileData);
   const {
     register,
@@ -19,8 +21,6 @@ export default function SipAccountsForm({ setIsOpen, configIndex }: Props) {
   } = useForm();
 
   const onSubmit = async (data: any) => {
-    // Save Data
-    console.log(data);
     const resp = await insertExtension({
       domain: data.domain,
       webSocket: data.webSocket,
@@ -33,6 +33,7 @@ export default function SipAccountsForm({ setIsOpen, configIndex }: Props) {
     }
     if (resp.affectedRows === 1) {
       setIsOpen(false);
+      dispatch(setProfile(await getExtension()));
     }
   };
   const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
