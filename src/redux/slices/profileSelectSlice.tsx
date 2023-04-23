@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface IConfig {
+  id: number | undefined;
   domain: string;
   webSocket: string;
   extension: string;
@@ -8,6 +9,7 @@ interface IConfig {
 }
 
 const initialState: IConfig = {
+  id: undefined,
   domain: "",
   webSocket: "",
   extension: "",

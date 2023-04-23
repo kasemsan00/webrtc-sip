@@ -2,16 +2,25 @@ import Head from "next/head";
 import Sidebar from "@/components/Layout/Sidebar";
 import MainView from "@/components/Layout/MainView";
 import LocalVideo from "@/components/Video/LocalVideo";
-import StatusConnection from "@/components/LeftPanel/StatusConnection";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RemoteVideo from "@/components/Video/RemoteVideo";
 import ProfileList from "@/components/LeftPanel/ProfileList";
 import CallOut from "@/components/LeftPanel/CallOut";
-import ConnectSip from "@/components/LeftPanel/ConnectSip";
 import UserAgentHandler from "@/hooks/UserAgentHandler";
+import MyDialog from "@/components/Setting/Setting";
+import { getExtension } from "@/request/request";
+import { setProfile } from "@/redux/slices/profileDataSlice";
+import { useAppDispatch } from "@/redux/store";
 
 export default function Home() {
+  const dispatch = useAppDispatch();
   const [userAgent, status] = UserAgentHandler();
+  useEffect(() => {
+    (async () => {
+      const resp = await getExtension();
+      dispatch(setProfile(resp));
+    })();
+  }, [dispatch]);
 
   return (
     <>
@@ -26,12 +35,13 @@ export default function Home() {
           <LocalVideo />
           <ProfileList />
           {/*<ConnectSip status={status} setStatus={setStatus} />*/}
-          <StatusConnection status={status} />
+          {/*<StatusConnection status={status} />*/}
           <CallOut />
         </Sidebar>
         <MainView>
           <RemoteVideo />
         </MainView>
+        <MyDialog />
       </main>
     </>
   );

@@ -4,12 +4,13 @@ interface IProfile {
   [index: string]: IProfileData;
 }
 interface IProfileData {
-  server: string;
-  websocket: string;
+  id: number | undefined;
   extension: string;
-  password: string;
+  secret: string;
+  domain: string;
+  webSocket: string;
 }
-const initialState = {} as IProfile;
+const initialState: Array<IProfile> = [];
 
 const profileSlice = createSlice({
   name: "profile",

@@ -59,12 +59,12 @@ export default function UserAgentHandler() {
       profileSelect.secret !== ""
     ) {
       if (userAgent !== undefined) userAgent.unregister();
-      UserAgentRegister({
-        webSocket: profileSelect.webSocket,
-        domain: profileSelect.domain,
-        extension: profileSelect.extension,
-        secret: profileSelect.secret,
-      });
+      // UserAgentRegister({
+      //   webSocket: profileSelect.webSocket,
+      //   domain: profileSelect.domain,
+      //   extension: profileSelect.extension,
+      //   secret: profileSelect.secret,
+      // });
     }
   }, [UserAgentRegister, profileSelect, userAgent]);
 

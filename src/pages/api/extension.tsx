@@ -8,27 +8,14 @@ let DATABASE_URL = process.env.DATABASE_URL;
 
 if (process.env.NODE_ENV === "development") {
   DATABASE_URL =
-    'mysql://6hatczqauzbpb7voytq5:pscale_pw_wwKhEJ8wZFF33r2yxCkqHTgjA4KTMxTOw70UFa4ov7u@aws.connect.psdb.cloud/mydb?ssl={"rejectUnauthorized":true}';
-  pass: "pscale_pw_wwKhEJ8wZFF33r2yxCkqHTgjA4KTMxTOw70UFa4ov7u";
+    'mysql://2pebmyb7xz61au5hkze8:pscale_pw_ex9c54i93BQjNRt7gxQAoYKRF7wviVOskMRnTDSNkrp@aws.connect.psdb.cloud/mydb?ssl={"rejectUnauthorized":true}';
 }
 
 console.log("DATABASE_URL", DATABASE_URL);
-const database = "mydb";
-const username = "iq64xuw64517nmeygdoe";
-const host = "aws.connect.psdb.cloud";
-const password = "pscale_pw_727gB870LgrWRBJwrN5M67nrqqFKjex6XrbJGamzgTN";
 
 const db = async () => {
-  return mysql.createConnection({
-    host,
-    user: username,
-    password: password,
-    database,
-    Promise: bluebird,
-    ssl: {
-      rejectUnauthorized: false,
-    },
-  });
+  const pool = mysql.createPool(DATABASE_URL as any);
+  return pool.promise();
 };
 
 const data = [
@@ -53,36 +40,20 @@ const data = [
 ];
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  try {
-    // if (req.method === "GET") {
-    //   // console.log("Get Extension", connection);
-    //   //
-    //   const connection = await db();
-    //   const [rows, fields] = await connection.execute("SELECT * FROM extension");
-    //   //
-    //   console.log(rows, fields);
-    //   // // res.status(200).json(rows);
-    //   // // connection.end();
-    //   res.status(200).json({});
-    //   return;
-    // }
-    // if (req.method === "POST") {
-    //   console.log("Post Extension");
-    //
-    //   const { extension, secret, domain, websocket } = req.body;
-    //   const result = connection.query(`INSERT INTO extension (extension, secret, domain, websocket) VALUES (?,?,?,?)`, [
-    //     extension,
-    //     secret,
-    //     domain,
-    //     websocket,
-    //   ]);
-    //   connection.end();
-    //   res.status(200).json(result);
-    //   return;
-    res.status(200).json(data);
-    return;
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: "failed to load data" });
+  const connection = await db();
+  if (req.method === "GET") {
+    const [rows] = await connection.query("SELECT * FROM extension");
+    res.status(200).json(rows);
   }
+  if (req.method === "POST") {
+    const { extension, secret, domain, websocket } = req.body;
+    const [rows] = await connection.query(`INSERT INTO extension (extension, secret, domain, websocket) VALUES (?, ?, ?, ?)`, [
+      extension,
+      secret,
+      domain,
+      websocket,
+    ]);
+    res.status(200).json(rows);
+  }
+  connection.end();
 }
