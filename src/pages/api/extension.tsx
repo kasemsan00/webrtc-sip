@@ -1,7 +1,6 @@
 require("dotenv").config();
 import type { NextApiRequest, NextApiResponse } from "next";
 
-const bluebird = require("bluebird");
 const mysql = require("mysql2");
 
 let DATABASE_URL = process.env.DATABASE_URL;
