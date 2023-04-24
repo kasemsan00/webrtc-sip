@@ -1,7 +1,5 @@
 import { useState, Fragment, useEffect } from "react";
 import { Dialog, Transition, Tab } from "@headlessui/react";
-import SipAccountsConfig from "@/components/Setting/SipConfig/SipAccountsConfig";
-import ProfileList from "@/components/LeftPanel/ProfileList";
 import SipAccountList from "@/components/Setting/SipAccountList";
 import SipAccountListModal from "@/components/Setting/SipAccountListModal";
 import CameraConfig from "@/components/Setting/CameraConfig";

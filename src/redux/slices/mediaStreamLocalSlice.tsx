@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = null;
 
-const mediaStreamSlice = createSlice({
+const mediaStreamLocalSlice = createSlice({
   name: "mediaStreamLocal",
   initialState,
   reducers: {
@@ -12,5 +12,5 @@ const mediaStreamSlice = createSlice({
   },
 });
 
-export const { setLocalStream } = mediaStreamSlice.actions;
-export default mediaStreamSlice.reducer;
+export const { setLocalStream } = mediaStreamLocalSlice.actions;
+export default mediaStreamLocalSlice.reducer;

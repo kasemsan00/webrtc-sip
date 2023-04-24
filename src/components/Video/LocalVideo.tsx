@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { setLocalStream } from "@/redux/slices/mediaStreamSlice";
+import { setLocalStream } from "@/redux/slices/mediaStreamLocalSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 
 export default function LocalVideo() {

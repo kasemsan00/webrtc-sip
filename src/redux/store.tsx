@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import reduxThunk from "redux-thunk";
 import userAgentSlice from "./slices/userAgentSlice";
-import mediaStreamSlice from "./slices/mediaStreamSlice";
+import mediaStreamLocalSlice from "./slices/mediaStreamLocalSlice";
 import profileDataSlice from "./slices/profileDataSlice";
 import profileSelectSlice from "./slices/profileSelectSlice";
 import registerStatusSlice from "./slices/registerStatusSlice";
@@ -20,7 +20,7 @@ const store = configureStore({
     registerStatus: registerStatusSlice,
     profileSelect: profileSelectSlice,
     profileData: profileDataSlice,
-    mediaStream: mediaStreamSlice,
+    mediaStreamLocal: mediaStreamLocalSlice,
     userAgent: userAgentSlice,
   },
   middleware,
