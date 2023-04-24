@@ -1,15 +1,16 @@
 import { useForm } from "react-hook-form";
-import { getExtension, insertExtension } from "@/request/request";
+import { getExtension, insertExtension, updateExtension } from "@/request/request";
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { setProfile } from "@/redux/slices/profileDataSlice";
 
 interface Props {
   setIsOpen: (arg0: boolean) => void;
+  configAction: string | undefined;
   configIndex: number | undefined;
 }
 
-export default function SipAccountsForm({ setIsOpen, configIndex }: Props) {
+export default function SipAccountsConfig({ setIsOpen, configAction, configIndex }: Props) {
   const dispatch = useAppDispatch();
   const profileData = useAppSelector((state) => state.profileData);
   const {
@@ -21,19 +22,38 @@ export default function SipAccountsForm({ setIsOpen, configIndex }: Props) {
   } = useForm();
 
   const onSubmit = async (data: any) => {
-    const resp = await insertExtension({
-      domain: data.domain,
-      webSocket: data.webSocket,
-      extension: data.extension,
-      password: data.password,
-    });
-    console.log(resp);
-    if (resp.affectedRows === undefined) {
-      return;
+    console.log(configAction);
+    if (configAction === "Add") {
+      const resp = await insertExtension({
+        domain: data.domain,
+        webSocket: data.webSocket,
+        extension: data.extension,
+        password: data.password,
+      });
+      console.log(resp);
+      if (resp.affectedRows === undefined) {
+        return;
+      }
+      if (resp.affectedRows === 1) {
+        setIsOpen(false);
+        dispatch(setProfile(await getExtension()));
+      }
     }
-    if (resp.affectedRows === 1) {
-      setIsOpen(false);
-      dispatch(setProfile(await getExtension()));
+    if (configAction === "Edit") {
+      const resp = await updateExtension({
+        domain: data.domain,
+        webSocket: data.webSocket,
+        extension: data.extension,
+        password: data.password,
+      });
+      console.log(resp);
+      if (resp.affectedRows === undefined) {
+        return;
+      }
+      if (resp.affectedRows === 1) {
+        setIsOpen(false);
+        dispatch(setProfile(await getExtension()));
+      }
     }
   };
   const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {

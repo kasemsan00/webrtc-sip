@@ -1,15 +1,16 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
 import { IoMdCloseCircle } from "react-icons/io";
-import SipAccountsForm from "./SipConfig/SipAccountsForm";
+import SipAccountsConfig from "./SipConfig/SipAccountsConfig";
 
 interface Props {
   open: boolean;
+  configAction: string | undefined;
   onUpdate: (arg0: boolean) => void;
   configIndex: number | undefined;
 }
 
-export default function SipAccountModal({ open, onUpdate, configIndex }: Props) {
+export default function SipAccountListModal({ open, configAction, onUpdate, configIndex }: Props) {
   const [isOpen, setIsOpen] = useState(open);
 
   useEffect(() => {
@@ -61,7 +62,7 @@ export default function SipAccountModal({ open, onUpdate, configIndex }: Props) 
                   <IoMdCloseCircle className="text-red-700 w-6 h-6" />
                 </div>
               </div>
-              <SipAccountsForm setIsOpen={handleClose} configIndex={configIndex} />
+              <SipAccountsConfig setIsOpen={handleClose} configAction={configAction} configIndex={configIndex} />
             </div>
           </Transition.Child>
         </div>

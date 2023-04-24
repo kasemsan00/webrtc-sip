@@ -5,11 +5,12 @@ import { setProfile } from "@/redux/slices/profileDataSlice";
 
 interface Props {
   setIsSipConfigOpen: (arg0: boolean) => void;
+  setConfigAction: (arg0: string | undefined) => void;
   configIndex: number | undefined;
   onSelectIndex: (arg0: number | undefined) => void;
 }
 
-export default function SipAccountList({ setIsSipConfigOpen, configIndex, onSelectIndex }: Props) {
+export default function SipAccountList({ setIsSipConfigOpen, setConfigAction, configIndex, onSelectIndex }: Props) {
   const dispatch = useAppDispatch();
   const profileData = useAppSelector((state) => state.profileData);
   const handleClick = (e: React.MouseEvent<HTMLOptionElement>) => {
@@ -18,14 +19,17 @@ export default function SipAccountList({ setIsSipConfigOpen, configIndex, onSele
   const handleDoubleClick = (e: React.MouseEvent<HTMLOptionElement>) => {
     onSelectIndex(parseInt(e.currentTarget.value));
     setIsSipConfigOpen(true);
+    setConfigAction("Edit");
   };
   const handleClickEdit = () => {
     if (configIndex === undefined) return;
     setIsSipConfigOpen(true);
+    setConfigAction("Edit");
   };
   const handleClickAdd = () => {
     onSelectIndex(undefined);
     setIsSipConfigOpen(true);
+    setConfigAction("Add");
   };
   const handleDelete = async () => {
     const resp = await deleteExtension(configIndex);

@@ -20,7 +20,7 @@ export const insertExtension = async ({
 }) => {
   const response = await fetch("/api/extension");
   if (!response.ok) {
-    throw new Error("Get extension failed");
+    throw new Error("Insert extension failed");
   }
   const data = {
     domain,
@@ -43,6 +43,42 @@ export const insertExtension = async ({
     return e;
   }
 };
+export const updateExtension = async ({
+  domain,
+  webSocket,
+  extension,
+  password,
+}: {
+  domain: string;
+  webSocket: string;
+  extension: string;
+  password: string;
+}) => {
+  const response = await fetch("/api/extension");
+  if (!response.ok) {
+    throw new Error("Update extension failed");
+  }
+  const data = {
+    domain,
+    webSocket,
+    extension,
+    password,
+  };
+  try {
+    const settings = {
+      method: "PUT",
+      body: JSON.stringify(data),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    };
+    const fetchResponse = await fetch(`/api/extension`, settings);
+    return await fetchResponse.json();
+  } catch (e) {
+    return e;
+  }
+};
 export const deleteExtension = async (id: number | undefined) => {
   if (id === undefined) return;
   const response = await fetch(`/api/extension/${id}`, {
@@ -53,7 +89,7 @@ export const deleteExtension = async (id: number | undefined) => {
     },
   });
   if (!response.ok) {
-    throw new Error("Get extension failed");
+    throw new Error("Delete extension failed");
   }
   return await response.json();
 };

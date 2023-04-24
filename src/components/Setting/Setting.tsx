@@ -1,9 +1,9 @@
 import { useState, Fragment, useEffect } from "react";
 import { Dialog, Transition, Tab } from "@headlessui/react";
-import SipAccountsForm from "@/components/Setting/SipConfig/SipAccountsForm";
+import SipAccountsConfig from "@/components/Setting/SipConfig/SipAccountsConfig";
 import ProfileList from "@/components/LeftPanel/ProfileList";
 import SipAccountList from "@/components/Setting/SipAccountList";
-import SipAccountModal from "@/components/Setting/SipAccountModal";
+import SipAccountListModal from "@/components/Setting/SipAccountListModal";
 import CameraConfig from "@/components/Setting/CameraConfig";
 
 function classNames(...classes: string[]) {
@@ -17,6 +17,7 @@ interface Props {
 export default function Setting({ open }: Props) {
   let [isOpen, setIsOpen] = useState(false);
   const [isSipConfigOpen, setIsSipConfigOpen] = useState(false);
+  const [configAction, setConfigAction] = useState<string | undefined>();
   const [selectSipAccountConfigIndex, setSelectSipAccountConfigIndex] = useState<undefined | number>();
 
   useEffect(() => {
@@ -36,8 +37,9 @@ export default function Setting({ open }: Props) {
 
   return (
     <>
-      <SipAccountModal
+      <SipAccountListModal
         open={isSipConfigOpen}
+        configAction={configAction}
         onUpdate={(value) => {
           setIsSipConfigOpen(value);
         }}
@@ -96,6 +98,7 @@ export default function Setting({ open }: Props) {
                     >
                       <SipAccountList
                         setIsSipConfigOpen={setIsSipConfigOpen}
+                        setConfigAction={setConfigAction}
                         configIndex={selectSipAccountConfigIndex}
                         onSelectIndex={setSelectSipAccountConfigIndex}
                       />
