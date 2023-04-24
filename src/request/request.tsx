@@ -44,11 +44,13 @@ export const insertExtension = async ({
   }
 };
 export const updateExtension = async ({
+  id,
   domain,
   webSocket,
   extension,
   password,
 }: {
+  id: number;
   domain: string;
   webSocket: string;
   extension: string;
@@ -59,11 +61,13 @@ export const updateExtension = async ({
     throw new Error("Update extension failed");
   }
   const data = {
+    id,
     domain,
-    webSocket,
+    websocket: webSocket,
     extension,
     password,
   };
+  console.log(data);
   try {
     const settings = {
       method: "PUT",

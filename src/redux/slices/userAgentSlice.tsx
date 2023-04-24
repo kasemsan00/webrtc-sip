@@ -1,13 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
+import JsSIP from "jssip";
 
-const initialState = null;
+const initialState: JsSIP.UA | null = null;
 
 const userAgentSlice = createSlice({
-  name: "alertData",
+  name: "userAgents",
   initialState,
   reducers: {
     setUserAgent(state, action) {
-      return initialState;
+      return action.payload;
     },
     removeUserAgent() {
       return initialState;

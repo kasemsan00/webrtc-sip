@@ -19,17 +19,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(200).json(rows);
   }
   if (req.method === "PUT") {
-    const { extension, secret, domain, websocket } = req.body;
-    const [rows] = await connection.query(`UPDATE extension SET extension = ?, secret = ?, domain = ?, websocket = ?`, [
-      extension,
-      secret,
-      domain,
-      websocket,
-    ]);
+    const { id, extension, password, domain, websocket } = req.body;
+    const sql = `UPDATE extension SET extension = '${extension}', secret = '${password}', domain = '${domain}', websocket = '${websocket}' WHERE id = '${id}'`;
+    const [rows] = await connection.query(sql);
     res.status(200).json(rows);
   }
   if (req.method === "DELETE") {
-    console.log(req.query);
     const { id } = req.query;
     const [rows] = await connection.query(`DELETE FROM extension WHERE extension = ?`, [id]);
     res.status(200).json(rows);

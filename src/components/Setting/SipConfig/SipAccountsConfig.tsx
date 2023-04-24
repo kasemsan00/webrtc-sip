@@ -40,7 +40,9 @@ export default function SipAccountsConfig({ setIsOpen, configAction, configIndex
       }
     }
     if (configAction === "Edit") {
+      console.log(data);
       const resp = await updateExtension({
+        id: data.id,
         domain: data.domain,
         webSocket: data.webSocket,
         extension: data.extension,
@@ -65,6 +67,7 @@ export default function SipAccountsConfig({ setIsOpen, configAction, configIndex
     if (configIndex === undefined) return;
     const profileSelect = profileData.find((state: any) => state.id === configIndex);
     if (profileSelect === undefined) return;
+    setValue("id", profileSelect.id);
     setValue("domain", profileSelect.domain);
     setValue("webSocket", profileSelect.websocket);
     setValue("extension", profileSelect.extension);

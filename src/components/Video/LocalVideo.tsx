@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/store";
 
 export default function LocalVideo() {
   const dispatch = useAppDispatch();
-  const mediaStream = useAppSelector((state) => state.mediaStream);
+  const mediaStream = useAppSelector((state) => state.mediaStreamLocal);
 
   useEffect(() => {
     async function getLocalMedia() {

@@ -1,27 +1,28 @@
 interface Props {
-  status: string;
-  setStatus: (arg0: string) => void;
+  status: any;
+  handleRegister: any;
+  handleUnRegister: any;
 }
 
-export default function ConnectSip({ status, setStatus }: Props) {
+export default function ConnectSip({ status, handleRegister, handleUnRegister }: Props) {
   const UserRegister = () => {
-    setStatus("Connected");
+    handleRegister();
   };
   const UserUnregister = () => {
-    setStatus("Disconnected");
+    handleUnRegister();
   };
   return (
     <>
-      {status === "Connected" && (
+      {status === "Registered" && (
         <button className="btn btn-error" onClick={UserUnregister}>
           Disconnect
         </button>
       )}
-      {status === "" || status === "Disconnected" ? (
+      {status !== "Registered" && (
         <button className="btn btn-success" onClick={UserRegister}>
           Register
         </button>
-      ) : null}
+      )}
     </>
   );
 }

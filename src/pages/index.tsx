@@ -11,10 +11,11 @@ import Setting from "@/components/Setting/Setting";
 import { getExtension } from "@/request/request";
 import { setProfile } from "@/redux/slices/profileDataSlice";
 import { useAppDispatch } from "@/redux/store";
+import ConnectSip from "@/components/LeftPanel/ConnectSip";
 
 export default function Home() {
   const dispatch = useAppDispatch();
-  const [userAgent, status] = UserAgentHandler();
+  const [userAgent, status, handleRegister, handleUnRegister] = UserAgentHandler();
   const [isSettingOpen, setIsSettingOpen] = useState(false);
 
   useEffect(() => {
@@ -35,7 +36,7 @@ export default function Home() {
         <Sidebar>
           <LocalVideo />
           <ProfileList />
-          {/*<ConnectSip status={status} setStatus={setStatus} />*/}
+          <ConnectSip status={status} handleRegister={handleRegister} handleUnRegister={handleUnRegister} />
           {/*<StatusConnection status={status} />*/}
           <CallOut />
           <button className="btn btn-ghost" onClick={() => setIsSettingOpen(true)}>
