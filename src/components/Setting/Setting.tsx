@@ -1,18 +1,27 @@
-import { useState, Fragment } from "react";
+import { useState, Fragment, useEffect } from "react";
 import { Dialog, Transition, Tab } from "@headlessui/react";
 import SipAccountsForm from "@/components/Setting/SipConfig/SipAccountsForm";
 import ProfileList from "@/components/LeftPanel/ProfileList";
 import SipAccountList from "@/components/Setting/SipAccountList";
 import SipAccountModal from "@/components/Setting/SipAccountModal";
+import CameraConfig from "@/components/Setting/CameraConfig";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Setting() {
-  let [isOpen, setIsOpen] = useState(true);
+interface Props {
+  open: boolean;
+}
+
+export default function Setting({ open }: Props) {
+  let [isOpen, setIsOpen] = useState(false);
   const [isSipConfigOpen, setIsSipConfigOpen] = useState(false);
   const [selectSipAccountConfigIndex, setSelectSipAccountConfigIndex] = useState<undefined | number>();
+
+  useEffect(() => {
+    setIsOpen(open);
+  }, [open]);
 
   const closeModal = () => {
     setSelectSipAccountConfigIndex(undefined);
@@ -21,6 +30,7 @@ export default function Setting() {
 
   let [categories] = useState({
     SipAccounts: [],
+    Camera: [],
     PcConfig: [],
   });
 
@@ -89,6 +99,16 @@ export default function Setting() {
                         configIndex={selectSipAccountConfigIndex}
                         onSelectIndex={setSelectSipAccountConfigIndex}
                       />
+                    </Tab.Panel>
+                  </Tab.Panels>
+                  <Tab.Panels>
+                    <Tab.Panel
+                      className={classNames(
+                        "rounded-xl bg-white",
+                        "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2"
+                      )}
+                    >
+                      <CameraConfig />
                     </Tab.Panel>
                   </Tab.Panels>
                 </Tab.Group>

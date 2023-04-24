@@ -7,7 +7,7 @@ import RemoteVideo from "@/components/Video/RemoteVideo";
 import ProfileList from "@/components/LeftPanel/ProfileList";
 import CallOut from "@/components/LeftPanel/CallOut";
 import UserAgentHandler from "@/hooks/UserAgentHandler";
-import MyDialog from "@/components/Setting/Setting";
+import Setting from "@/components/Setting/Setting";
 import { getExtension } from "@/request/request";
 import { setProfile } from "@/redux/slices/profileDataSlice";
 import { useAppDispatch } from "@/redux/store";
@@ -15,6 +15,8 @@ import { useAppDispatch } from "@/redux/store";
 export default function Home() {
   const dispatch = useAppDispatch();
   const [userAgent, status] = UserAgentHandler();
+  const [isSettingOpen, setIsSettingOpen] = useState(false);
+
   useEffect(() => {
     (async () => {
       dispatch(setProfile(await getExtension()));
@@ -27,7 +29,7 @@ export default function Home() {
         <title>WebRTC Test</title>
         <meta name="description" content="WebRTC" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.png" />
       </Head>
       <main className="main">
         <Sidebar>
@@ -36,12 +38,15 @@ export default function Home() {
           {/*<ConnectSip status={status} setStatus={setStatus} />*/}
           {/*<StatusConnection status={status} />*/}
           <CallOut />
+          <button className="btn btn-ghost" onClick={() => setIsSettingOpen(true)}>
+            Setting
+          </button>
         </Sidebar>
         <MainView>
           <RemoteVideo />
         </MainView>
-        <MyDialog />
       </main>
+      <Setting open={isSettingOpen} />
     </>
   );
 }

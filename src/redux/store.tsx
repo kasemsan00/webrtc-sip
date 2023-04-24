@@ -7,12 +7,14 @@ import profileSelectSlice from "./slices/profileSelectSlice";
 import registerStatusSlice from "./slices/registerStatusSlice";
 import proxyServerSlice from "./slices/proxyServerSlice";
 import pcConfigSlice from "./slices/pcConfigSlice";
+import constraintsSlice from "@/redux/slices/constraintsSlice";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 const middleware = [reduxThunk];
 
 const store = configureStore({
   reducer: {
+    constraints: constraintsSlice,
     proxyServer: proxyServerSlice,
     pcConfig: pcConfigSlice,
     registerStatus: registerStatusSlice,
