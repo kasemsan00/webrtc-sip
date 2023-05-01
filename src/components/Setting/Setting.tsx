@@ -73,7 +73,7 @@ export default function Setting({ open }: Props) {
               <div className="inline-block w-full max-w-xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                 <div className="flex justify-between items-center mb-2">
                   <h2 className="font-bold text-xl">Setting</h2>
-                  <AiFillCloseCircle className="w-8 h-8 text-red-700 cursor-pointer" onClick={() => setIsOpen(false)} />
+                  <AiFillCloseCircle className="w-8 h-8 text-red-700 cursor-pointer" onClick={closeModal} />
                 </div>
                 <Tab.Group>
                   <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1">
@@ -118,12 +118,6 @@ export default function Setting({ open }: Props) {
                     </Tab.Panel>
                   </Tab.Panels>
                 </Tab.Group>
-                {/*<div className="mt-6 flex justify-between">*/}
-                {/*  <button className="btn btn-active btn-warning w-32" onClick={closeModal}>*/}
-                {/*    Cancel*/}
-                {/*  </button>*/}
-                {/*  /!*<button className="btn btn-active btn-success w-32">Save</button>*!/*/}
-                {/*</div>*/}
               </div>
             </Transition.Child>
           </div>

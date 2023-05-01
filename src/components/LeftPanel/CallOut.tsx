@@ -1,85 +1,61 @@
 import { MdDialerSip } from "react-icons/md";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
-import { RTCSession } from "jssip/lib/RTCSession";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { setRemoteStream } from "@/redux/slices/mediaStreamRemoteSlice";
-let newSession: RTCSession;
 
 export default function CallOut() {
   const dispatch = useAppDispatch();
+  const session = useAppSelector((state) => state.session);
   const userAgent: any = useAppSelector((state) => state.userAgent);
   const mediaStream = useAppSelector((state) => state.mediaStreamLocal);
   const { domain } = useAppSelector((state) => state.profileSelect);
 
   const [destination, setDestination] = useState("");
 
+  useEffect(() => {
+    if (userAgent === null) return;
+    console.log("init UA");
+  }, [dispatch, mediaStream, userAgent]);
+
   const HandleCallOut = () => {
     callOut();
   };
   const HandleHangUp = () => {
     try {
-      newSession.terminate();
+      session.terminate();
+      dispatch(setRemoteStream(null));
     } catch (e) {
       console.log(e);
     }
   };
 
   const callOut = () => {
-    if (userAgent === null) return;
-    userAgent.on("newRTCSession", (ev1: any) => {
-      const callID = ev1.request.call_id;
-      // console.log(" *** newRTCSession", ev1.originator, ev1.request.method, ev1);
-      newSession = ev1.session;
-
-      newSession.connection.addEventListener("addstream", (event: any) => {
-        const { stream } = event;
-        dispatch(setRemoteStream(stream));
-      });
-      newSession.on("ended", (event) => {
-        console.log("ended", callID);
-        // setRemoteStream((remoteStream) => remoteStream.filter((data) => data.callID !== callID));
-        // setSessionData((sessionData) => sessionData.filter((data) => data.callID !== callID));
-      });
-      newSession.on("confirmed", function () {
-        console.log("add localVideo");
-        // callOutRef.current.classList.replace("fixed", "hidden");
-      });
-      newSession.on("muted", function (event) {
-        if (event.video) {
-          // setLocalVideoStatus((prevState) => ({ ...prevState, video: true }));
-        }
-        if (event.audio) {
-          // setLocalVideoStatus((prevState) => ({ ...prevState, audio: true }));
-        }
-      });
-      newSession.on("unmuted", (event) => {
-        if (event.video) {
-          // setLocalVideoStatus((prevState) => ({ ...prevState, video: false }));
-        }
-        if (event.audio) {
-          // setLocalVideoStatus((prevState) => ({ ...prevState, audio: false }));
-        }
-      });
-      // newSession.on("addstream", (event) => {});
-      newSession.on("sdp", (event) => {});
-      newSession.on("peerconnection", function (ev2) {
-        // console.log(ev2);
-        // ev2.peerconnection.onaddstream = function (event) {
-        //   console.log(event.stream);
-        // };
-        // ev2.peerconnection.addEventListener("onaddstream", (event) => {
-        //   // console.log(event.stream)
-        // })
-        // ev2.peerconnection.onremovestream = function (ev3) {
-        //   console.log("setRemoteStream");
-        //   setRemoteStream((remoteStream) => remoteStream.filter((data) => data.callID !== callID));
-        //   setSessionData((sessionData) => sessionData.filter((data) => data.callID !== callID));
-        // };
-      });
-    });
-
+    const eventHandlers = {
+      progress: function (data: any) {
+        /* Your code here */
+      },
+      failed: function (data: any) {
+        console.log(data);
+        alert(data.cause);
+        /* Your code here */
+      },
+      confirmed: function (data: any) {
+        console.log(data);
+        /* Your code here */
+      },
+      ended: function (data: any) {
+        /* Your code here */
+      },
+    };
     const options = {
+      eventHandlers,
       mediaStream,
+      pcConfig: {
+        iceServers: [{ urls: "turn:turn.ttrs.in.th?transport=tcp", username: "turn01", credential: "Test1234" }],
+        iceTransportPolicy: "all",
+        rtcpMuxPolicy: "require",
+        iceCandidatePoolSize: 0,
+      },
       sessionTimersExpires: 9999,
     };
     userAgent.call("sip:" + destination + "@" + domain, options);
@@ -96,7 +72,11 @@ export default function CallOut() {
           placeholder="Call Number"
           className="input w-full max-w-xs"
           value={destination}
-          onChange={(event) => setDestination(event.target.value)}
+          onChange={(event) => {
+            if (event.target.value.trim() !== "") {
+              setDestination(event.target.value);
+            }
+          }}
         />
       </div>
       <button className="btn btn-success" onClick={HandleCallOut}>
