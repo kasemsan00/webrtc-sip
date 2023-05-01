@@ -4,11 +4,11 @@ import { useAppDispatch, useAppSelector } from "@/redux/store";
 
 export default function LocalVideo() {
   const dispatch = useAppDispatch();
-  const mediaStream = useAppSelector((state) => state.mediaStreamLocal);
+  const mediaStreamLocal = useAppSelector((state) => state.mediaStreamLocal);
 
   useEffect(() => {
     async function getLocalMedia() {
-      if (mediaStream !== null) return;
+      if (mediaStreamLocal !== null) return;
       const stream = await navigator.mediaDevices.getUserMedia({
         video: true,
         audio: true,
@@ -17,14 +17,14 @@ export default function LocalVideo() {
       return null;
     }
     getLocalMedia().then((r) => r);
-  }, [dispatch, mediaStream]);
+  }, [dispatch, mediaStreamLocal]);
 
   return (
     <div className="h-40">
       <video
         ref={(video) => {
           if (video) {
-            video.srcObject = mediaStream;
+            video.srcObject = mediaStreamLocal;
           }
         }}
         className="bg-black rounded-md h-full"

@@ -34,13 +34,17 @@ export default function ProfileList() {
 
   return (
     <Listbox
-      value={localStorageProfile === undefined ? "Select Extension" : localStorageProfile.extension}
+      value={
+        localStorageProfile === undefined ? "Select Extension" : localStorageProfile.extension + "@" + localStorageProfile.domain
+      }
       onChange={handleListChange}
     >
       <div className="relative mt-1">
         <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
           <span className="block truncate">
-            {localStorageProfile !== undefined ? localStorageProfile?.extension : "Select Extension"}
+            {localStorageProfile !== undefined
+              ? localStorageProfile?.extension + "@" + localStorageProfile.domain
+              : "Select Extension"}
           </span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
             <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
@@ -61,7 +65,9 @@ export default function ProfileList() {
                 >
                   {({ selected }) => (
                     <>
-                      <span className={`block truncate ${selected ? "font-medium" : "font-normal"}`}>{item.extension}</span>
+                      <span className={`block truncate ${selected ? "font-medium" : "font-normal"}`}>
+                        {item.extension}@{item.domain}
+                      </span>
                       {selected ? (
                         <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
                           <CheckIcon className="h-5 w-5" aria-hidden="true" />

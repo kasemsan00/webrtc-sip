@@ -12,10 +12,11 @@ import { getExtension } from "@/request/request";
 import { setProfile } from "@/redux/slices/profileDataSlice";
 import { useAppDispatch } from "@/redux/store";
 import ConnectSip from "@/components/LeftPanel/ConnectSip";
+import StatusConnection from "@/components/LeftPanel/StatusConnection";
 
 export default function Home() {
   const dispatch = useAppDispatch();
-  const [userAgent, status, handleRegister, handleUnRegister] = UserAgentHandler();
+  const [status, handleRegister, handleUnRegister] = UserAgentHandler();
   const [isSettingOpen, setIsSettingOpen] = useState(false);
 
   useEffect(() => {
@@ -34,14 +35,18 @@ export default function Home() {
       </Head>
       <main className="main">
         <Sidebar>
-          <LocalVideo />
-          <ProfileList />
-          <ConnectSip status={status} handleRegister={handleRegister} handleUnRegister={handleUnRegister} />
-          {/*<StatusConnection status={status} />*/}
-          <CallOut />
-          <button className="btn btn-ghost" onClick={() => setIsSettingOpen(true)}>
-            Setting
-          </button>
+          <div className="flex flex-col gap-2 w-full">
+            <LocalVideo />
+            <ProfileList />
+            <ConnectSip status={status} handleRegister={handleRegister} handleUnRegister={handleUnRegister} />
+            <StatusConnection />
+            <CallOut />
+          </div>
+          <div className="flex flex-col gap-2 w-full">
+            <button className="btn btn-ghost" onClick={() => setIsSettingOpen(true)}>
+              Setting
+            </button>
+          </div>
         </Sidebar>
         <MainView>
           <RemoteVideo />

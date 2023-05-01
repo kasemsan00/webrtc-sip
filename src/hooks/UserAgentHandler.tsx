@@ -2,12 +2,19 @@ import JsSIP from "jssip";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { setUserAgent } from "@/redux/slices/userAgentSlice";
+import { setUserAgentStatus } from "@/redux/slices/userAgentStatusSlice";
 
 export default function UserAgentHandler() {
   const dispatch = useAppDispatch();
   const profileSelect = useAppSelector((state) => state.profileSelect);
   const [userAgent, setUA] = useState<JsSIP.UA>();
   const [status, setStatus] = useState<string | undefined>();
+
+  useEffect(() => {
+    if (status !== undefined) {
+      dispatch(setUserAgentStatus(status));
+    }
+  }, [dispatch, status]);
 
   useEffect(() => {
     if (
@@ -49,7 +56,7 @@ export default function UserAgentHandler() {
     });
     userAgent.on("unregistered", (event) => {
       console.log("UnRegistered");
-      setStatus("unregistered");
+      setStatus("Unregistered");
       console.log(event);
     });
     userAgent.on("registrationFailed", (event) => {
@@ -68,5 +75,5 @@ export default function UserAgentHandler() {
     if (userAgent !== undefined) userAgent.unregister();
   };
 
-  return [userAgent, status, handleRegister, handleUnRegister];
+  return [status, handleRegister, handleUnRegister];
 }

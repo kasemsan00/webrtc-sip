@@ -1,10 +1,19 @@
-import { useRef } from "react";
+import { useAppSelector } from "@/redux/store";
 
 export default function RemoteVideo() {
-  const remoteVideoRef = useRef<HTMLVideoElement>(null);
+  const mediaStreamRemote = useAppSelector((state) => state.mediaStreamRemote);
   return (
     <div className="w-full h-full">
-      <video className="bg-gray-400 w-full h-full rounded-md" autoPlay playsInline ref={remoteVideoRef}></video>
+      <video
+        ref={(video) => {
+          if (video) {
+            video.srcObject = mediaStreamRemote;
+          }
+        }}
+        className="bg-gray-400 w-full h-full rounded-md"
+        autoPlay
+        playsInline
+      ></video>
     </div>
   );
 }

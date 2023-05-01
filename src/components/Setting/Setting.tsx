@@ -3,6 +3,7 @@ import { Dialog, Transition, Tab } from "@headlessui/react";
 import SipAccountList from "@/components/Setting/SipAccountList";
 import SipAccountListModal from "@/components/Setting/SipAccountListModal";
 import CameraConfig from "@/components/Setting/CameraConfig";
+import { AiFillCloseCircle } from "react-icons/ai";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -44,7 +45,7 @@ export default function Setting({ open }: Props) {
         configIndex={selectSipAccountConfigIndex}
       />
       <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="fixed inset-0 z-10 overflow-y-auto pl-[200px]" onClose={closeModal}>
+        <Dialog as="div" className="fixed inset-0 z-10 overflow-y-auto pl-[200px]" onClose={() => null}>
           <div className="min-h-screen px-4 text-center">
             <Transition.Child
               as={Fragment}
@@ -70,6 +71,10 @@ export default function Setting({ open }: Props) {
               leaveTo="opacity-0 scale-95"
             >
               <div className="inline-block w-full max-w-xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                <div className="flex justify-between items-center mb-2">
+                  <h2 className="font-bold text-xl">Setting</h2>
+                  <AiFillCloseCircle className="w-8 h-8 text-red-700 cursor-pointer" onClick={() => setIsOpen(false)} />
+                </div>
                 <Tab.Group>
                   <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1">
                     {Object.keys(categories).map((category) => (
@@ -113,12 +118,12 @@ export default function Setting({ open }: Props) {
                     </Tab.Panel>
                   </Tab.Panels>
                 </Tab.Group>
-                <div className="mt-6 flex justify-between">
-                  <button className="btn btn-active btn-warning w-32" onClick={closeModal}>
-                    Cancel
-                  </button>
-                  <button className="btn btn-active btn-success w-32">Save</button>
-                </div>
+                {/*<div className="mt-6 flex justify-between">*/}
+                {/*  <button className="btn btn-active btn-warning w-32" onClick={closeModal}>*/}
+                {/*    Cancel*/}
+                {/*  </button>*/}
+                {/*  /!*<button className="btn btn-active btn-success w-32">Save</button>*!/*/}
+                {/*</div>*/}
               </div>
             </Transition.Child>
           </div>
