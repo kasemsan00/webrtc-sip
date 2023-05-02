@@ -30,6 +30,7 @@ export default function CallOut() {
   };
 
   const callOut = () => {
+    if (destination.trim() === "") return;
     dispatch(setUserAgentStatus("Calling"));
     const eventHandlers = {
       progress: function (data: any) {

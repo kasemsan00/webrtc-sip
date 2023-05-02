@@ -24,9 +24,9 @@ export default function Box() {
 
   const handleSendMessage = () => {
     setInput("");
-    // if (userAgent === null) return;
-    // const destination = session.remote_identity.uri.user;
-    // userAgent.sendMessage("sip:" + destination + "@" + domain, input);
+    if (userAgent === null) return;
+    const destination = session.remote_identity.uri.user;
+    userAgent.sendMessage("sip:" + destination + "@" + domain, input);
     const obj = {
       user: "local",
       message: input,
