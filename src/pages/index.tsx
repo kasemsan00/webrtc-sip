@@ -54,7 +54,7 @@ export default function Home() {
           <RemoteVideo />
         </MainView>
       </main>
-      <Setting open={isSettingOpen} />
+      <Setting open={isSettingOpen} setOpen={setIsSettingOpen} />
     </>
   );
 }

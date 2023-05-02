@@ -11,9 +11,10 @@ function classNames(...classes: string[]) {
 
 interface Props {
   open: boolean;
+  setOpen: (arg0: boolean) => void;
 }
 
-export default function Setting({ open }: Props) {
+export default function Setting({ open, setOpen }: Props) {
   let [isOpen, setIsOpen] = useState(false);
   const [isSipConfigOpen, setIsSipConfigOpen] = useState(false);
   const [configAction, setConfigAction] = useState<string | undefined>();
@@ -26,6 +27,7 @@ export default function Setting({ open }: Props) {
   const closeModal = () => {
     setSelectSipAccountConfigIndex(undefined);
     setIsOpen(false);
+    setOpen(false);
   };
 
   let [categories] = useState({
