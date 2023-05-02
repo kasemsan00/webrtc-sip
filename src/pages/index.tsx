@@ -13,6 +13,7 @@ import { setProfile } from "@/redux/slices/profileDataSlice";
 import { useAppDispatch } from "@/redux/store";
 import ConnectSip from "@/components/LeftPanel/ConnectSip";
 import StatusConnection from "@/components/LeftPanel/StatusConnection";
+import Box from "@/components/Chat/Box";
 
 export default function Home() {
   const dispatch = useAppDispatch();
@@ -41,6 +42,7 @@ export default function Home() {
             <ConnectSip status={status} handleRegister={handleRegister} handleUnRegister={handleUnRegister} />
             <StatusConnection />
             <CallOut />
+            <Box />
           </div>
           <div className="flex flex-col gap-2 w-full">
             <button className="btn btn-ghost" onClick={() => setIsSettingOpen(true)}>

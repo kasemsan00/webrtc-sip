@@ -19,7 +19,7 @@ export default function RemoteVideo() {
       <video
         style={{ display: mediaStreamRemote !== undefined ? "block" : "none" }}
         ref={remoteVideoRef}
-        className="bg-gray-400 w-full h-full rounded-md"
+        className=" w-full h-full rounded-md"
         autoPlay
         playsInline
       ></video>

@@ -78,9 +78,7 @@ export default function CallOut() {
           className="input w-full max-w-xs"
           value={destination}
           onChange={(event) => {
-            if (event.target.value.trim() !== "") {
-              setDestination(event.target.value);
-            }
+            setDestination(event.target.value);
           }}
         />
       </div>

@@ -6,10 +6,6 @@ export default function LocalVideo() {
   const dispatch = useAppDispatch();
   const session = useAppSelector((state) => state.session);
   const mediaStreamLocal = useAppSelector((state) => state.mediaStreamLocal);
-  const [localCameraMuted, setLocalCameraMuted] = useState({
-    video: true,
-    audio: true,
-  });
 
   useEffect(() => {
     async function getLocalMedia() {
