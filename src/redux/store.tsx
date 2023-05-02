@@ -10,6 +10,7 @@ import proxyServerSlice from "./slices/proxyServerSlice";
 import pcConfigSlice from "./slices/pcConfigSlice";
 import constraintsSlice from "@/redux/slices/constraintsSlice";
 import sessionSlice from "./slices/sessionSlice";
+import localVideoStatusSlice from "./slices/localVideoStatusSlice";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 const middleware = [reduxThunk];
@@ -21,6 +22,7 @@ const store = configureStore({
     pcConfig: pcConfigSlice,
     profileSelect: profileSelectSlice,
     profileData: profileDataSlice,
+    localVideoStatus: localVideoStatusSlice,
     mediaStreamLocal: mediaStreamLocalSlice,
     mediaStreamRemote: mediaStreamRemoteSlice,
     userAgent: userAgentSlice,

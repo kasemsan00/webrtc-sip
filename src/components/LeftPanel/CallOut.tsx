@@ -6,13 +6,12 @@ import { setUserAgentStatus } from "@/redux/slices/userAgentStatusSlice";
 
 export default function CallOut() {
   const dispatch = useAppDispatch();
+
   const session = useAppSelector((state) => state.session);
   const userAgent: any = useAppSelector((state) => state.userAgent);
   const mediaStream = useAppSelector((state) => state.mediaStreamLocal);
   const { domain } = useAppSelector((state) => state.profileSelect);
-
   const [destination, setDestination] = useState("");
-
   useEffect(() => {
     if (userAgent === null) return;
     console.log("init UA");

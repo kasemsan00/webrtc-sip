@@ -1,12 +1,15 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { setLocalStream } from "@/redux/slices/mediaStreamLocalSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
-import { BsFillCameraFill, BsFillMicFill } from "react-icons/bs";
 
 export default function LocalVideo() {
   const dispatch = useAppDispatch();
   const session = useAppSelector((state) => state.session);
   const mediaStreamLocal = useAppSelector((state) => state.mediaStreamLocal);
+  const [localCameraMuted, setLocalCameraMuted] = useState({
+    video: true,
+    audio: true,
+  });
 
   useEffect(() => {
     async function getLocalMedia() {
@@ -23,16 +26,20 @@ export default function LocalVideo() {
   }, [dispatch, mediaStreamLocal]);
 
   const handleClickVideoMuted = () => {
-    session.muted({
-      video: false,
-      audio: true,
+    if (session === null) return;
+    setLocalCameraMuted({
+      video: !localCameraMuted.video,
+      audio: localCameraMuted.audio,
     });
+    session.muted(localCameraMuted);
   };
   const handleClickMicMuted = () => {
-    session.muted({
-      video: true,
-      audio: false,
+    if (session === null) return;
+    setLocalCameraMuted({
+      video: localCameraMuted.video,
+      audio: !localCameraMuted.audio,
     });
+    session.muted(localCameraMuted);
   };
 
   return (
