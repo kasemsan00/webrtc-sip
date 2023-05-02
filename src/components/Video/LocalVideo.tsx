@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { setLocalStream } from "@/redux/slices/mediaStreamLocalSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 
