@@ -5,11 +5,13 @@ import { BsFillCameraFill, BsFillMicFill } from "react-icons/bs";
 
 export default function LocalVideo() {
   const dispatch = useAppDispatch();
+  const session = useAppSelector((state) => state.session);
   const mediaStreamLocal = useAppSelector((state) => state.mediaStreamLocal);
 
   useEffect(() => {
     async function getLocalMedia() {
       if (mediaStreamLocal !== null) return;
+      console.log("GetUserMedia Local");
       const stream = await navigator.mediaDevices.getUserMedia({
         video: true,
         audio: true,
@@ -20,13 +22,23 @@ export default function LocalVideo() {
     getLocalMedia().then((r) => r);
   }, [dispatch, mediaStreamLocal]);
 
-  const handleClickVideo = () => {};
-  const handleClickMic = () => {};
+  const handleClickVideoMuted = () => {
+    session.muted({
+      video: false,
+      audio: true,
+    });
+  };
+  const handleClickMicMuted = () => {
+    session.muted({
+      video: true,
+      audio: false,
+    });
+  };
 
   return (
     <div className="flex flex-1 items-end justify-start w-full">
       <div className="absolute flex-row rounded-md cursor-pointer bg-slate-200 z-50 m-1 ">
-        <div className="rounded-xl cursor-pointer m-1 bg-slate-200 z-50 w-6 h-6" onClick={handleClickVideo}>
+        <div className="rounded-xl cursor-pointer m-1 bg-slate-200 z-50 w-6 h-6" onClick={handleClickVideoMuted}>
           <svg
             className="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-6flbmm"
             focusable="false"
@@ -37,7 +49,7 @@ export default function LocalVideo() {
             <path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"></path>
           </svg>
         </div>
-        <div className="rounded-xl cursor-pointer m-1 bg-slate-200 z-50 w-6 h-6" onClick={handleClickMic}>
+        <div className="rounded-xl cursor-pointer m-1 bg-slate-200 z-50 w-6 h-6" onClick={handleClickMicMuted}>
           <svg
             className="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-6flbmm"
             focusable="false"
@@ -51,7 +63,7 @@ export default function LocalVideo() {
       </div>
       <video
         ref={(video) => {
-          if (video) {
+          if (video && video.srcObject === null) {
             video.srcObject = mediaStreamLocal;
           }
         }}

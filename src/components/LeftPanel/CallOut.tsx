@@ -2,6 +2,7 @@ import { MdDialerSip } from "react-icons/md";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { useEffect, useState } from "react";
 import { setRemoteStream } from "@/redux/slices/mediaStreamRemoteSlice";
+import { setUserAgentStatus } from "@/redux/slices/userAgentStatusSlice";
 
 export default function CallOut() {
   const dispatch = useAppDispatch();
@@ -30,12 +31,15 @@ export default function CallOut() {
   };
 
   const callOut = () => {
+    dispatch(setUserAgentStatus("Calling"));
     const eventHandlers = {
       progress: function (data: any) {
+        console.log(data);
         /* Your code here */
       },
       failed: function (data: any) {
         console.log(data);
+        dispatch(setUserAgentStatus(data.cause));
         alert(data.cause);
         /* Your code here */
       },
@@ -44,6 +48,8 @@ export default function CallOut() {
         /* Your code here */
       },
       ended: function (data: any) {
+        console.log(data);
+        dispatch(setUserAgentStatus(data.cause));
         /* Your code here */
       },
     };
