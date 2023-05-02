@@ -35,7 +35,7 @@ export default function Box() {
   };
 
   return (
-    <div className="bottom-0 border border-gray-400 w-52 h-62 rounded-md">
+    <div className="bottom-0 border border-gray-400 w-full h-62 rounded-md">
       <div className="bg-white rounded-t-md px-2">Chat</div>
       <div className="bg-gray-100 max-h-40 h-40 overflow-auto overflow-y-scroll w-full flex flex-col items-start justify-end p-2">
         {messageData.map((item: IMessageData, index: number) => (
