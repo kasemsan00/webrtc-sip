@@ -26,6 +26,16 @@ export default function Home() {
     })();
   }, [dispatch]);
 
+  useEffect(() => {
+    function handleEscapeKey(event: any) {
+      if (event.key === "Escape") setIsSettingOpen(false);
+    }
+    document.addEventListener("keydown", handleEscapeKey);
+    return () => {
+      document.removeEventListener("keydown", handleEscapeKey);
+    };
+  }, []);
+
   return (
     <>
       <Head>
@@ -45,7 +55,7 @@ export default function Home() {
             <Box />
           </div>
           <div className="flex flex-col gap-2 w-full">
-            <button className="btn btn-ghost" onClick={() => setIsSettingOpen(true)}>
+            <button className="btn btn-ghost focus:outline-none" onClick={() => setIsSettingOpen(true)}>
               Setting
             </button>
           </div>
