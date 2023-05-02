@@ -5,5 +5,5 @@ interface Props {
 }
 
 export default function MainView({ children }: Props) {
-  return <div className="fixed flex ml-64 h-full justify-center p-2">{children}</div>;
+  return <div className="flex w-full h-full justify-center p-2">{children}</div>;
 }

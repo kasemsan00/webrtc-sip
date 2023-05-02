@@ -55,7 +55,7 @@ export default function LocalVideo() {
             video.srcObject = mediaStreamLocal;
           }
         }}
-        className="bg-black rounded-md h-full"
+        className="bg-black rounded-md h-40"
         autoPlay
         muted
         playsInline

@@ -33,7 +33,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.png" />
       </Head>
-      <main className="main">
+      <main className="flex flex-row h-screen">
         <Sidebar>
           <div className="flex flex-col gap-2 w-full">
             <LocalVideo />
