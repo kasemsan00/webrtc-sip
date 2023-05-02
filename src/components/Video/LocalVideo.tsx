@@ -27,19 +27,35 @@ export default function LocalVideo() {
 
   const handleClickVideoMuted = () => {
     if (session === null) return;
-    setLocalCameraMuted({
-      video: !localCameraMuted.video,
-      audio: localCameraMuted.audio,
-    });
-    session.muted(localCameraMuted);
+    const { video } = session.isMuted();
+    if (!video) {
+      console.log("mute video");
+      session.mute({
+        video: true,
+      });
+    }
+    if (video) {
+      console.log("unmute video");
+      session.unmute({
+        video: true,
+      });
+    }
   };
   const handleClickMicMuted = () => {
     if (session === null) return;
-    setLocalCameraMuted({
-      video: localCameraMuted.video,
-      audio: !localCameraMuted.audio,
-    });
-    session.muted(localCameraMuted);
+    const { audio } = session.isMuted();
+    if (!audio) {
+      console.log("mute audio");
+      session.mute({
+        audio: true,
+      });
+    }
+    if (audio) {
+      console.log("unmute audio");
+      session.unmute({
+        audio: true,
+      });
+    }
   };
 
   return (
