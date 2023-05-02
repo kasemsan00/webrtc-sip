@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { setLocalStream } from "@/redux/slices/mediaStreamLocalSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 
@@ -6,6 +6,7 @@ export default function LocalVideo() {
   const dispatch = useAppDispatch();
   const session = useAppSelector((state) => state.session);
   const mediaStreamLocal = useAppSelector((state) => state.mediaStreamLocal);
+  // const [mutedDisplay, setMutedDisplay] = useState({ video: true, audio: true });
 
   useEffect(() => {
     async function getLocalMedia() {
