@@ -23,7 +23,11 @@ export default function RemoteVideo() {
 
   useEffect(() => {
     if (userAgentStatus === "Calling") {
-      setVariant((prevVariant) => (prevVariant === "hidden" ? "shown" : "hidden"));
+      console.log("Calling");
+      setVariant("shown");
+    }
+    if (userAgentStatus === "Terminated") {
+      setVariant("hidden");
     }
   }, [userAgentStatus]);
 
@@ -37,11 +41,11 @@ export default function RemoteVideo() {
   }, [mediaStreamRemote]);
 
   return (
-    <motion.div variants={variants} initial="hidden" animate={variant} transition={{ duration: 0.3 }}>
+    <motion.div variants={variants} initial="hidden" animate={variant} transition={{ duration: 0.2 }}>
       <video
         style={{ display: mediaStreamRemote !== undefined ? "block" : "none" }}
         ref={remoteVideoRef}
-        className="w-full h-full rounded-md"
+        className="w-full h-full rounded-md bg-black"
         autoPlay
         playsInline
       ></video>

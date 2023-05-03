@@ -70,7 +70,7 @@ export default function CallOut() {
         <input
           type="text"
           placeholder="Call Number"
-          className="input w-full max-w-xs"
+          className="input w-full focus:outline-none"
           value={destination}
           onChange={(event) => {
             setDestination(event.target.value);
