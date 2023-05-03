@@ -8,6 +8,7 @@ import useLocalStorageState from "use-local-storage-state";
 
 export default function ProfileList() {
   const dispatch = useAppDispatch();
+  const userAgent: any = useAppSelector((state) => state.userAgent);
   const profileData = useAppSelector((state) => state.profileData);
   const profileSelect = useAppSelector((state) => state.profileSelect);
   // console.log(profileData[0]);
@@ -24,6 +25,10 @@ export default function ProfileList() {
   }, [dispatch, localStorageProfile, profileSelect]);
   //
   const handleListChange = (event: string) => {
+    // console.log("Handle");
+    if (userAgent !== null) {
+      userAgent.unregister();
+    }
     if (profileData === undefined) return;
     const profileSelect = profileData.find((state: any) => {
       return state.extension === event;

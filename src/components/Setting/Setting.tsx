@@ -32,8 +32,8 @@ export default function Setting({ open, setOpen }: Props) {
 
   let [categories] = useState({
     SipAccounts: [],
-    Camera: [],
-    PcConfig: [],
+    // Camera: [],
+    // PcConfig: [],
   });
 
   return (

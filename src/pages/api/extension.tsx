@@ -9,12 +9,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(200).json(rows);
   }
   if (req.method === "POST") {
-    const { extension, secret, domain, websocket } = req.body;
+    const { extension, password, domain, webSocket } = req.body;
     const [rows] = await connection.query(`INSERT INTO extension (extension, secret, domain, websocket) VALUES (?, ?, ?, ?)`, [
       extension,
-      secret,
+      password,
       domain,
-      websocket,
+      webSocket,
     ]);
     res.status(200).json(rows);
   }

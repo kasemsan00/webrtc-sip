@@ -20,13 +20,23 @@ export default function UserAgentHandler() {
   }, [dispatch, status]);
 
   useEffect(() => {
-    if (
-      profileSelect.websocket !== "" &&
-      profileSelect.extension !== "" &&
-      profileSelect.domain !== "" &&
-      profileSelect.extension !== "" &&
-      profileSelect.secret !== ""
-    ) {
+    // if (
+    //   profileSelect.websocket === null ||
+    //   profileSelect.extension === null ||
+    //   profileSelect.domain === null ||
+    //   profileSelect.secret === null
+    // ) {
+    //   return;
+    // }
+    // if (
+    //   profileSelect.websocket === "" ||
+    //   profileSelect.extension === "" ||
+    //   profileSelect.domain === "" ||
+    //   profileSelect.secret === ""
+    // ) {
+    //   return;
+    // }
+    try {
       const socket = new JsSIP.WebSocketInterface(profileSelect.websocket);
       const configuration = {
         sockets: [socket],
@@ -35,6 +45,8 @@ export default function UserAgentHandler() {
         traceSip: true,
       };
       setUA(new JsSIP.UA(configuration));
+    } catch (e) {
+      console.log(e);
     }
   }, [profileSelect]);
 

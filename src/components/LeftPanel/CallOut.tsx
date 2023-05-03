@@ -12,14 +12,8 @@ export default function CallOut() {
   const mediaStream = useAppSelector((state) => state.mediaStreamLocal);
   const { domain } = useAppSelector((state) => state.profileSelect);
   const [destination, setDestination] = useState("");
-  useEffect(() => {
-    if (userAgent === null) return;
-    console.log("init UA");
-  }, [dispatch, mediaStream, userAgent]);
 
-  const HandleCallOut = () => {
-    callOut();
-  };
+  const HandleCallOut = () => callOut();
   const HandleHangUp = () => {
     try {
       session.terminate();
