@@ -11,11 +11,6 @@ export default function ProfileList() {
   const userAgent: any = useAppSelector((state) => state.userAgent);
   const profileData = useAppSelector((state) => state.profileData);
   const profileSelect = useAppSelector((state) => state.profileSelect);
-  // console.log(profileData[0]);
-  // const [localStorageProfile, setLocalStorageProfile] = useLocalStorageState<IExtensionList>("profileSelect", {
-  //   defaultValue: profileData.length && profileData === undefined > 0 ? undefined : profileData[0],
-  // });
-
   const [localStorageProfile, setLocalStorageProfile] = useLocalStorageState<IExtensionDetail>("profileSelect");
 
   useEffect(() => {
@@ -25,7 +20,6 @@ export default function ProfileList() {
   }, [dispatch, localStorageProfile, profileSelect]);
   //
   const handleListChange = (event: string) => {
-    // console.log("Handle");
     if (userAgent !== null) {
       userAgent.unregister();
     }
