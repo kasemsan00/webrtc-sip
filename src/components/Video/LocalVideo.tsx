@@ -1,18 +1,36 @@
 import { useEffect, useState } from "react";
 import { setLocalStream } from "@/redux/slices/mediaStreamLocalSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { BsFillCameraVideoFill, BsFillCameraVideoOffFill, BsFillMicFill, BsFillMicMuteFill } from "react-icons/bs";
+import { motion } from "framer-motion";
 
 export default function LocalVideo() {
   const dispatch = useAppDispatch();
   const session = useAppSelector((state) => state.session);
   const mediaStreamLocal = useAppSelector((state) => state.mediaStreamLocal);
-  // const [mutedDisplay, setMutedDisplay] = useState({ video: true, audio: true });
+  const [isMuted, setIsMuted] = useState({ video: true, audio: true });
+
+  console.log(isMuted);
+
+  useEffect(() => {
+    if (session === null) return;
+    session.on("ended", () => {
+      setIsMuted({
+        video: true,
+        audio: true,
+      });
+    });
+  }, [session]);
 
   useEffect(() => {
     async function getLocalMedia() {
       if (mediaStreamLocal !== null) return;
       console.log("GetUserMedia Local");
       const stream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: true,
+      });
+      setIsMuted({
         video: true,
         audio: true,
       });
@@ -37,6 +55,7 @@ export default function LocalVideo() {
         video: true,
       });
     }
+    setIsMuted((state) => ({ ...state, ["video"]: video }));
   };
   const handleClickMicMuted = () => {
     if (session === null) return;
@@ -53,33 +72,26 @@ export default function LocalVideo() {
         audio: true,
       });
     }
+    setIsMuted((state) => ({ ...state, ["audio"]: audio }));
   };
 
   return (
     <div className="flex flex-1 items-end justify-start w-full">
       <div className="absolute flex-row rounded-md cursor-pointer bg-slate-200 z-50 m-1 ">
-        <div className="rounded-xl cursor-pointer m-1 bg-slate-200 z-50 w-6 h-6" onClick={handleClickVideoMuted}>
-          <svg
-            className="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-6flbmm"
-            focusable="false"
-            aria-hidden="true"
-            viewBox="0 0 24 24"
-            data-testid="VideocamIcon"
-          >
-            <path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"></path>
-          </svg>
-        </div>
-        <div className="rounded-xl cursor-pointer m-1 bg-slate-200 z-50 w-6 h-6" onClick={handleClickMicMuted}>
-          <svg
-            className="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-6flbmm"
-            focusable="false"
-            aria-hidden="true"
-            viewBox="0 0 24 24"
-            data-testid="MicIcon"
-          >
-            <path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"></path>
-          </svg>
-        </div>
+        <motion.div
+          className="flex justify-center items-center rounded-xl cursor-pointer m-1 bg-slate-200 z-50 w-6 h-6"
+          whileTap={{ scale: 0.8 }}
+          onClick={handleClickVideoMuted}
+        >
+          {isMuted.video ? <BsFillCameraVideoFill style={{ width: "20px", height: "20px" }} /> : <BsFillCameraVideoOffFill />}
+        </motion.div>
+        <motion.div
+          className="flex justify-center items-center rounded-xl cursor-pointer m-1 bg-slate-200 z-50 w-6 h-6"
+          whileTap={{ scale: 0.8 }}
+          onClick={handleClickMicMuted}
+        >
+          {isMuted.audio ? <BsFillMicFill style={{ width: "20px", height: "20px" }} /> : <BsFillMicMuteFill />}
+        </motion.div>
       </div>
       <video
         ref={(video) => {
