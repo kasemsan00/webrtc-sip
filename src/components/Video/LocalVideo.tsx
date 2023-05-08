@@ -10,8 +10,6 @@ export default function LocalVideo() {
   const mediaStreamLocal = useAppSelector((state) => state.mediaStreamLocal);
   const [isMuted, setIsMuted] = useState({ video: true, audio: true });
 
-  console.log(isMuted);
-
   useEffect(() => {
     if (session === null) return;
     session.on("ended", () => {
@@ -83,14 +81,18 @@ export default function LocalVideo() {
           whileTap={{ scale: 0.8 }}
           onClick={handleClickVideoMuted}
         >
-          {isMuted.video ? <BsFillCameraVideoFill style={{ width: "20px", height: "20px" }} /> : <BsFillCameraVideoOffFill />}
+          {isMuted.video ? (
+            <BsFillCameraVideoFill className="w-5 h-5" />
+          ) : (
+            <BsFillCameraVideoOffFill className="w-5 h-5 text-red-700" />
+          )}
         </motion.div>
         <motion.div
           className="flex justify-center items-center rounded-xl cursor-pointer m-1 bg-slate-200 z-50 w-6 h-6"
           whileTap={{ scale: 0.8 }}
           onClick={handleClickMicMuted}
         >
-          {isMuted.audio ? <BsFillMicFill style={{ width: "20px", height: "20px" }} /> : <BsFillMicMuteFill />}
+          {isMuted.audio ? <BsFillMicFill className="w-5 h-5" /> : <BsFillMicMuteFill className="w-5 h-5 text-red-700" />}
         </motion.div>
       </div>
       <video
