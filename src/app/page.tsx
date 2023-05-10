@@ -13,6 +13,7 @@ import ConnectSip from "@/ui/LeftBar/ConnectSip";
 import ProfileList from "@/ui/LeftBar/ProfileList";
 import Setting from "@/ui/Setting/Setting";
 import RemoteVideo from "@/ui/Video/RemoteVideo";
+import Box from "@/ui/Chat/Box";
 
 export default function Home() {
   const { setProfile } = useStore((state) => state);
@@ -40,20 +41,13 @@ export default function Home() {
         <div className="flex flex-col gap-2 w-full">
           <LocalVideo />
           <ProfileList />
-          <ConnectSip
-            status={status}
-            handleRegister={handleRegister}
-            handleUnRegister={handleUnRegister}
-          />
+          <ConnectSip status={status} handleRegister={handleRegister} handleUnRegister={handleUnRegister} />
           <StatusConnection />
           <CallOut />
-          {/*<Box />*/}
+          <Box />
         </div>
         <div className="flex flex-col gap-2 w-full">
-          <button
-            className="btn btn-ghost focus:outline-none"
-            onClick={() => setIsSettingOpen(true)}
-          >
+          <button className="btn btn-ghost focus:outline-none" onClick={() => setIsSettingOpen(true)}>
             Setting
           </button>
         </div>

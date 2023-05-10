@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useAppSelector } from "@/redux/store";
+import { useStore } from "@/store/useStore";
 
 interface IMessageData {
   user: string;
@@ -8,25 +8,27 @@ interface IMessageData {
 
 export default function Box() {
   const [input, setInput] = useState("");
-  const session = useAppSelector((state) => state.session);
-  const { domain } = useAppSelector((state) => state.profileSelect);
-  const userAgent: any = useAppSelector((state) => state.userAgent);
+  // const session = useAppSelector((state) => state.session);
+  // const { domain } = useAppSelector((state) => state.profileSelect);
+  // const userAgent: any = useAppSelector((state) => state.userAgent);
+  const { session, userAgentData } = useStore((state) => state);
+  const { domain } = useStore((state) => state.profileSelect);
   const [messageData, setMessageData] = useState<Array<IMessageData>>([]);
 
   useEffect(() => {
-    if (userAgent === null) return;
-    userAgent.on("newMessage", (event: any) => {
+    if (userAgentData === null) return;
+    userAgentData.on("newMessage", (event: any) => {
       console.log(event);
       if (event.originator === "remote") {
       }
     });
-  }, [userAgent]);
+  }, [userAgentData]);
 
   const handleSendMessage = () => {
     setInput("");
-    if (userAgent === null) return;
+    if (userAgentData === null) return;
     const destination = session.remote_identity.uri.user;
-    userAgent.sendMessage("sip:" + destination + "@" + domain, input);
+    userAgentData.sendMessage("sip:" + destination + "@" + domain, input);
     const obj = {
       user: "local",
       message: input,
