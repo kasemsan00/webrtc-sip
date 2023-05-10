@@ -3,7 +3,6 @@ import { DB } from "@/lib/DB";
 
 export async function GET(request: Request) {
   const connection = await DB();
-  const { searchParams } = new URL(request.url);
   const [rows] = await connection.query("SELECT * FROM extension");
   return NextResponse.json(rows);
 }

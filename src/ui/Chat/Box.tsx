@@ -8,15 +8,13 @@ interface IMessageData {
 
 export default function Box() {
   const [input, setInput] = useState("");
-  // const session = useAppSelector((state) => state.session);
-  // const { domain } = useAppSelector((state) => state.profileSelect);
-  // const userAgent: any = useAppSelector((state) => state.userAgent);
   const { session, userAgentData } = useStore((state) => state);
   const { domain } = useStore((state) => state.profileSelect);
   const [messageData, setMessageData] = useState<Array<IMessageData>>([]);
 
   useEffect(() => {
     if (userAgentData === null) return;
+    if (userAgentData === undefined) return;
     userAgentData.on("newMessage", (event: any) => {
       console.log(event);
       if (event.originator === "remote") {
