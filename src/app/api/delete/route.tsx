@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
-import { db } from "@/lib/db";
+import { DB } from "@/lib/DB";
 
 export async function GET(request: Request) {
-  const connection = await db();
+  const connection = await DB();
   const { searchParams } = new URL(request.url);
   const id = searchParams.get("id");
   console.log(searchParams.get("id"));
