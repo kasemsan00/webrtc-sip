@@ -4,13 +4,7 @@ import { RTCSession } from "jssip/lib/RTCSession";
 import { useStore } from "@/store/useStore";
 
 export default function UserAgentHandler() {
-  const {
-    profileSelect,
-    setRemoteMediaStream,
-    setSession,
-    setUserAgentData,
-    setUserAgentStatus,
-  } = useStore((state) => state);
+  const { profileSelect, setRemoteMediaStream, setSession, setUserAgentData, setUserAgentStatus } = useStore((state) => state);
   const [userAgent, setUA] = useState<JsSIP.UA>();
   const [status, setStatus] = useState<string | undefined>();
 
@@ -47,7 +41,7 @@ export default function UserAgentHandler() {
       };
       setUA(new JsSIP.UA(configuration));
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     }
   }, [profileSelect]);
 

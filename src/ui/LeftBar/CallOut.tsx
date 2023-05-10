@@ -3,14 +3,9 @@ import { useState } from "react";
 import { useStore } from "@/store/useStore";
 
 export default function CallOut() {
-  const {
-    session,
-    mediaStreamLocal,
-    userAgentData,
-    setUserAgentStatus,
-    setRemoteMediaStream,
-  } = useStore((state) => state);
+  const { session, mediaStreamLocal, userAgentData, setUserAgentStatus, setRemoteMediaStream } = useStore((state) => state);
 
+  const { turn } = useStore((state) => state);
   const { domain } = useStore((state) => state.profileSelect);
   const [destination, setDestination] = useState("");
 
@@ -49,17 +44,23 @@ export default function CallOut() {
         /* Your code here */
       },
     };
+
+    let iceServers: any = [];
+    if (turn) {
+      iceServers = [
+        {
+          urls: "turn:test-local3.ttrs.in.th?transport=tcp",
+          username: "turn01",
+          credential: "Test1234",
+        },
+      ];
+    }
+
     const options = {
       eventHandlers,
       mediaStreamLocal,
       pcConfig: {
-        iceServers: [
-          {
-            urls: "turn:turn.ttrs.in.th?transport=tcp",
-            username: "turn01",
-            credential: "Test1234",
-          },
-        ],
+        iceServers: iceServers,
         iceTransportPolicy: "all",
         rtcpMuxPolicy: "require",
         iceCandidatePoolSize: 0,

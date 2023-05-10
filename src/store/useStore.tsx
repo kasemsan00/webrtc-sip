@@ -6,6 +6,7 @@ import mediaStreamLocalSlice from "@/store/slices/mediaStreamLocalSlice";
 import mediaStreamRemoteSlice from "@/store/slices/mediaStreamRemoteSlice";
 import userAgentStatusSlice from "@/store/slices/userAgentStatusSlice";
 import sessionSlice from "@/store/slices/sessionSlice";
+import pcConfigSlice from "@/store/slices/pcConfigSlice";
 
 export const useStore = create<any>()((...arg) => ({
   ...userAgentDataSlice(...arg),
@@ -15,4 +16,5 @@ export const useStore = create<any>()((...arg) => ({
   ...profileDataSlice(...arg),
   ...mediaStreamLocalSlice(...arg),
   ...mediaStreamRemoteSlice(...arg),
+  ...pcConfigSlice(...arg),
 }));

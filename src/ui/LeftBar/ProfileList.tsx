@@ -12,15 +12,8 @@ export interface IExtensionDetail {
 }
 
 export default function ProfileList() {
-  const { userAgentData, profileData, profileSelect, setSelectProfile } =
-    useStore((state) => state);
-  const [localStorageProfile, setLocalStorageProfile] =
-    useLocalStorageState<IExtensionDetail>("profileSelect");
-
-  useEffect(() => {
-    console.log(profileData.length);
-    console.log(profileData);
-  }, [profileData]);
+  const { userAgentData, profileData, profileSelect, setSelectProfile } = useStore((state) => state);
+  const [localStorageProfile, setLocalStorageProfile] = useLocalStorageState<IExtensionDetail>("profileSelect");
 
   useEffect(() => {
     if (profileSelect.id === undefined && localStorageProfile !== undefined) {
@@ -29,7 +22,7 @@ export default function ProfileList() {
   }, [localStorageProfile, profileSelect, setSelectProfile]);
   //
   const handleListChange = (event: string) => {
-    if (userAgentData !== null) {
+    if (userAgentData !== null && userAgentData !== undefined) {
       userAgentData.unregister();
     }
     if (profileData === undefined) return;
@@ -43,9 +36,7 @@ export default function ProfileList() {
   return (
     <Listbox
       value={
-        localStorageProfile === undefined
-          ? "Select Extension"
-          : localStorageProfile.extension + "@" + localStorageProfile.domain
+        localStorageProfile === undefined ? "Select Extension" : localStorageProfile.extension + "@" + localStorageProfile.domain
       }
       onChange={handleListChange}
     >
@@ -53,24 +44,14 @@ export default function ProfileList() {
         <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
           <span className="tooltip block truncate">
             {localStorageProfile !== undefined
-              ? localStorageProfile?.extension +
-                "@" +
-                localStorageProfile.domain
+              ? localStorageProfile?.extension + "@" + localStorageProfile.domain
               : "Select Extension"}
           </span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-            <ChevronUpDownIcon
-              className="h-5 w-5 text-gray-400"
-              aria-hidden="true"
-            />
+            <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
           </span>
         </Listbox.Button>
-        <Transition
-          as={Fragment}
-          leave="transition ease-in duration-100"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-        >
+        <Transition as={Fragment} leave="transition ease-in duration-100" leaveFrom="opacity-100" leaveTo="opacity-0">
           <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
             {profileData.length > 0 &&
               profileData?.map((item: any, index: number) => (
@@ -85,11 +66,7 @@ export default function ProfileList() {
                 >
                   {({ selected }) => (
                     <>
-                      <span
-                        className={`block truncate ${
-                          selected ? "font-medium" : "font-normal"
-                        }`}
-                      >
+                      <span className={`block truncate ${selected ? "font-medium" : "font-normal"}`}>
                         {item.extension}@{item.domain}
                       </span>
                       {selected ? (
