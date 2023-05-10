@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useStore } from "@/store/useStore";
 import { useForm } from "react-hook-form";
+import { getExtension, insertExtension, updateExtension } from "@/request/request";
 
 export default function PcConfig() {
   const turnSaveInfoRef = useRef<HTMLSpanElement>(null);
@@ -23,49 +24,50 @@ export default function PcConfig() {
   const handleChangeURL = (event: React.ChangeEvent<HTMLInputElement>) => {
     // console.log(event.target.value);
   };
-  const handleSave = () => {};
+
+  const onSubmit = async (data: any) => {};
 
   return (
-    <div className="form-control w-full max-w-full focus:outline-none focus:border-none">
-      <label className="label">
-        <span className="label-text">Turn Enable</span>
-      </label>
-      <input type="checkbox" className="toggle toggle-info" onChange={handleToggle} checked={isTurnEnable} />
-      <label className="label">
-        <span className="label-text">Url</span>
-      </label>
-      <input
-        type="text"
-        placeholder="URL"
-        className="input input-sm input-bordered w-full focus:outline-none"
-        {...register("url")}
-      />
-      <label className="label">
-        <span className="label-text">Username</span>
-      </label>
-      <input
-        type="text"
-        placeholder="Username"
-        className="input input-sm input-bordered w-full focus:outline-none"
-        {...register("username")}
-      />
-      <label className="label">
-        <span className="label-text">Credential</span>
-      </label>
-      <input
-        type="text"
-        placeholder="Credential"
-        className="input input-sm input-bordered w-full focus:outline-none"
-        {...register("credential")}
-      />
-      <div className="flex justify-between items-center mt-4">
-        <span className="text-green-600" ref={turnSaveInfoRef}>
-          Save Successful
-        </span>
-        <button className="btn btn-primary w-40" onClick={handleSave}>
-          Save
-        </button>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="form-control w-full max-w-full focus:outline-none focus:border-none">
+        <label className="label">
+          <span className="label-text">Turn Enable</span>
+        </label>
+        <input type="checkbox" className="toggle toggle-info" onChange={handleToggle} checked={isTurnEnable} />
+        <label className="label">
+          <span className="label-text">Url</span>
+        </label>
+        <input
+          type="text"
+          placeholder="URL"
+          className="input input-sm input-bordered w-full focus:outline-none"
+          {...register("url")}
+        />
+        <label className="label">
+          <span className="label-text">Username</span>
+        </label>
+        <input
+          type="text"
+          placeholder="Username"
+          className="input input-sm input-bordered w-full focus:outline-none"
+          {...register("username")}
+        />
+        <label className="label">
+          <span className="label-text">Credential</span>
+        </label>
+        <input
+          type="text"
+          placeholder="Credential"
+          className="input input-sm input-bordered w-full focus:outline-none"
+          {...register("credential")}
+        />
+        <div className="flex justify-between items-center mt-4">
+          <span className="text-green-600" ref={turnSaveInfoRef}>
+            Save Successful
+          </span>
+          <input className="btn btn-primary btn-sm w-[100px]" type="submit" value="Save" />
+        </div>
       </div>
-    </div>
+    </form>
   );
 }

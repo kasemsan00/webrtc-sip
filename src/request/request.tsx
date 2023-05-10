@@ -5,6 +5,22 @@ export const getTurn = async () => {
   }
   return response.json();
 };
+export const updateTurn = async ({ url, username, password }: { url: string; username: string; password: string }) => {
+  const settings = {
+    method: "POST",
+    body: JSON.stringify({
+      url,
+      username,
+      password,
+    }),
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  };
+  const fetchResponse = await fetch("/api/turn", settings);
+  return await fetchResponse.json();
+};
 export const getExtension = async () => {
   const response = await fetch("/api/extension");
   if (!response.ok) {
