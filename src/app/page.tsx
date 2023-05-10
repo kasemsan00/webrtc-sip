@@ -16,7 +16,7 @@ import RemoteVideo from "@/ui/Video/RemoteVideo";
 import Box from "@/ui/Chat/Box";
 
 export default function Home() {
-  const { setProfile, set } = useStore((state) => state);
+  const { iceServer, setProfile, setIceServer } = useStore((state) => state);
   const [status, handleRegister, handleUnRegister] = UserAgentHandler();
   const [isSettingOpen, setIsSettingOpen] = useState(false);
 
@@ -28,9 +28,14 @@ export default function Home() {
         username: resp[0].username,
         credential: resp[0].credential,
       };
+      setIceServer(iceServers);
     };
     getTurnData().then((r) => r);
-  }, []);
+  }, [setIceServer]);
+
+  useEffect(() => {
+    console.log(iceServer);
+  }, [iceServer]);
 
   useEffect(() => {
     (async () => {
