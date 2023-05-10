@@ -1,5 +1,10 @@
-// call rest api use fetch
-
+export const getTurn = async () => {
+  const response = await fetch("/api/turn");
+  if (!response.ok) {
+    throw new Error("Get turn failed");
+  }
+  return response.json();
+};
 export const getExtension = async () => {
   const response = await fetch("/api/extension");
   if (!response.ok) {

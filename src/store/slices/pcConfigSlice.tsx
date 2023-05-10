@@ -2,15 +2,19 @@ import { StateCreator } from "zustand/esm";
 
 interface IMediaStreamRemote {
   turn: boolean;
-  iceServers: any;
+  iceServer: any;
   setTurnEnable: (arg0: boolean) => void;
+  setIceServer: (arg0: any) => void;
 }
 
-const pcConfigSlice: StateCreator<IMediaStreamRemote> = (set) => ({
+const pcConfigSlice: StateCreator<any> = (set) => ({
   turn: true,
-  iceServers: [],
-  setTurnEnable(data) {
+  iceServer: [],
+  setTurnEnable(data: any) {
     set(() => ({ turn: data }));
+  },
+  setIceServers(data: any) {
+    set(() => ({ iceServer: data }));
   },
 });
 export default pcConfigSlice;

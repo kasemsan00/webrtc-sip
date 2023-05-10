@@ -6,7 +6,7 @@ import LocalVideo from "@/ui/Video/LocalVideo";
 import { useStore } from "@/store/useStore";
 import UserAgentHandler from "@/hook/userAgentHandler";
 import { useEffect, useState } from "react";
-import { getExtension } from "@/request/request";
+import { getExtension, getTurn } from "@/request/request";
 import CallOut from "@/ui/LeftBar/CallOut";
 import StatusConnection from "@/ui/LeftBar/StatusConnection";
 import ConnectSip from "@/ui/LeftBar/ConnectSip";
@@ -16,9 +16,21 @@ import RemoteVideo from "@/ui/Video/RemoteVideo";
 import Box from "@/ui/Chat/Box";
 
 export default function Home() {
-  const { setProfile } = useStore((state) => state);
+  const { setProfile, set } = useStore((state) => state);
   const [status, handleRegister, handleUnRegister] = UserAgentHandler();
   const [isSettingOpen, setIsSettingOpen] = useState(false);
+
+  useEffect(() => {
+    const getTurnData = async () => {
+      const resp = await getTurn();
+      const iceServers = {
+        url: resp[0].url,
+        username: resp[0].username,
+        credential: resp[0].credential,
+      };
+    };
+    getTurnData().then((r) => r);
+  }, []);
 
   useEffect(() => {
     (async () => {
