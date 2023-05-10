@@ -1,11 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useStore } from "@/store/useStore";
+import { useForm } from "react-hook-form";
 
 export default function PcConfig() {
   const turnSaveInfoRef = useRef<HTMLSpanElement>(null);
   const { iceServer, setTurnEnable } = useStore((state) => state);
   const [isTurnEnable, setIsTurnEnable] = useState(true);
-  const [formTurn, setFormTurn] = useStore();
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
 
   const handleToggle = () => {
     setIsTurnEnable((state) => !state);
@@ -31,8 +38,7 @@ export default function PcConfig() {
         type="text"
         placeholder="URL"
         className="input input-sm input-bordered w-full focus:outline-none"
-        value={iceServer.url}
-        onChange={handleChangeURL}
+        {...register("url")}
       />
       <label className="label">
         <span className="label-text">Username</span>
@@ -41,7 +47,7 @@ export default function PcConfig() {
         type="text"
         placeholder="Username"
         className="input input-sm input-bordered w-full focus:outline-none"
-        value={iceServer.username}
+        {...register("username")}
       />
       <label className="label">
         <span className="label-text">Credential</span>
@@ -50,7 +56,7 @@ export default function PcConfig() {
         type="text"
         placeholder="Credential"
         className="input input-sm input-bordered w-full focus:outline-none"
-        value={iceServer.credential}
+        {...register("credential")}
       />
       <div className="flex justify-between items-center mt-4">
         <span className="text-green-600" ref={turnSaveInfoRef}>
