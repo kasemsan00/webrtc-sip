@@ -2,7 +2,7 @@ import { useState, Fragment, useEffect } from "react";
 import { Dialog, Transition, Tab } from "@headlessui/react";
 import SipAccountList from "@/ui/Setting/SipAccountList";
 import SipAccountListModal from "@/ui/Setting/SipAccountListModal";
-import CameraConfig from "@/ui/Setting/CameraConfig";
+// import CameraConfig from "@/ui/Setting/CameraConfig";
 import { AiFillCloseCircle } from "react-icons/ai";
 import PcConfig from "@/ui/Setting/PcConfig/PcConfig";
 

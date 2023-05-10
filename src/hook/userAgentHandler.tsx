@@ -88,7 +88,7 @@ export default function UserAgentHandler() {
         const { stream } = event;
         setRemoteMediaStream(stream);
       });
-      newSession.on("ended", (event) => {
+      newSession.on("ended", () => {
         console.log("ended", callID);
         // setRemoteStream((remoteStream) => remoteStream.filter((data) => data.callID !== callID));
         // setSessionData((sessionData) => sessionData.filter((data) => data.callID !== callID));
@@ -114,8 +114,8 @@ export default function UserAgentHandler() {
         }
       });
       // newSession.on("addstream", (event) => {});
-      newSession.on("sdp", (event) => {});
-      newSession.on("peerconnection", function (ev2) {
+      newSession.on("sdp", () => {});
+      newSession.on("peerconnection", function () {
         // console.log(ev2);
         // ev2.peerconnection.onaddstream = function (event) {
         //   console.log(event.stream);

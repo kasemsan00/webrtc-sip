@@ -5,7 +5,7 @@ interface IMediaStreamRemote {
   setTurnEnable: (arg0: boolean) => void;
 }
 
-const pcConfigSlice: StateCreator<IMediaStreamRemote> = (set, get) => ({
+const pcConfigSlice: StateCreator<IMediaStreamRemote> = (set) => ({
   turn: true,
   setTurnEnable(data) {
     set(() => ({ turn: data }));
