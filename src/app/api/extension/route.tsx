@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { db } from "@/lib/db";
+import { db } from "../../../lib/db";
 
 export async function GET(request: Request) {
   const connection = await db();
@@ -10,10 +10,12 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   const connection = await db();
   const { domain, webSocket, extension, password } = await request.json();
-  const [rows] = await connection.query(
-    `INSERT INTO extension (extension, secret, domain, websocket) VALUES (?, ?, ?, ?)`,
-    [extension, password, domain, webSocket]
-  );
+  const [rows] = await connection.query(`INSERT INTO extension (extension, secret, domain, websocket) VALUES (?, ?, ?, ?)`, [
+    extension,
+    password,
+    domain,
+    webSocket,
+  ]);
   return NextResponse.json(rows);
 }
 export async function PUT(request: Request) {
