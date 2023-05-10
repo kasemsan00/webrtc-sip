@@ -85,8 +85,8 @@ export const updateExtension = async ({
 };
 export const deleteExtension = async (id: number | undefined) => {
   if (id === undefined) return;
-  const response = await fetch(`/api/extension/${id}`, {
-    method: "DELETE",
+  const response = await fetch(`/api/delete?id=${id}`, {
+    method: "GET",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
