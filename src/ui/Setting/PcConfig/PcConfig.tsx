@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useStore } from "@/store/useStore";
 
 export default function PcConfig() {
+  const turnSaveInfoRef = useRef<HTMLSpanElement>(null);
   const { iceServer, setTurnEnable } = useStore((state) => state);
   const [isTurnEnable, setIsTurnEnable] = useState(true);
+  const [formTurn, setFormTurn] = useStore();
 
   const handleToggle = () => {
     setIsTurnEnable((state) => !state);
@@ -14,6 +16,7 @@ export default function PcConfig() {
   const handleChangeURL = (event: React.ChangeEvent<HTMLInputElement>) => {
     // console.log(event.target.value);
   };
+  const handleSave = () => {};
 
   return (
     <div className="form-control w-full max-w-full focus:outline-none focus:border-none">
@@ -49,6 +52,14 @@ export default function PcConfig() {
         className="input input-sm input-bordered w-full focus:outline-none"
         value={iceServer.credential}
       />
+      <div className="flex justify-between items-center mt-4">
+        <span className="text-green-600" ref={turnSaveInfoRef}>
+          Save Successful
+        </span>
+        <button className="btn btn-primary w-40" onClick={handleSave}>
+          Save
+        </button>
+      </div>
     </div>
   );
 }
