@@ -9,12 +9,7 @@ interface Props {
   onSelectIndex: (arg0: number | undefined) => void;
 }
 
-export default function SipAccountList({
-  setIsSipConfigOpen,
-  setConfigAction,
-  configIndex,
-  onSelectIndex,
-}: Props) {
+export default function SipAccountList({ setIsSipConfigOpen, setConfigAction, configIndex, onSelectIndex }: Props) {
   const { profileData, setProfile } = useStore((state) => state);
   const handleClick = (e: React.MouseEvent<HTMLOptionElement>) => {
     onSelectIndex(parseInt(e.currentTarget.value));
@@ -42,17 +37,11 @@ export default function SipAccountList({
   };
 
   return (
-    <div className="flex flex-cols mt-4 gap-1 active:none">
-      <div className=" rounded-md w-[calc(100%-70px)]">
-        <select className="w-full" name="Cars" size={20}>
+    <div className="flex flex-cols gap-1 h-full active:outline-none focus:outline-none">
+      <div className="rounded-md w-[calc(100%-70px)] active:outline-none focus:outline-none">
+        <select className="w-full active:outline-none focus:outline-none h-full" name="Cars" size={20}>
           {profileData.map((item: any, index: number) => (
-            <option
-              onClick={handleClick}
-              onDoubleClick={handleDoubleClick}
-              className="px-1"
-              key={index}
-              value={item.id}
-            >
+            <option onClick={handleClick} onDoubleClick={handleDoubleClick} className="px-1" key={index} value={item.id}>
               {item.extension}@{item.domain}
             </option>
           ))}

@@ -5,6 +5,9 @@ import SipAccountListModal from "@/ui/Setting/SipAccountListModal";
 // import CameraConfig from "@/ui/Setting/CameraConfig";
 import { AiFillCloseCircle } from "react-icons/ai";
 import PcConfig from "@/ui/Setting/PcConfig/PcConfig";
+import CameraConfig from "@/ui/Setting/Device/CameraConfig";
+import MicrophoneConfig from "@/ui/Setting/Device/MicrophoneConfig";
+import Device from "@/ui/Setting/Device/Device";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -33,8 +36,8 @@ export default function Setting({ open, setOpen }: Props) {
 
   let [categories] = useState({
     SipAccounts: [],
-    // Camera: [],
     PcConfig: [],
+    Camera: [],
   });
 
   return (
@@ -75,7 +78,7 @@ export default function Setting({ open, setOpen }: Props) {
             >
               <div className="inline-block w-full max-w-xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                 <div className="flex justify-between items-center mb-2">
-                  <h2 className="font-bold text-xl">Setting</h2>
+                  <h2 className="text-xl">Setting</h2>
                   <AiFillCloseCircle className="w-8 h-8 text-red-700 cursor-pointer" onClick={closeModal} />
                 </div>
                 <Tab.Group>
@@ -95,11 +98,11 @@ export default function Setting({ open, setOpen }: Props) {
                       </Tab>
                     ))}
                   </Tab.List>
-                  <Tab.Panels>
+                  <Tab.Panels style={{ height: "500px" }}>
                     <Tab.Panel
                       className={classNames(
                         "rounded-xl bg-white",
-                        "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2"
+                        "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 h-full pt-2"
                       )}
                     >
                       <SipAccountList
@@ -109,16 +112,21 @@ export default function Setting({ open, setOpen }: Props) {
                         onSelectIndex={setSelectSipAccountConfigIndex}
                       />
                     </Tab.Panel>
-                  </Tab.Panels>
-                  <Tab.Panels>
                     <Tab.Panel
                       className={classNames(
                         "rounded-xl bg-white",
-                        "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:ring-2" +
-                          "focus:outline-none focus:border-none"
+                        "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 h-full pt-2"
                       )}
                     >
                       <PcConfig />
+                    </Tab.Panel>
+                    <Tab.Panel
+                      className={classNames(
+                        "rounded-xl bg-white",
+                        "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 h-full pt-2"
+                      )}
+                    >
+                      <Device />
                     </Tab.Panel>
                   </Tab.Panels>
                 </Tab.Group>

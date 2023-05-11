@@ -79,9 +79,7 @@ export default function PcConfig() {
           disabled={!turn}
         />
         <div className="flex justify-between items-center mt-4">
-          <span className="text-green-600" ref={turnSaveInfoRef}>
-            {/*Save Successful*/}
-          </span>
+          <span className="text-green-600" ref={turnSaveInfoRef}></span>
           <input className="btn btn-primary btn-sm w-[100px]" type="submit" value="Save" />
         </div>
       </div>

@@ -1,9 +1,5 @@
 import { useForm } from "react-hook-form";
-import {
-  getExtension,
-  insertExtension,
-  updateExtension,
-} from "@/request/request";
+import { getExtension, insertExtension, updateExtension } from "@/request/request";
 import React, { useEffect } from "react";
 import { useStore } from "@/store/useStore";
 
@@ -13,18 +9,13 @@ interface Props {
   configIndex: number | undefined;
 }
 
-export default function SipAccountsConfig({
-  setIsOpen,
-  configAction,
-  configIndex,
-}: Props) {
+export default function SipAccountsConfig({ setIsOpen, configAction, configIndex }: Props) {
   const { profileData, setProfile } = useStore((state) => state);
   const {
     register,
     setValue,
     handleSubmit,
-    watch,
-    formState: { errors },
+    formState: {},
   } = useForm();
 
   const onSubmit = async (data: any) => {
@@ -71,9 +62,7 @@ export default function SipAccountsConfig({
 
   useEffect(() => {
     if (configIndex === undefined) return;
-    const profileSelect = profileData.find(
-      (state: any) => state.id === configIndex
-    );
+    const profileSelect = profileData.find((state: any) => state.id === configIndex);
     if (profileSelect === undefined) return;
     setValue("id", profileSelect.id);
     setValue("domain", profileSelect.domain);
@@ -123,17 +112,10 @@ export default function SipAccountsConfig({
         </div>
       </div>
       <div className="flex justify-end space-x-4 mt-4">
-        <button
-          className="btn btn-warning btn-sm w-[100px]"
-          onClick={handleCancel}
-        >
+        <button className="btn btn-warning btn-sm w-[100px]" onClick={handleCancel}>
           Cancel
         </button>
-        <input
-          className="btn btn-primary btn-sm w-[100px]"
-          type="submit"
-          value="OK"
-        />
+        <input className="btn btn-primary btn-sm w-[100px]" type="submit" value="OK" />
       </div>
     </form>
   );
