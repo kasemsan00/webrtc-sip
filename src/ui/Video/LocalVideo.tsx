@@ -1,13 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useStore } from "@/store/useStore";
 import { BsFillCameraVideoFill, BsFillCameraVideoOffFill, BsFillMicFill, BsFillMicMuteFill } from "react-icons/bs";
 import { motion } from "framer-motion";
 
 export default function LocalVideo() {
+  const localVideoRef = useRef<HTMLVideoElement>(null);
   const { mediaStreamLocal, session, setLocalMediaStream } = useStore((state) => state);
   const [isMuted, setIsMuted] = useState({ video: true, audio: true });
+
+  useEffect(() => {
+    localVideoRef.current!.srcObject = mediaStreamLocal;
+  }, [mediaStreamLocal]);
 
   useEffect(() => {
     if (session === null) return;
@@ -94,13 +99,7 @@ export default function LocalVideo() {
         </motion.div>
       </div>
       <video
-        ref={(video) => {
-          if (video) {
-            if (mediaStreamLocal !== undefined) {
-              video.srcObject = mediaStreamLocal;
-            }
-          }
-        }}
+        ref={localVideoRef}
         className="bg-black rounded-md h-40"
         autoPlay
         muted
