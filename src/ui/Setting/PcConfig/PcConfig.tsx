@@ -1,12 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { useStore } from "@/store/useStore";
 import { useForm } from "react-hook-form";
-import { getExtension, insertExtension, updateExtension } from "@/request/request";
+import { updateSetting, updateTurn } from "@/request/request";
 
 export default function PcConfig() {
   const turnSaveInfoRef = useRef<HTMLSpanElement>(null);
-  const { iceServer, setTurnEnable } = useStore((state) => state);
-  const [isTurnEnable, setIsTurnEnable] = useState(true);
+  const { turn, iceServer, setTurnEnable } = useStore((state) => state);
   const {
     register,
     setValue,
@@ -15,17 +14,33 @@ export default function PcConfig() {
     formState: { errors },
   } = useForm();
 
-  const handleToggle = () => {
-    setIsTurnEnable((state) => !state);
-  };
   useEffect(() => {
-    setTurnEnable(isTurnEnable);
-  }, [isTurnEnable, setTurnEnable]);
-  const handleChangeURL = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // console.log(event.target.value);
+    if (iceServer.id !== "") setValue("id", iceServer.id);
+    if (iceServer.url !== "") setValue("url", iceServer.url);
+    if (iceServer.username !== "") setValue("username", iceServer.username);
+    if (iceServer.credential !== "") setValue("credential", iceServer.credential);
+  }, [iceServer.credential, iceServer.id, iceServer.url, iceServer.username, setValue]);
+
+  const handleToggle = () => {
+    setTurnEnable(!turn);
   };
 
-  const onSubmit = async (data: any) => {};
+  const onSubmit = async (data: any) => {
+    turnSaveInfoRef.current!.innerHTML = "Saving..";
+    let resp = await updateTurn({
+      id: data.id,
+      url: data.url,
+      username: data.username,
+      credential: data.credential,
+    });
+    await updateSetting({
+      name: "turn",
+      value: turn + "",
+    });
+    if (resp.serverStatus === 2) {
+      turnSaveInfoRef.current!.innerHTML = "Save Successful";
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -33,7 +48,7 @@ export default function PcConfig() {
         <label className="label">
           <span className="label-text">Turn Enable</span>
         </label>
-        <input type="checkbox" className="toggle toggle-info" onChange={handleToggle} checked={isTurnEnable} />
+        <input type="checkbox" className="toggle toggle-info" onChange={handleToggle} checked={turn} />
         <label className="label">
           <span className="label-text">Url</span>
         </label>
@@ -42,6 +57,7 @@ export default function PcConfig() {
           placeholder="URL"
           className="input input-sm input-bordered w-full focus:outline-none"
           {...register("url")}
+          disabled={!turn}
         />
         <label className="label">
           <span className="label-text">Username</span>
@@ -51,6 +67,7 @@ export default function PcConfig() {
           placeholder="Username"
           className="input input-sm input-bordered w-full focus:outline-none"
           {...register("username")}
+          disabled={!turn}
         />
         <label className="label">
           <span className="label-text">Credential</span>
@@ -60,10 +77,11 @@ export default function PcConfig() {
           placeholder="Credential"
           className="input input-sm input-bordered w-full focus:outline-none"
           {...register("credential")}
+          disabled={!turn}
         />
         <div className="flex justify-between items-center mt-4">
           <span className="text-green-600" ref={turnSaveInfoRef}>
-            Save Successful
+            {/*Save Successful*/}
           </span>
           <input className="btn btn-primary btn-sm w-[100px]" type="submit" value="Save" />
         </div>

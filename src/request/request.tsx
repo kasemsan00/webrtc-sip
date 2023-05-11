@@ -5,13 +5,24 @@ export const getTurn = async () => {
   }
   return response.json();
 };
-export const updateTurn = async ({ url, username, password }: { url: string; username: string; password: string }) => {
+export const updateTurn = async ({
+  id,
+  url,
+  username,
+  credential,
+}: {
+  id: string;
+  url: string;
+  username: string;
+  credential: string;
+}) => {
   const settings = {
     method: "POST",
     body: JSON.stringify({
+      id,
       url,
       username,
-      password,
+      credential,
     }),
     headers: {
       Accept: "application/json",
@@ -117,4 +128,32 @@ export const deleteExtension = async (id: number | undefined) => {
     throw new Error("Delete extension failed");
   }
   return await response.json();
+};
+export const getSetting = async () => {
+  const response = await fetch(`/api/setting`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  });
+  if (!response.ok) {
+    throw new Error("Get Setting failed");
+  }
+  return await response.json();
+};
+export const updateSetting = async ({ name, value }: { name: string; value: string }) => {
+  const settings = {
+    method: "POST",
+    body: JSON.stringify({
+      name,
+      value,
+    }),
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  };
+  const fetchResponse = await fetch("/api/setting", settings);
+  return await fetchResponse.json();
 };
