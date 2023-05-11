@@ -30,9 +30,7 @@ export default function StatusConnection() {
   return (
     <div className="flex flex-row items-center space-x-1">
       <BsFillCircleFill style={{ color: statusColor }}></BsFillCircleFill>
-      <div className="flex justify-center items-center h-[40px]">
-        {userAgentStatus}
-      </div>
+      <div className="flex justify-center items-center h-[40px]">{userAgentStatus}</div>
     </div>
   );
 }

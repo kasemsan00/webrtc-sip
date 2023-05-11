@@ -8,7 +8,7 @@ export default function IceServerStatus() {
     <div className="flex flex-row items-center gap-2">
       Turn
       <div className="tooltip tooltip-right z-[999] tooltip-info" data-tip={`${iceServer.url}`}>
-        <BsFillCircleFill style={{ color: turn ? "green" : "red" }}></BsFillCircleFill>
+        <BsFillCircleFill style={{ color: turn ? "green" : "gray" }}></BsFillCircleFill>
       </div>
     </div>
   );
