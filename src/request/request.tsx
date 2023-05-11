@@ -1,5 +1,37 @@
-// call rest api use fetch
-
+export const getTurn = async () => {
+  const response = await fetch("/api/turn");
+  if (!response.ok) {
+    throw new Error("Get turn failed");
+  }
+  return response.json();
+};
+export const updateTurn = async ({
+  id,
+  url,
+  username,
+  credential,
+}: {
+  id: string;
+  url: string;
+  username: string;
+  credential: string;
+}) => {
+  const settings = {
+    method: "POST",
+    body: JSON.stringify({
+      id,
+      url,
+      username,
+      credential,
+    }),
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  };
+  const fetchResponse = await fetch("/api/turn", settings);
+  return await fetchResponse.json();
+};
 export const getExtension = async () => {
   const response = await fetch("/api/extension");
   if (!response.ok) {
@@ -85,8 +117,8 @@ export const updateExtension = async ({
 };
 export const deleteExtension = async (id: number | undefined) => {
   if (id === undefined) return;
-  const response = await fetch(`/api/extension/${id}`, {
-    method: "DELETE",
+  const response = await fetch(`/api/delete?id=${id}`, {
+    method: "GET",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
@@ -96,4 +128,32 @@ export const deleteExtension = async (id: number | undefined) => {
     throw new Error("Delete extension failed");
   }
   return await response.json();
+};
+export const getSetting = async () => {
+  const response = await fetch(`/api/setting`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  });
+  if (!response.ok) {
+    throw new Error("Get Setting failed");
+  }
+  return await response.json();
+};
+export const updateSetting = async ({ name, value }: { name: string; value: string }) => {
+  const settings = {
+    method: "POST",
+    body: JSON.stringify({
+      name,
+      value,
+    }),
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  };
+  const fetchResponse = await fetch("/api/setting", settings);
+  return await fetchResponse.json();
 };
