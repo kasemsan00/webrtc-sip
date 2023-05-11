@@ -49,7 +49,7 @@ export default function CameraConfig({ devices }: Props) {
       video: {
         deviceId: device.deviceId,
       },
-      audio: false,
+      audio: true,
     });
     videoPreviewRef.current!.srcObject = stream;
     setLocalMediaStream(stream);

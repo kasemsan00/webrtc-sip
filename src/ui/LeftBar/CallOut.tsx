@@ -60,7 +60,7 @@ export default function CallOut() {
 
     const options = {
       eventHandlers,
-      mediaStreamLocal,
+      mediaStream: mediaStreamLocal,
       pcConfig: {
         iceServers: iceServers,
         iceTransportPolicy: "all",
@@ -69,6 +69,7 @@ export default function CallOut() {
       },
       sessionTimersExpires: 9999,
     };
+    console.log(options);
     userAgentData.call("sip:" + destination + "@" + domain, options);
   };
 
