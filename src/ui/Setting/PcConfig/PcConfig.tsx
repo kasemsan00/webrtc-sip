@@ -10,8 +10,7 @@ export default function PcConfig() {
     register,
     setValue,
     handleSubmit,
-    watch,
-    formState: { errors },
+    formState: {},
   } = useForm();
 
   useEffect(() => {
