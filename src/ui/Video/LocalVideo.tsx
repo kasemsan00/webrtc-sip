@@ -2,18 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useStore } from "@/store/useStore";
-import {
-  BsFillCameraVideoFill,
-  BsFillCameraVideoOffFill,
-  BsFillMicFill,
-  BsFillMicMuteFill,
-} from "react-icons/bs";
+import { BsFillCameraVideoFill, BsFillCameraVideoOffFill, BsFillMicFill, BsFillMicMuteFill } from "react-icons/bs";
 import { motion } from "framer-motion";
 
 export default function LocalVideo() {
-  const { mediaStreamLocal, session, setLocalMediaStream } = useStore(
-    (state) => state
-  );
+  const { mediaStreamLocal, session, setLocalMediaStream } = useStore((state) => state);
   const [isMuted, setIsMuted] = useState({ video: true, audio: true });
 
   useEffect(() => {
@@ -29,7 +22,6 @@ export default function LocalVideo() {
   useEffect(() => {
     async function getLocalMedia() {
       if (mediaStreamLocal !== null) return;
-      console.log("GetUserMedia Local");
       const stream = await navigator.mediaDevices.getUserMedia({
         video: true,
         audio: true,
@@ -98,17 +90,15 @@ export default function LocalVideo() {
           whileTap={{ scale: 0.8 }}
           onClick={handleClickMicMuted}
         >
-          {isMuted.audio ? (
-            <BsFillMicFill className="w-5 h-5" />
-          ) : (
-            <BsFillMicMuteFill className="w-5 h-5 text-red-700" />
-          )}
+          {isMuted.audio ? <BsFillMicFill className="w-5 h-5" /> : <BsFillMicMuteFill className="w-5 h-5 text-red-700" />}
         </motion.div>
       </div>
       <video
         ref={(video) => {
-          if (video && video.srcObject === null) {
-            video.srcObject = mediaStreamLocal;
+          if (video) {
+            if (mediaStreamLocal !== undefined) {
+              video.srcObject = mediaStreamLocal;
+            }
           }
         }}
         className="bg-black rounded-md h-40"

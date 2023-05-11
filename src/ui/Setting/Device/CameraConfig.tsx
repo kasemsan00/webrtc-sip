@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { IDevice } from "@/ui/Setting/Device/Device";
@@ -9,7 +9,15 @@ interface Props {
 }
 
 export default function CameraConfig({ devices }: Props) {
-  const { mediaStreamLocal } = useStore((state) => state);
+  const videoPreviewRef = useRef<HTMLVideoElement>(null);
+  const { mediaStreamLocal, setLocalMediaStream } = useStore((state) => state);
+
+  useEffect(() => {
+    if (mediaStreamLocal !== undefined) {
+      videoPreviewRef.current!.srcObject = mediaStreamLocal;
+    }
+  }, [mediaStreamLocal]);
+
   const [selected, setSelected] = useState<IDevice>({
     label: "",
     deviceId: "",
@@ -18,28 +26,40 @@ export default function CameraConfig({ devices }: Props) {
   });
 
   useEffect(() => {
-    if (devices.length > 0 && mediaStreamLocal !== null) {
+    if (devices.length > 0 && mediaStreamLocal !== null && selected.deviceId === "") {
       const used_devices = mediaStreamLocal.getTracks().map((track: MediaStreamTrack) => track.getSettings().deviceId);
       const index = devices.findIndex((state) => state.deviceId === used_devices[1]);
       const device = devices[index];
       setSelected(device);
     }
-  }, [devices, mediaStreamLocal]);
+  }, [devices, mediaStreamLocal, selected.deviceId]);
 
   const handleChange = (event: string) => {
     const index = devices.findIndex((state) => state.deviceId === event);
     const device = devices[index];
     setSelected(device);
+    getNewCamera({ device }).then((r) => r);
   };
 
-  const getNewCamera = async () => {
-    await navigator.mediaDevices.getUserMedia({
-      video: true,
+  const getNewCamera = async ({ device }: { device: IDevice }) => {
+    mediaStreamLocal.getTracks().forEach((track: MediaStreamTrack) => {
+      track.stop();
     });
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: {
+        deviceId: device.deviceId,
+      },
+      audio: false,
+    });
+    videoPreviewRef.current!.srcObject = stream;
+    setLocalMediaStream(stream);
   };
 
   return (
     <div className="w-full">
+      <div className="flex flex-1 justify-center items-center h-60 bg-black rounded-md">
+        <video className="h-full" ref={videoPreviewRef} playsInline autoPlay></video>
+      </div>
       <span className="label-text">Camera</span>
       <Listbox value={selected.label} onChange={handleChange}>
         <div className="relative mt-1">
