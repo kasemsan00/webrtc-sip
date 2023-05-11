@@ -4,7 +4,9 @@ import { RTCSession } from "jssip/lib/RTCSession";
 import { useStore } from "@/store/useStore";
 
 export default function UserAgentHandler() {
-  const { profileSelect, setRemoteMediaStream, setSession, setUserAgentData, setUserAgentStatus } = useStore((state) => state);
+  const { profileSelect, setRemoteMediaStream, setSession, setUserAgentData, setUserAgentStatus, setIsRegistered } = useStore(
+    (state) => state
+  );
   const [userAgent, setUA] = useState<JsSIP.UA>();
   const [status, setStatus] = useState<string | undefined>();
 
@@ -62,21 +64,25 @@ export default function UserAgentHandler() {
     userAgent.on("registered", (event) => {
       console.log("registered");
       setStatus("Registered");
+      setIsRegistered(true);
       console.log(event);
     });
     userAgent.on("unregistered", (event) => {
       console.log("UnRegistered");
       setStatus("Unregistered");
+      setIsRegistered(false);
       console.log(event);
     });
     userAgent.on("registrationFailed", (event) => {
       console.log("RegistrationFailed");
       setStatus("registrationFailed");
+      setIsRegistered(false);
       console.log(event);
     });
     userAgent.on("disconnected", (event) => {
       console.log("Disconnected");
       setStatus("disconnected");
+      setIsRegistered(false);
       console.log(event);
     });
     userAgent.on("newRTCSession", (ev1: any) => {

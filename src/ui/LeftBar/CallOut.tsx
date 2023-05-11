@@ -3,7 +3,9 @@ import { useState } from "react";
 import { useStore } from "@/store/useStore";
 
 export default function CallOut() {
-  const { session, mediaStreamLocal, userAgentData, setUserAgentStatus, setRemoteMediaStream } = useStore((state) => state);
+  const { isRegistered, session, mediaStreamLocal, userAgentData, setUserAgentStatus, setRemoteMediaStream } = useStore(
+    (state) => state
+  );
 
   const { turn } = useStore((state) => state);
   const { domain } = useStore((state) => state.profileSelect);
@@ -86,10 +88,10 @@ export default function CallOut() {
           }}
         />
       </div>
-      <button className="btn btn-success" onClick={HandleCallOut}>
+      <button className="btn btn-success" onClick={HandleCallOut} disabled={!isRegistered}>
         Call
       </button>
-      <button className="btn btn-warning" onClick={HandleHangUp}>
+      <button className="btn btn-warning" onClick={HandleHangUp} disabled={!isRegistered}>
         HangUp
       </button>
     </>
