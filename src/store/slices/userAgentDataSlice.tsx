@@ -4,9 +4,10 @@ interface IUserAgentSlice {
   isRegistered: boolean;
   userAgentData: any;
   setUserAgentData: (arg0: any) => void;
+  setIsRegistered: (arg0: boolean) => void;
 }
 
-const userAgentDataSlice: StateCreator<IUserAgentSlice> = (set, get) => ({
+const userAgentDataSlice: StateCreator<IUserAgentSlice> = (set) => ({
   isRegistered: false,
   userAgentData: undefined,
   setUserAgentData(data: any) {
