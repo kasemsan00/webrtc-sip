@@ -15,6 +15,7 @@ import Setting from "@/ui/Setting/Setting";
 import RemoteVideo from "@/ui/Video/RemoteVideo";
 import Box from "@/ui/Chat/Box";
 import IceServersStatus from "@/ui/LeftBar/IceServersStatus";
+import DialPad from "@/ui/Dialpad/DialPad";
 
 export default function Home() {
   const { setProfile, setIceServer, setTurnEnable } = useStore((state) => state);
@@ -61,6 +62,7 @@ export default function Home() {
   }, []);
   return (
     <main className="flex flex-row h-screen bg-gray-100">
+      <DialPad />
       <Sidebar>
         <div className="flex flex-col gap-2 w-full">
           <LocalVideo />
