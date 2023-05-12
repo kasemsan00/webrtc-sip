@@ -39,7 +39,6 @@ export default function UserAgentHandler() {
         sockets: [socket],
         uri: "sip:" + profileSelect.extension + "@" + profileSelect.domain,
         password: profileSelect.secret,
-        traceSip: true,
       };
       setUA(new JsSIP.UA(configuration));
     } catch (e) {
