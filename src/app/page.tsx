@@ -61,7 +61,7 @@ export default function Home() {
     };
   }, []);
   return (
-    <main className="flex flex-row h-screen bg-gray-100">
+    <main className="flex flex-row h-screen bg-white">
       <DialPad />
       <Sidebar>
         <div className="flex flex-col gap-2 w-full">

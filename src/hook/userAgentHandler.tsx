@@ -17,22 +17,6 @@ export default function UserAgentHandler() {
   }, [setUserAgentStatus, status]);
 
   useEffect(() => {
-    // if (
-    //   profileSelect.websocket === null ||
-    //   profileSelect.extension === null ||
-    //   profileSelect.domain === null ||
-    //   profileSelect.secret === null
-    // ) {
-    //   return;
-    // }
-    // if (
-    //   profileSelect.websocket === "" ||
-    //   profileSelect.extension === "" ||
-    //   profileSelect.domain === "" ||
-    //   profileSelect.secret === ""
-    // ) {
-    //   return;
-    // }
     try {
       const socket = new JsSIP.WebSocketInterface(profileSelect.websocket);
       const configuration = {
@@ -44,17 +28,16 @@ export default function UserAgentHandler() {
     } catch (e) {
       // console.log(e);
     }
-  }, [profileSelect]);
+  }, [profileSelect.domain, profileSelect.extension, profileSelect.secret, profileSelect.websocket]);
 
   const handleRegister = () => {
     console.log("Register", profileSelect.extension);
-    console.log(userAgent);
-    console.log(status);
+    if (status === "registered") userAgent?.unregister();
     if (userAgent === undefined) return;
-    if (status === "registered") userAgent.unregister();
-    userAgent.start();
-    userAgent.register();
 
+    console.log("init");
+    userAgent?.start();
+    userAgent?.register();
     userAgent.on("connecting", (event) => {
       setStatus("Connecting");
       console.log("connecting");
@@ -74,73 +57,40 @@ export default function UserAgentHandler() {
     });
     userAgent.on("registrationFailed", (event) => {
       console.log("RegistrationFailed");
-      setStatus("registrationFailed");
+      setStatus("RegistrationFailed");
       setIsRegistered(false);
+      userAgent.stop();
       console.log(event);
     });
     userAgent.on("disconnected", (event) => {
       console.log("Disconnected");
-      setStatus("disconnected");
+      setStatus("Disconnected");
       setIsRegistered(false);
+      userAgent.stop();
       console.log(event);
     });
     userAgent.on("newRTCSession", (ev1: any) => {
-      const callID = ev1.request.call_id;
-      // console.log(" *** newRTCSession", ev1.originator, ev1.request.method, ev1);
       let newSession: RTCSession = ev1.session;
 
       newSession.connection.addEventListener("addstream", (event: any) => {
         const { stream } = event;
+        console.log("setRemoteMediaStream", stream);
         setRemoteMediaStream(stream);
       });
-      newSession.on("ended", () => {
-        console.log("ended", callID);
-        // setRemoteStream((remoteStream) => remoteStream.filter((data) => data.callID !== callID));
-        // setSessionData((sessionData) => sessionData.filter((data) => data.callID !== callID));
-      });
-      newSession.on("confirmed", function () {
-        console.log("add localVideo");
-        // callOutRef.current.classList.replace("fixed", "hidden");
-      });
-      newSession.on("muted", function (event) {
-        if (event.video) {
-          // setLocalVideoStatus((prevState) => ({ ...prevState, video: true }));
-        }
-        if (event.audio) {
-          // setLocalVideoStatus((prevState) => ({ ...prevState, audio: true }));
-        }
-      });
-      newSession.on("unmuted", (event) => {
-        if (event.video) {
-          // setLocalVideoStatus((prevState) => ({ ...prevState, video: false }));
-        }
-        if (event.audio) {
-          // setLocalVideoStatus((prevState) => ({ ...prevState, audio: false }));
-        }
-      });
-      // newSession.on("addstream", (event) => {});
+      newSession.on("ended", () => {});
+      newSession.on("confirmed", function () {});
+      newSession.on("muted", function (event) {});
+      newSession.on("unmuted", (event) => {});
       newSession.on("sdp", () => {});
-      newSession.on("peerconnection", function () {
-        // console.log(ev2);
-        // ev2.peerconnection.onaddstream = function (event) {
-        //   console.log(event.stream);
-        // };
-        // ev2.peerconnection.addEventListener("onaddstream", (event) => {
-        //   // console.log(event.stream)
-        // })
-        // ev2.peerconnection.onremovestream = function (ev3) {
-        //   console.log("setRemoteStream");
-        //   setRemoteStream((remoteStream) => remoteStream.filter((data) => data.callID !== callID));
-        //   setSessionData((sessionData) => sessionData.filter((data) => data.callID !== callID));
-        // };
-      });
+      newSession.on("peerconnection", function () {});
       setSession(newSession);
     });
     setUserAgentData(userAgent);
+    console.log("setUserAgent Data");
   };
   const handleUnRegister = () => {
     if (userAgent !== undefined) userAgent.unregister();
   };
 
-  return [status, handleRegister, handleUnRegister];
+  return [status, handleRegister, handleUnRegister, userAgent] as const;
 }

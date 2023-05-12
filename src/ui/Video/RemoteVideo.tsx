@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { useStore } from "@/store/useStore";
+import { MdCallEnd } from "react-icons/md";
 const variants = {
   hidden: {
     opacity: 0,
@@ -40,19 +41,19 @@ export default function RemoteVideo() {
   }, [mediaStreamRemote]);
 
   return (
-    <motion.div
-      variants={variants}
-      initial="hidden"
-      animate={variant}
-      transition={{ duration: 0.2 }}
-    >
-      <video
-        style={{ display: mediaStreamRemote !== undefined ? "block" : "none" }}
-        ref={remoteVideoRef}
-        className="w-full h-full rounded-md bg-black"
-        autoPlay
-        playsInline
-      ></video>
-    </motion.div>
+    <>
+      <motion.div variants={variants} initial="hidden" animate={variant} transition={{ duration: 0.2 }}>
+        {/*<div className="absolute flex justify-center items-center rounded-xl">*/}
+        {/*  <MdCallEnd className="bg-red-500 w-20 h-20 p-2" />*/}
+        {/*</div>*/}
+        <video
+          style={{ display: mediaStreamRemote !== undefined ? "block" : "none" }}
+          ref={remoteVideoRef}
+          className="w-full h-full rounded-md bg-black"
+          autoPlay
+          playsInline
+        ></video>
+      </motion.div>
+    </>
   );
 }

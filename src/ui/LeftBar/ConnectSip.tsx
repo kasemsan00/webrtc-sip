@@ -5,7 +5,7 @@ interface Props {
 }
 
 export default function ConnectSip({ status, handleRegister, handleUnRegister }: Props) {
-  const UserRegister = () => {
+  const UserRegister = async () => {
     handleRegister();
   };
   const UserUnregister = () => {
