@@ -1,27 +1,71 @@
-"use client";
-
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Delete from "@/ui/Dialpad/Delete";
 import Number from "@/ui/Dialpad/Number";
 import Call from "@/ui/Dialpad/Call";
-import UserAgentHandler from "@/hook/userAgentHandler";
 import { useStore } from "@/store/useStore";
 import { isMobile } from "react-device-detect";
+import { initUserAgent, eventUserAgent } from "@/lib/userAgentHandler";
 
-export default function DialPad() {
+interface Props {
+  isVisible: boolean;
+  setIsVisible: (arg0: boolean) => void;
+}
+
+export default function DialPad({ isVisible, setIsVisible }: Props) {
   const dialPadRef = useRef<HTMLDivElement>(null);
-  const { userAgentData, userAgentStatus, mediaStreamLocal, iceServers, setUserAgentStatus } = useStore((state) => state);
-  const { domain } = useStore((state) => state.profileSelect);
-  const [status, handleRegister, handleUnRegister, userAgent] = UserAgentHandler();
+  const {
+    userAgentData,
+    mediaStreamLocal,
+    iceServers,
+    profileSelect,
+    setUserAgentData,
+    setUserAgentStatus,
+    setIsRegistered,
+    setRemoteMediaStream,
+    setSession,
+  } = useStore((state) => state);
+  const { id, extension, secret, domain, websocket } = profileSelect;
   const [destination, setDestination] = useState<string>("");
-  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    if (userAgent !== undefined && isMobile) {
-      handleRegister();
-    }
-  }, [userAgent]);
+    if (!isMobile) return;
+    if (profileSelect.id === undefined) return;
+    (async () => {
+      const userAgent = await initUserAgent({
+        extension,
+        secret,
+        domain,
+        websocket,
+      });
+      userAgent.start();
+      userAgent.register();
+      eventUserAgent(
+        userAgent,
+        (status) => setUserAgentStatus(status),
+        (isRegister) => setIsRegistered(isRegister),
+        (remoteStream) => setRemoteMediaStream(remoteStream),
+        (session) => setSession(session)
+      );
+      setUserAgentData(userAgent);
+    })();
+  }, [
+    domain,
+    extension,
+    id,
+    secret,
+    websocket,
+    setIsRegistered,
+    setRemoteMediaStream,
+    setSession,
+    setUserAgentData,
+    setUserAgentStatus,
+    profileSelect.id,
+    profileSelect.extension,
+    profileSelect.secret,
+    profileSelect.domain,
+    profileSelect.websocket,
+  ]);
 
   const handleClickNumber = (number: string) => {
     if (destination.length >= 10) return;
@@ -43,23 +87,16 @@ export default function DialPad() {
       },
       sessionTimersExpires: 9999,
     };
-    console.log(options);
-    userAgentData.call("sip:" + destination + "@" + domain, options);
+    userAgentData.call("sip:" + destination + "@" + profileSelect.domain, options);
     setIsVisible(false);
   };
-
-  useLayoutEffect(() => {
-    if (!isMobile) {
-      dialPadRef.current?.classList.add("hidden");
-    }
-  }, []);
 
   return (
     <AnimatePresence>
       {isVisible && (
         <motion.div
           ref={dialPadRef}
-          initial={{ opacity: 0, scale: 0.8 }}
+          initial={{ opacity: 0, scale: 1 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.2 }}
           exit={{ opacity: 0, scale: 0.8 }}
@@ -97,7 +134,11 @@ export default function DialPad() {
           <div className="flex flex-row gap-4 justify-center items-center">
             <div className="w-20"></div>
             <Call handleClick={handleCall} />
-            {destination !== "" ? <Delete handleClick={handleDelete} /> : <div className="w-20"></div>}
+            {destination !== "" ? (
+              <Delete handleClick={handleDelete} />
+            ) : (
+              <div className="w-20"></div>
+            )}
           </div>
         </motion.div>
       )}

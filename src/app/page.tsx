@@ -4,8 +4,7 @@ import Sidebar from "@/ui/Layout/Sidebar";
 import MainView from "@/ui/Layout/MainView";
 import LocalVideo from "@/ui/Video/LocalVideo";
 import { useStore } from "@/store/useStore";
-import UserAgentHandler from "@/hook/userAgentHandler";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { getExtension, getSetting, getTurn } from "@/request/request";
 import CallOut from "@/ui/LeftBar/CallOut";
 import StatusConnection from "@/ui/LeftBar/StatusConnection";
@@ -16,11 +15,12 @@ import RemoteVideo from "@/ui/Video/RemoteVideo";
 import Box from "@/ui/Chat/Box";
 import IceServersStatus from "@/ui/LeftBar/IceServersStatus";
 import DialPad from "@/ui/Dialpad/DialPad";
+import { isMobile } from "react-device-detect";
 
 export default function Home() {
-  const { setProfile, setIceServer, setTurnEnable } = useStore((state) => state);
-  const [status, handleRegister, handleUnRegister] = UserAgentHandler();
+  const { userAgentStatus, setProfile, setIceServer, setTurnEnable } = useStore((state) => state);
   const [isSettingOpen, setIsSettingOpen] = useState(false);
+  const [isDisplayDialPad, setIsDisplayDialPad] = useState(false);
 
   useEffect(() => {
     const getSettingData = async () => {
@@ -60,21 +60,41 @@ export default function Home() {
       document.removeEventListener("keydown", handleEscapeKey);
     };
   }, []);
+
+  useLayoutEffect(() => {
+    if (!isMobile) return;
+    if (userAgentStatus === "Terminate") {
+      setIsDisplayDialPad(true);
+    }
+    if (userAgentStatus === "Registered") {
+      setIsDisplayDialPad(true);
+    }
+  }, [setIsDisplayDialPad, userAgentStatus]);
+  // useLayoutEffect(() => {
+  //   console.log(userAgentStatus);
+  //   if (userAgentStatus === "Terminated") {
+  //     setIsDisplayDialPad(true);
+  //   }
+  // }, [userAgentStatus]);
+
   return (
     <main className="flex flex-row h-screen bg-white">
-      <DialPad />
+      <DialPad isVisible={isDisplayDialPad} setIsVisible={setIsDisplayDialPad} />
       <Sidebar>
         <div className="flex flex-col gap-2 w-full">
           <LocalVideo />
           <ProfileList />
-          <ConnectSip status={status} handleRegister={handleRegister} handleUnRegister={handleUnRegister} />
+          <ConnectSip />
           <StatusConnection />
           <CallOut />
           <Box />
           <IceServersStatus />
         </div>
         <div className="flex flex-col gap-2 w-full">
-          <button className="btn btn-ghost focus:outline-none" onClick={() => setIsSettingOpen(true)}>
+          <button
+            className="btn btn-ghost focus:outline-none"
+            onClick={() => setIsSettingOpen(true)}
+          >
             Setting
           </button>
         </div>

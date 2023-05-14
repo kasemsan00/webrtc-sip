@@ -18,7 +18,9 @@ const variants = {
 };
 export default function RemoteVideo() {
   const remoteVideoRef = useRef<HTMLVideoElement>(null);
-  const { userAgentStatus, mediaStreamRemote } = useStore((state) => state);
+  const { session, userAgentStatus, mediaStreamRemote, setRemoteMediaStream } = useStore(
+    (state) => state
+  );
   const [variant, setVariant] = useState("hidden");
 
   useEffect(() => {
@@ -40,12 +42,27 @@ export default function RemoteVideo() {
     }
   }, [mediaStreamRemote]);
 
+  const handleEndCall = () => {
+    session.terminate();
+    setRemoteMediaStream(null);
+    setVariant("hidden");
+  };
+
   return (
     <>
-      <motion.div variants={variants} initial="hidden" animate={variant} transition={{ duration: 0.2 }}>
-        {/*<div className="absolute flex justify-center items-center rounded-xl">*/}
-        {/*  <MdCallEnd className="bg-red-500 w-20 h-20 p-2" />*/}
-        {/*</div>*/}
+      <motion.div
+        className="relative w-full h-full"
+        variants={variants}
+        initial="hidden"
+        animate={variant}
+        transition={{ duration: 0.2 }}
+      >
+        <div className="absolute flex w-full justify-center items-center bottom-10 bg-transparent rounded-xl">
+          <MdCallEnd
+            className="z-40 bg-red-500 w-20 h-20 p-2 rounded-md cursor-pointer"
+            onClick={handleEndCall}
+          />
+        </div>
         <video
           style={{ display: mediaStreamRemote !== undefined ? "block" : "none" }}
           ref={remoteVideoRef}

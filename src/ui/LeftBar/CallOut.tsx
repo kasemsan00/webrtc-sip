@@ -3,9 +3,14 @@ import { useState } from "react";
 import { useStore } from "@/store/useStore";
 
 export default function CallOut() {
-  const { isRegistered, session, mediaStreamLocal, userAgentData, setUserAgentStatus, setRemoteMediaStream } = useStore(
-    (state) => state
-  );
+  const {
+    isRegistered,
+    session,
+    mediaStreamLocal,
+    userAgentData,
+    setUserAgentStatus,
+    setRemoteMediaStream,
+  } = useStore((state) => state);
 
   const { turn } = useStore((state) => state);
   const { domain } = useStore((state) => state.profileSelect);
