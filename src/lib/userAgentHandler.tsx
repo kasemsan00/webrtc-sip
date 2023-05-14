@@ -64,9 +64,9 @@ export const eventUserAgent = (
       handleRemoteStream(stream);
     });
     newSession.on("ended", () => {});
-    newSession.on("confirmed", function () {});
-    newSession.on("muted", function (event) {});
-    newSession.on("unmuted", (event) => {});
+    newSession.on("confirmed", () => {});
+    newSession.on("muted", () => {});
+    newSession.on("unmuted", () => {});
     newSession.on("sdp", () => {});
     newSession.on("peerconnection", function () {});
     handleSession(newSession);
