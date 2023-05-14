@@ -65,40 +65,35 @@ export default function Home() {
     if (!isMobile) return;
     if (userAgentStatus === "Terminate") {
       setIsDisplayDialPad(true);
-    }
-    if (userAgentStatus === "Registered") {
-      setIsDisplayDialPad(true);
+      return;
     }
   }, [setIsDisplayDialPad, userAgentStatus]);
-  // useLayoutEffect(() => {
-  //   console.log(userAgentStatus);
-  //   if (userAgentStatus === "Terminated") {
-  //     setIsDisplayDialPad(true);
-  //   }
-  // }, [userAgentStatus]);
 
   return (
     <main className="flex flex-row h-screen bg-white">
-      <DialPad isVisible={isDisplayDialPad} setIsVisible={setIsDisplayDialPad} />
-      <Sidebar>
-        <div className="flex flex-col gap-2 w-full">
-          <LocalVideo />
-          <ProfileList />
-          <ConnectSip />
-          <StatusConnection />
-          <CallOut />
-          <Box />
-          <IceServersStatus />
-        </div>
-        <div className="flex flex-col gap-2 w-full">
-          <button
-            className="btn btn-ghost focus:outline-none"
-            onClick={() => setIsSettingOpen(true)}
-          >
-            Setting
-          </button>
-        </div>
-      </Sidebar>
+      {!isDisplayDialPad ? (
+        <Sidebar>
+          <div className="flex flex-col gap-2 w-full">
+            <LocalVideo />
+            <ProfileList />
+            <ConnectSip />
+            <StatusConnection />
+            <CallOut />
+            <Box />
+            <IceServersStatus />
+          </div>
+          <div className="flex flex-col gap-2 w-full">
+            <button
+              className="btn btn-ghost focus:outline-none"
+              onClick={() => setIsSettingOpen(true)}
+            >
+              Setting
+            </button>
+          </div>
+        </Sidebar>
+      ) : (
+        <DialPad isVisible={true} setIsVisible={setIsDisplayDialPad} />
+      )}
       <MainView>
         <RemoteVideo />
       </MainView>

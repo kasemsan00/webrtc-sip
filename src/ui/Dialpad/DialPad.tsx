@@ -29,8 +29,9 @@ export default function DialPad({ isVisible, setIsVisible }: Props) {
   const [destination, setDestination] = useState<string>("");
 
   useEffect(() => {
+    console.log(profileSelect);
     if (!isMobile) return;
-    if (profileSelect.id === undefined) return;
+    if (id === undefined) return;
     (async () => {
       const userAgent = await initUserAgent({
         extension,
@@ -60,11 +61,7 @@ export default function DialPad({ isVisible, setIsVisible }: Props) {
     setSession,
     setUserAgentData,
     setUserAgentStatus,
-    profileSelect.id,
-    profileSelect.extension,
-    profileSelect.secret,
-    profileSelect.domain,
-    profileSelect.websocket,
+    profileSelect,
   ]);
 
   const handleClickNumber = (number: string) => {
@@ -96,7 +93,6 @@ export default function DialPad({ isVisible, setIsVisible }: Props) {
       {isVisible && (
         <motion.div
           ref={dialPadRef}
-          initial={{ opacity: 0, scale: 1 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.2 }}
           exit={{ opacity: 0, scale: 0.8 }}
