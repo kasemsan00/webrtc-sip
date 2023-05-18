@@ -1,10 +1,10 @@
 "use client";
 
-import Sidebar from "@/ui/Layout/Sidebar";
-import MainView from "@/ui/Layout/MainView";
+import SidebarLayout from "@/ui/Layout/SidebarLayout";
+import RemoteLayout from "@/ui/Layout/RemoteLayout";
 import LocalVideo from "@/ui/Video/LocalVideo";
 import { useStore } from "@/store/useStore";
-import { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { getExtension, getSetting, getTurn } from "@/request/request";
 import CallOut from "@/ui/LeftBar/CallOut";
 import StatusConnection from "@/ui/LeftBar/StatusConnection";
@@ -16,11 +16,25 @@ import Box from "@/ui/Chat/Box";
 import IceServersStatus from "@/ui/LeftBar/IceServersStatus";
 import DialPad from "@/ui/Dialpad/DialPad";
 import { isMobile } from "react-device-detect";
+import SettingLayout from "@/ui/Layout/SettingLayout";
+import SettingButton from "@/ui/Setting/SettingButton";
+import dynamic from "next/dynamic";
+const MainLayout = dynamic(() => import("@/ui/Layout/MainLayout"), { ssr: false });
 
 export default function Home() {
   const { userAgentStatus, setProfile, setIceServer, setTurnEnable } = useStore((state) => state);
   const [isSettingOpen, setIsSettingOpen] = useState(false);
   const [isDisplayDialPad, setIsDisplayDialPad] = useState(false);
+  const demo = useState<boolean>(isMobile);
+
+  useEffect(() => {
+    if (demo === undefined) return;
+    if (demo) {
+      console.log("isMobile");
+    } else {
+      console.log("isDesktop");
+    }
+  }, [demo]);
 
   useEffect(() => {
     const getSettingData = async () => {
@@ -33,12 +47,8 @@ export default function Home() {
     };
     const getTurnData = async () => {
       const resp = await getTurn();
-      const iceServers = {
-        id: resp[0].id,
-        url: resp[0].url,
-        username: resp[0].username,
-        credential: resp[0].credential,
-      };
+      const { id, url, username, credential } = resp[0];
+      const iceServers = { id, url, username, credential };
       setIceServer(iceServers);
     };
     getSettingData().then((r) => r);
@@ -61,43 +71,41 @@ export default function Home() {
     };
   }, []);
 
-  useLayoutEffect(() => {
-    if (!isMobile) return;
-    if (userAgentStatus === "Terminate") {
-      setIsDisplayDialPad(true);
-      return;
-    }
-  }, [setIsDisplayDialPad, userAgentStatus]);
+  // useEffect(() => {
+  //   if (!isMobile) return;
+  //   if (userAgentStatus === "Terminate") {
+  //     setIsDisplayDialPad(true);
+  //     return;
+  //   }
+  // }, [setIsDisplayDialPad, userAgentStatus]);
 
   return (
     <main className="flex flex-row h-screen bg-white">
-      {!isDisplayDialPad ? (
-        <Sidebar>
-          <div className="flex flex-col gap-2 w-full">
-            <LocalVideo />
-            <ProfileList />
-            <ConnectSip />
-            <StatusConnection />
-            <CallOut />
-            <Box />
-            <IceServersStatus />
-          </div>
-          <div className="flex flex-col gap-2 w-full">
-            <button
-              className="btn btn-ghost focus:outline-none"
-              onClick={() => setIsSettingOpen(true)}
-            >
-              Setting
-            </button>
-          </div>
-        </Sidebar>
-      ) : (
-        <DialPad isVisible={true} setIsVisible={setIsDisplayDialPad} />
-      )}
-      <MainView>
-        <RemoteVideo />
-      </MainView>
-      <Setting open={isSettingOpen} setOpen={setIsSettingOpen} />
+      <MainLayout>
+        {demo ? (
+          <SidebarLayout>
+            <div className="flex flex-col gap-2 w-full">
+              <LocalVideo />
+              <ProfileList />
+              <ConnectSip />
+              <StatusConnection />
+              <CallOut />
+              <Box />
+              <IceServersStatus />
+            </div>
+            <SettingLayout>
+              <SettingButton handleClick={setIsSettingOpen} />
+            </SettingLayout>
+          </SidebarLayout>
+        ) : (
+          <DialPad isVisible={true} setIsVisible={setIsDisplayDialPad} />
+        )}
+
+        <RemoteLayout>
+          <RemoteVideo />
+        </RemoteLayout>
+        <Setting open={isSettingOpen} setOpen={setIsSettingOpen} />
+      </MainLayout>
     </main>
   );
 }

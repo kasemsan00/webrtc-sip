@@ -5,8 +5,8 @@ import SipAccountListModal from "@/ui/Setting/SipAccountListModal";
 // import CameraConfig from "@/ui/Setting/CameraConfig";
 import { AiFillCloseCircle } from "react-icons/ai";
 import PcConfig from "@/ui/Setting/PcConfig/PcConfig";
-import CameraConfig from "@/ui/Setting/Device/CameraConfig";
-import MicrophoneConfig from "@/ui/Setting/Device/MicrophoneConfig";
+// import CameraConfig from "@/ui/Setting/Device/CameraConfig";
+// import MicrophoneConfig from "@/ui/Setting/Device/MicrophoneConfig";
 import Device from "@/ui/Setting/Device/Device";
 
 function classNames(...classes: string[]) {
@@ -22,7 +22,9 @@ export default function Setting({ open, setOpen }: Props) {
   let [isOpen, setIsOpen] = useState(false);
   const [isSipConfigOpen, setIsSipConfigOpen] = useState(false);
   const [configAction, setConfigAction] = useState<string | undefined>();
-  const [selectSipAccountConfigIndex, setSelectSipAccountConfigIndex] = useState<undefined | number>();
+  const [selectSipAccountConfigIndex, setSelectSipAccountConfigIndex] = useState<
+    undefined | number
+  >();
 
   useEffect(() => {
     setIsOpen(open);
@@ -51,7 +53,11 @@ export default function Setting({ open, setOpen }: Props) {
         configIndex={selectSipAccountConfigIndex}
       />
       <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="fixed inset-0 z-10 overflow-y-auto pl-[200px]" onClose={() => null}>
+        <Dialog
+          as="div"
+          className="fixed inset-0 z-10 overflow-y-auto pl-[200px]"
+          onClose={() => null}
+        >
           <div className="min-h-screen px-4 text-center">
             <Transition.Child
               as={Fragment}
@@ -79,7 +85,10 @@ export default function Setting({ open, setOpen }: Props) {
               <div className="inline-block w-full max-w-xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                 <div className="flex justify-between items-center mb-2">
                   <h2 className="text-xl">Setting</h2>
-                  <AiFillCloseCircle className="w-8 h-8 text-red-700 cursor-pointer" onClick={closeModal} />
+                  <AiFillCloseCircle
+                    className="w-8 h-8 text-red-700 cursor-pointer"
+                    onClick={closeModal}
+                  />
                 </div>
                 <Tab.Group>
                   <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1">
@@ -90,7 +99,9 @@ export default function Setting({ open, setOpen }: Props) {
                           classNames(
                             "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-blue-700",
                             "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
-                            selected ? "bg-white shadow" : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
+                            selected
+                              ? "bg-white shadow"
+                              : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
                           )
                         }
                       >
