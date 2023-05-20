@@ -4,7 +4,6 @@ import Delete from "@/ui/Dialpad/Delete";
 import Number from "@/ui/Dialpad/Number";
 import Call from "@/ui/Dialpad/Call";
 import { useStore } from "@/store/useStore";
-import { isMobile } from "react-device-detect";
 import { initUserAgent, eventUserAgent } from "@/lib/userAgentHandler";
 
 interface Props {
@@ -29,7 +28,6 @@ export default function DialPad({ isVisible, setIsVisible }: Props) {
   const [destination, setDestination] = useState<string>("");
 
   useEffect(() => {
-    if (!isMobile) return;
     if (id === undefined) return;
     (async () => {
       const userAgent = await initUserAgent({
