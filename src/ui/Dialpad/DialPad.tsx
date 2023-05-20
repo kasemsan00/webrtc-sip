@@ -96,7 +96,9 @@ export default function DialPad({ isVisible, setIsVisible }: Props) {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.2 }}
         exit={{ opacity: 0, scale: 0.8 }}
-        className="fixed top-0 flex flex-1 flex-col justify-center items-center z-[999] bg-white w-full h-screen gap-4"
+        className="fixed top-0 flex flex-1 flex-col justify-center items-center z-[999] bg-white w-full h-screen gap-4
+        md:hidden
+        "
       >
         <div className="mb-4">
           <input

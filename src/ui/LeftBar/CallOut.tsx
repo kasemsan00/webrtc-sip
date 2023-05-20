@@ -1,6 +1,7 @@
 import { MdDialerSip } from "react-icons/md";
 import { useState } from "react";
 import { useStore } from "@/store/useStore";
+import useLocalStorageState from "use-local-storage-state";
 
 export default function CallOut() {
   const {
@@ -14,7 +15,10 @@ export default function CallOut() {
 
   const { turn } = useStore((state) => state);
   const { domain } = useStore((state) => state.profileSelect);
-  const [destination, setDestination] = useState("");
+  // const [destination, setDestination] = useState("");
+  const [destination, setDestination] = useLocalStorageState("", {
+    defaultValue: "",
+  });
 
   const HandleCallOut = () => callOut();
   const HandleHangUp = () => {

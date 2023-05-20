@@ -2,13 +2,30 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useStore } from "@/store/useStore";
-import { BsFillCameraVideoFill, BsFillCameraVideoOffFill, BsFillMicFill, BsFillMicMuteFill } from "react-icons/bs";
+import {
+  BsFillCameraVideoFill,
+  BsFillCameraVideoOffFill,
+  BsFillMicFill,
+  BsFillMicMuteFill,
+} from "react-icons/bs";
 import { motion } from "framer-motion";
+
+const variants = {
+  hidden: {
+    opacity: 0,
+    scale: 0,
+  },
+  shown: {
+    opacity: 1,
+    scale: 1,
+  },
+};
 
 export default function LocalVideo() {
   const localVideoRef = useRef<HTMLVideoElement>(null);
   const { mediaStreamLocal, session, setLocalMediaStream } = useStore((state) => state);
   const [isMuted, setIsMuted] = useState({ video: true, audio: true });
+  const [variant, setVariant] = useState("hidden");
 
   useEffect(() => {
     localVideoRef.current!.srcObject = mediaStreamLocal;
@@ -76,9 +93,23 @@ export default function LocalVideo() {
     setIsMuted((state) => ({ ...state, ["audio"]: audio }));
   };
 
+  const handleMouse = (value: string) => {
+    if (variant === value) return;
+    setVariant(value);
+  };
+
   return (
-    <div className="flex flex-1 items-end justify-start w-full">
-      <div className="absolute flex-row rounded-md cursor-pointer bg-slate-200 z-50 m-1 ">
+    <motion.div
+      className="flex flex-1 items-end justify-start w-full"
+      onMouseOver={() => handleMouse("shown")}
+      onMouseLeave={() => handleMouse("hidden")}
+    >
+      <motion.div
+        className="absolute flex flex-row rounded-md cursor-pointer bg-slate-200 z-50 m-1 "
+        variants={variants}
+        initial="hidden"
+        animate={variant}
+      >
         <motion.div
           className="flex justify-center items-center rounded-xl cursor-pointer m-1 bg-slate-200 z-50 w-6 h-6"
           whileTap={{ scale: 0.8 }}
@@ -95,9 +126,13 @@ export default function LocalVideo() {
           whileTap={{ scale: 0.8 }}
           onClick={handleClickMicMuted}
         >
-          {isMuted.audio ? <BsFillMicFill className="w-5 h-5" /> : <BsFillMicMuteFill className="w-5 h-5 text-red-700" />}
+          {isMuted.audio ? (
+            <BsFillMicFill className="w-5 h-5" />
+          ) : (
+            <BsFillMicMuteFill className="w-5 h-5 text-red-700" />
+          )}
         </motion.div>
-      </div>
+      </motion.div>
       <video
         ref={localVideoRef}
         className="bg-black rounded-md h-40"
@@ -108,6 +143,6 @@ export default function LocalVideo() {
         width="100%"
         height="100%"
       ></video>
-    </div>
+    </motion.div>
   );
 }

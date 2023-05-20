@@ -6,14 +6,20 @@ const variants = {
   hidden: {
     opacity: 0,
     scale: 0,
-    onanimationend: {
-      display: "none",
-    },
   },
   shown: {
     opacity: 1,
     scale: 1,
-    display: "block",
+  },
+};
+const variantsControl = {
+  hidden: {
+    opacity: 0,
+    scale: 0,
+  },
+  shown: {
+    opacity: 1,
+    scale: 1,
   },
 };
 export default function RemoteVideo() {
@@ -22,6 +28,7 @@ export default function RemoteVideo() {
     (state) => state
   );
   const [variant, setVariant] = useState("hidden");
+  const [variantControl, setVariantControl] = useState("hidden");
 
   useEffect(() => {
     if (userAgentStatus === "Calling") {
@@ -48,21 +55,34 @@ export default function RemoteVideo() {
     setVariant("hidden");
   };
 
+  const handleOnMouse = (value: string) => {
+    if (variantControl === value) return;
+    setVariantControl(value);
+  };
+
   return (
     <>
       <motion.div
-        className="relative w-full h-full"
         variants={variants}
         initial="hidden"
         animate={variant}
         transition={{ duration: 0.2 }}
+        className="relative w-full h-full"
+        onMouseOver={() => handleOnMouse("shown")}
+        onMouseLeave={() => handleOnMouse("hidden")}
       >
-        <div className="absolute flex w-full justify-center items-center bottom-10 bg-transparent rounded-xl">
+        <motion.div
+          initial="hidden"
+          variants={variantsControl}
+          animate={variantControl}
+          transition={{ duration: 0.2 }}
+          className="z-40 absolute flex w-full justify-center items-center bottom-10 bg-transparent rounded-xl"
+        >
           <MdCallEnd
-            className="z-40 bg-red-500 w-20 h-20 p-2 rounded-md cursor-pointer"
+            className="bg-red-500 w-20 h-20 p-2 rounded-md cursor-pointer"
             onClick={handleEndCall}
           />
-        </div>
+        </motion.div>
         <video
           style={{ display: mediaStreamRemote !== undefined ? "block" : "none" }}
           ref={remoteVideoRef}
