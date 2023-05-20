@@ -15,7 +15,7 @@ const variants = {
 const variantsControl = {
   hidden: {
     opacity: 0,
-    scale: 0,
+    scale: 1,
   },
   shown: {
     opacity: 1,
@@ -75,7 +75,7 @@ export default function RemoteVideo() {
           initial="hidden"
           variants={variantsControl}
           animate={variantControl}
-          transition={{ duration: 0.2 }}
+          transition={{ duration: 0.1 }}
           className="z-40 absolute flex w-full justify-center items-center bottom-10 bg-transparent rounded-xl"
         >
           <MdCallEnd
