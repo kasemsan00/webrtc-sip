@@ -27,39 +27,39 @@ export default function DialPad({ isVisible, setIsVisible }: Props) {
   const { id, extension, secret, domain, websocket } = profileSelect;
   const [destination, setDestination] = useState<string>("");
 
-  useEffect(() => {
-    if (id === undefined) return;
-    (async () => {
-      const userAgent = await initUserAgent({
-        extension,
-        secret,
-        domain,
-        websocket,
-      });
-      userAgent.start();
-      userAgent.register();
-      eventUserAgent(
-        userAgent,
-        (status) => setUserAgentStatus(status),
-        (isRegister) => setIsRegistered(isRegister),
-        (remoteStream) => setRemoteMediaStream(remoteStream),
-        (session) => setSession(session)
-      );
-      setUserAgentData(userAgent);
-    })();
-  }, [
-    domain,
-    extension,
-    id,
-    secret,
-    websocket,
-    setIsRegistered,
-    setRemoteMediaStream,
-    setSession,
-    setUserAgentData,
-    setUserAgentStatus,
-    profileSelect,
-  ]);
+  // useEffect(() => {
+  //   if (id === undefined) return;
+  //   (async () => {
+  //     const userAgent = await initUserAgent({
+  //       extension,
+  //       secret,
+  //       domain,
+  //       websocket,
+  //     });
+  //     userAgent.start();
+  //     userAgent.register();
+  //     eventUserAgent(
+  //       userAgent,
+  //       (status) => setUserAgentStatus(status),
+  //       (isRegister) => setIsRegistered(isRegister),
+  //       (remoteStream) => setRemoteMediaStream(remoteStream),
+  //       (session) => setSession(session)
+  //     );
+  //     setUserAgentData(userAgent);
+  //   })();
+  // }, [
+  //   domain,
+  //   extension,
+  //   id,
+  //   secret,
+  //   websocket,
+  //   setIsRegistered,
+  //   setRemoteMediaStream,
+  //   setSession,
+  //   setUserAgentData,
+  //   setUserAgentStatus,
+  //   profileSelect,
+  // ]);
 
   const handleClickNumber = (number: string) => {
     if (destination.length >= 10) return;
