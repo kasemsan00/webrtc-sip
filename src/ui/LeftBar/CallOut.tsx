@@ -82,19 +82,21 @@ export default function CallOut() {
 
   return (
     <>
-      <div className="flex items-center justify-around gap-1">
-        <span className="w-[30px]">
-          <MdDialerSip style={{ width: "30px", height: "30px" }} />
-        </span>
-        <input
-          type="text"
-          placeholder="Call Number"
-          className="input w-full focus:outline-none"
-          value={destination}
-          onChange={(event) => {
-            setDestination(event.target.value);
-          }}
-        />
+      <div className="form-control flex items-center justify-around gap-1">
+        <label className="input-group">
+          <span>
+            <MdDialerSip style={{ width: "30px", height: "30px" }} />
+          </span>
+          <input
+            type="text"
+            placeholder="Call Number"
+            className="input w-full focus:outline-none"
+            value={destination}
+            onChange={(event) => {
+              setDestination(event.target.value);
+            }}
+          />
+        </label>
       </div>
       <button className="btn btn-success" onClick={HandleCallOut} disabled={!isRegistered}>
         Call
