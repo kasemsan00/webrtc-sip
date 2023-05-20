@@ -1,11 +1,10 @@
 "use client";
 
-import Sidebar from "@/ui/Layout/Sidebar";
-import MainView from "@/ui/Layout/MainView";
+import SidebarLayout from "@/ui/Layout/SidebarLayout";
+import RemoteLayout from "@/ui/Layout/RemoteLayout";
 import LocalVideo from "@/ui/Video/LocalVideo";
 import { useStore } from "@/store/useStore";
-import UserAgentHandler from "@/hook/userAgentHandler";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getExtension, getSetting, getTurn } from "@/request/request";
 import CallOut from "@/ui/LeftBar/CallOut";
 import StatusConnection from "@/ui/LeftBar/StatusConnection";
@@ -15,10 +14,11 @@ import Setting from "@/ui/Setting/Setting";
 import RemoteVideo from "@/ui/Video/RemoteVideo";
 import Box from "@/ui/Chat/Box";
 import IceServersStatus from "@/ui/LeftBar/IceServersStatus";
+import SettingButton from "@/ui/Setting/SettingButton";
+import DialPad from "@/ui/Dialpad/DialPad";
 
-export default function Home() {
+export default function Page() {
   const { setProfile, setIceServer, setTurnEnable } = useStore((state) => state);
-  const [status, handleRegister, handleUnRegister] = UserAgentHandler();
   const [isSettingOpen, setIsSettingOpen] = useState(false);
 
   useEffect(() => {
@@ -32,12 +32,8 @@ export default function Home() {
     };
     const getTurnData = async () => {
       const resp = await getTurn();
-      const iceServers = {
-        id: resp[0].id,
-        url: resp[0].url,
-        username: resp[0].username,
-        credential: resp[0].credential,
-      };
+      const { id, url, username, credential } = resp[0];
+      const iceServers = { id, url, username, credential };
       setIceServer(iceServers);
     };
     getSettingData().then((r) => r);
@@ -51,35 +47,37 @@ export default function Home() {
   }, [setProfile]);
 
   useEffect(() => {
-    function handleEscapeKey(event: any) {
+    const handleEscapeKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") setIsSettingOpen(false);
-    }
+    };
     document.addEventListener("keydown", handleEscapeKey);
     return () => {
       document.removeEventListener("keydown", handleEscapeKey);
     };
   }, []);
+
+  const [isDialPadOpen, setIsDialPadOpen] = useState(false);
+
   return (
-    <main className="flex flex-row h-screen bg-gray-100">
-      <Sidebar>
+    <main className="flex flex-row h-screen bg-white">
+      <DialPad isVisible={isDialPadOpen} setIsVisible={setIsDialPadOpen} />
+      <SidebarLayout>
         <div className="flex flex-col gap-2 w-full">
           <LocalVideo />
           <ProfileList />
-          <ConnectSip status={status} handleRegister={handleRegister} handleUnRegister={handleUnRegister} />
+          <ConnectSip />
           <StatusConnection />
           <CallOut />
           <Box />
           <IceServersStatus />
         </div>
         <div className="flex flex-col gap-2 w-full">
-          <button className="btn btn-ghost focus:outline-none" onClick={() => setIsSettingOpen(true)}>
-            Setting
-          </button>
+          <SettingButton handleClick={setIsSettingOpen} />
         </div>
-      </Sidebar>
-      <MainView>
+      </SidebarLayout>
+      <RemoteLayout>
         <RemoteVideo />
-      </MainView>
+      </RemoteLayout>
       <Setting open={isSettingOpen} setOpen={setIsSettingOpen} />
     </main>
   );
