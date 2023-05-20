@@ -13,11 +13,11 @@ import { motion } from "framer-motion";
 const variants = {
   hidden: {
     opacity: 0,
-    scale: 0,
+    // scale: 0,
   },
   shown: {
     opacity: 1,
-    scale: 1,
+    // scale: 1,
   },
 };
 
@@ -109,6 +109,7 @@ export default function LocalVideo() {
         variants={variants}
         initial="hidden"
         animate={variant}
+        transition={{ duration: 0.1 }}
       >
         <motion.div
           className="flex justify-center items-center rounded-xl cursor-pointer m-1 bg-slate-200 z-50 w-6 h-6"
