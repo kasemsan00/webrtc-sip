@@ -1,10 +1,8 @@
 import { useStore } from "@/store/useStore";
 import { eventUserAgent, initUserAgent } from "@/lib/userAgentHandler";
-import { useEffect } from "react";
 
 export default function ConnectSip() {
   const {
-    userAgentStatus,
     isRegistered,
     userAgentData,
     profileSelect,

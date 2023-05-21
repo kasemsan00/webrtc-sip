@@ -15,7 +15,8 @@ import RemoteVideo from "@/ui/Video/RemoteVideo";
 import Box from "@/ui/Chat/Box";
 import IceServersStatus from "@/ui/LeftBar/IceServersStatus";
 import SettingButton from "@/ui/Setting/SettingButton";
-import DialPad from "@/ui/Dialpad/DialPad";
+import MobileLayout from "@/ui/Layout/MobileLayout";
+import Config from "@/ui/Mobile/Config/Config";
 
 export default function Page() {
   const { setProfile, setIceServer, setTurnEnable } = useStore((state) => state);
@@ -56,11 +57,11 @@ export default function Page() {
     };
   }, []);
 
-  const [isDialPadOpen, setIsDialPadOpen] = useState(false);
-
   return (
     <main className="flex flex-row h-screen bg-white">
-      <DialPad isVisible={isDialPadOpen} setIsVisible={setIsDialPadOpen} />
+      <MobileLayout>
+        <Config />
+      </MobileLayout>
       <SidebarLayout>
         <div className="flex flex-col gap-2 w-full">
           <LocalVideo />
