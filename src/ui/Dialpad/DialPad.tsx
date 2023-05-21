@@ -1,15 +1,58 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import Delete from "@/ui/Dialpad/Delete";
-import Number from "@/ui/Dialpad/Number";
 import Call from "@/ui/Dialpad/Call";
 import { useStore } from "@/store/useStore";
 import { initUserAgent, eventUserAgent } from "@/lib/userAgentHandler";
+import { MdSettings, MdBackspace } from "react-icons/md";
 
 interface Props {
   isVisible: boolean;
   setIsVisible: (arg0: boolean) => void;
 }
+
+const Number = ({
+  number,
+  handleClick,
+}: {
+  number: string;
+  handleClick: (arg0: string) => void;
+}) => {
+  return (
+    <motion.button
+      onClick={() => handleClick(number)}
+      className="flex justify-center items-center rounded-full w-20 h-20 text-3xl cursor-pointer
+      bg-gray-200
+      active:bg-gray-300
+      "
+      whileTap={{ scale: 0.9 }}
+    >
+      {number}
+    </motion.button>
+  );
+};
+
+const ActionButton = ({
+  children,
+  handleClick,
+}: {
+  children: React.ReactNode;
+  handleClick: () => void;
+}) => {
+  return (
+    <motion.button
+      onClick={handleClick}
+      className="flex justify-center items-center rounded-full w-20 h-20 text-3xl cursor-pointer "
+      initial={{ opacity: 0, scale: 0.5 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.1 }}
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.9 }}
+      exit={{ opacity: 0 }}
+    >
+      {children}
+    </motion.button>
+  );
+};
 
 export default function DialPad({ isVisible, setIsVisible }: Props) {
   const dialPadRef = useRef<HTMLDivElement>(null);
@@ -126,10 +169,14 @@ export default function DialPad({ isVisible, setIsVisible }: Props) {
           <Number number={"#"} handleClick={handleClickNumber} />
         </div>
         <div className="flex flex-row gap-4 justify-center items-center">
-          <div className="w-20"></div>
+          <ActionButton handleClick={handleDelete}>
+            <MdSettings className="text-gray-400" />
+          </ActionButton>
           <Call handleClick={handleCall} />
           {destination !== "" ? (
-            <Delete handleClick={handleDelete} />
+            <ActionButton handleClick={handleDelete}>
+              <MdBackspace className="text-gray-400" />
+            </ActionButton>
           ) : (
             <div className="w-20"></div>
           )}
