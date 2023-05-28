@@ -17,9 +17,10 @@ import IceServersStatus from "@/ui/LeftBar/IceServersStatus";
 import SettingButton from "@/ui/Setting/SettingButton";
 import MobileLayout from "@/ui/Layout/MobileLayout";
 import Config from "@/ui/Mobile/Config/Config";
+import DialPad from "@/ui/Mobile/Dialpad/DialPad";
 
 export default function Page() {
-  const { setProfile, setIceServer, setTurnEnable } = useStore((state) => state);
+  const { isRegistered, setProfile, setIceServer, setTurnEnable } = useStore((state) => state);
   const [isSettingOpen, setIsSettingOpen] = useState(false);
 
   useEffect(() => {
@@ -61,6 +62,7 @@ export default function Page() {
     <main className="flex flex-row h-screen bg-white">
       <MobileLayout>
         <Config />
+        {isRegistered && <DialPad />}
       </MobileLayout>
       <SidebarLayout>
         <div className="flex flex-col gap-2 w-full">

@@ -21,7 +21,6 @@ export default function Box() {
       }
     });
   }, [userAgentData]);
-
   const handleSendMessage = () => {
     setInput("");
     if (userAgentData === null) return;

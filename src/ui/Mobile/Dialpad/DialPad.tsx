@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Call from "@/ui/Mobile/Dialpad/Call";
 import { useStore } from "@/store/useStore";
@@ -80,7 +80,7 @@ export default function DialPad() {
   return (
     <AnimatePresence>
       <motion.div
-        ref={dialPadRef}
+        initial={{ opacity: 0, scale: 0 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.2 }}
         exit={{ opacity: 0, scale: 0.8 }}
