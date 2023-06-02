@@ -55,15 +55,15 @@ export default function CallOut() {
     };
 
     let iceServers: any = [];
-    if (turn) {
-      iceServers = [
-        {
-          urls: "turn:turn.ttrs.in.th?transport=tcp",
-          username: "turn01",
-          credential: "Test1234",
-        },
-      ];
-    }
+    // if (turn) {
+    iceServers = [
+      {
+        urls: "turn:turn-ttrs.ttrs.in.th?transport=tcp",
+        username: "turn01",
+        credential: "Test1234",
+      },
+    ];
+    // }
 
     const options = {
       eventHandlers,
