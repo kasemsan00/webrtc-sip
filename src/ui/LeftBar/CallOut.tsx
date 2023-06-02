@@ -62,6 +62,11 @@ export default function CallOut() {
         username: "turn01",
         credential: "Test1234",
       },
+      {
+        urls: "turn:turn.ttrs.in.th?transport=tcp",
+        username: "turn01",
+        credential: "Test1234",
+      },
     ];
     // }
 
