@@ -1,6 +1,12 @@
 import { MdDialerSip } from "react-icons/md";
 import { useStore } from "@/store/useStore";
 import useLocalStorageState from "use-local-storage-state";
+import React from "react";
+interface IceServers {
+  urls: string;
+  username: string;
+  credential: string;
+}
 
 export default function CallOut() {
   const {
@@ -31,7 +37,6 @@ export default function CallOut() {
   const callOut = () => {
     if (destination.trim() === "") return;
     setUserAgentStatus("Calling");
-
     const eventHandlers = {
       progress: function (data: any) {
         console.log(data);
@@ -54,34 +59,21 @@ export default function CallOut() {
       },
     };
 
-    let iceServers: any = [];
-    // if (turn) {
-    iceServers = [
-      {
-        urls: "turn:turn-ttrs.ttrs.in.th?transport=tcp",
-        username: "turn01",
-        credential: "Test1234",
-      },
-      {
-        urls: "turn:turn.ttrs.in.th?transport=tcp",
-        username: "turn01",
-        credential: "Test1234",
-      },
-    ];
-    // iceServers = [
-    //   {
-    //     urls: "turn:turn.ttrs.in.th?transport=tcp",
-    //     username: "turn01",
-    //     credential: "Test1234",
-    //   },
-    //   {
-    //     urls: "turn:turn-ttrs.ttrs.in.th?transport=tcp",
-    //     username: "turn01",
-    //     credential: "Test1234",
-    //   },
-    // ];
-    // }
-
+    let iceServers: Array<IceServers> = [];
+    if (turn) {
+      iceServers = [
+        {
+          urls: "turn:turn-ttrs.ttrs.in.th?transport=tcp",
+          username: "turn01",
+          credential: "Test1234",
+        },
+        {
+          urls: "turn:turn.ttrs.in.th?transport=tcp",
+          username: "turn01",
+          credential: "Test1234",
+        },
+      ];
+    }
     const options = {
       eventHandlers,
       mediaStream: mediaStreamLocal,
@@ -93,7 +85,6 @@ export default function CallOut() {
       },
       sessionTimersExpires: 9999,
     };
-    console.log(options);
     userAgentData.call("sip:" + destination + "@" + domain, options);
   };
 

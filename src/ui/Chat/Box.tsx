@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useStore } from "@/store/useStore";
 
 interface IMessageData {

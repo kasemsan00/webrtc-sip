@@ -8,7 +8,6 @@ export default function MobileLayout({ children }: { children: ReactNode }) {
     if (userAgentStatus === "Calling") {
       mobileLayoutRef.current?.classList.add("hidden");
     }
-    console.log(userAgentStatus);
   }, [userAgentStatus]);
   return (
     <div
