@@ -7,15 +7,33 @@ export async function GET() {
   await connection.end();
   return NextResponse.json(rows);
 }
-export async function POST(request: Request) {
+export async function PUT(request: Request) {
+  // update turn
   const connection = await DB();
   const { id, url, username, credential } = await request.json();
-  const [rows] = await connection.query("UPDATE turn_data SET url = ?, username = ?, credential = ? WHERE id = ?", [
-    url,
-    username,
-    credential,
-    id,
-  ]);
+  const [rows] = await connection.query(
+    "UPDATE turn_data SET url = ?, username = ?, credential = ? WHERE id = ?",
+    [url, username, credential, id]
+  );
   await connection.end();
   return NextResponse.json(rows);
+}
+export async function POST(request: Request) {
+  // add turn
+  const connection = await DB();
+  const { data } = await request.json();
+
+  await connection.query(`DELETE FROM turn_data`);
+
+  for (const item of data.data) {
+    await connection.query(
+      `INSERT INTO turn_data( id,urls, username, credential) VALUES  (?,?, ?, ? )`,
+      [item.id, item.urls, item.username, item.credential]
+    );
+  }
+
+  await connection.end();
+  return NextResponse.json({
+    message: "insert complete",
+  });
 }

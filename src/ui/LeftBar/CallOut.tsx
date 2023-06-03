@@ -2,15 +2,11 @@ import { MdDialerSip } from "react-icons/md";
 import { useStore } from "@/store/useStore";
 import useLocalStorageState from "use-local-storage-state";
 import React from "react";
-interface IceServers {
-  urls: string;
-  username: string;
-  credential: string;
-}
 
 export default function CallOut() {
   const {
     isRegistered,
+    iceServer,
     session,
     mediaStreamLocal,
     userAgentData,
@@ -59,26 +55,26 @@ export default function CallOut() {
       },
     };
 
-    let iceServers: Array<IceServers> = [];
-    if (turn) {
-      iceServers = [
-        {
-          urls: "turn:turn-ttrs.ttrs.in.th?transport=tcp",
-          username: "turn01",
-          credential: "Test1234",
-        },
-        {
-          urls: "turn:turn.ttrs.in.th?transport=tcp",
-          username: "turn01",
-          credential: "Test1234",
-        },
-      ];
-    }
+    // let iceServers: Array<IceServers> = [];
+    // if (turn) {
+    //   iceServers = [
+    //     {
+    //       urls: "turn:turn-ttrs.ttrs.in.th?transport=tcp",
+    //       username: "turn01",
+    //       credential: "Test1234",
+    //     },
+    //     {
+    //       urls: "turn:turn.ttrs.in.th?transport=tcp",
+    //       username: "turn01",
+    //       credential: "Test1234",
+    //     },
+    //   ];
+    // }
     const options = {
       eventHandlers,
       mediaStream: mediaStreamLocal,
       pcConfig: {
-        iceServers: iceServers,
+        iceServers: iceServer,
         iceTransportPolicy: "all",
         rtcpMuxPolicy: "require",
         iceCandidatePoolSize: 0,

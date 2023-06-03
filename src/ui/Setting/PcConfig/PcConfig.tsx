@@ -1,57 +1,47 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useStore } from "@/store/useStore";
 import { useForm, useFieldArray } from "react-hook-form";
-import { updateSetting, updateTurn } from "@/request/request";
-import { TurnForm } from "@/ui/Setting/PcConfig/TurnForm";
+import { addTurn } from "@/request/request";
 
 export default function PcConfig() {
   const turnSaveInfoRef = useRef<HTMLSpanElement>(null);
   const { turn, iceServer, setTurnEnable } = useStore((state) => state);
-  const { register, control, setValue, handleSubmit } = useForm();
-  const { fields, append, remove } = useFieldArray({
+  const { register, control, handleSubmit } = useForm({});
+  const { fields, append } = useFieldArray({
     control,
     name: "test",
   });
 
   useEffect(() => {
-    if (iceServer.id !== "") setValue("id", iceServer.id);
-    if (iceServer.url !== "") setValue("url", iceServer.url);
-    if (iceServer.username !== "") setValue("username", iceServer.username);
-    if (iceServer.credential !== "") setValue("credential", iceServer.credential);
-  }, [iceServer.credential, iceServer.id, iceServer.url, iceServer.username, setValue]);
+    if (fields.length !== 0) return;
+    iceServer.forEach((item: any) => {
+      append({
+        id: item.id,
+        urls: item.urls,
+        username: item.urls,
+        credential: item.credential,
+      });
+    });
+  }, [append, fields, iceServer]);
 
   const handleToggle = () => setTurnEnable(!turn);
 
-  const onSubmit = async (data: any) => {
-    turnSaveInfoRef.current!.innerHTML = "Saving..";
-    console.log(data);
-    // let resp = await updateTurn({
-    //   id: data.id,
-    //   url: data.url,
-    //   username: data.username,
-    //   credential: data.credential,
-    // });
-    // await updateSetting({
-    //   name: "turn",
-    //   value: turn + "",
-    // });
+  const addMoreTurn = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    append({ id: "", urls: "", username: "", credential: "" });
+  };
+
+  const onSubmit = async () => {
+    console.log(fields);
+    // turnSaveInfoRef.current!.innerHTML = "Saving..";
+    let resp = await addTurn(fields);
     // if (resp.serverStatus === 2) {
     //   turnSaveInfoRef.current!.innerHTML = "Save Successful";
     // }
   };
 
-  const [inputList, setInputList] = useState<Array<any>>([]);
-  useEffect(() => {
-    if (inputList.length > 0) return;
-    setInputList(inputList.concat(<TurnForm index={1} register={register} enable={turn} />));
-  }, [inputList, register, turn]);
-
-  const addMoreTurn = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    append({ firstName: "bill", lastName: "luo" });
-    setInputList(
-      inputList.concat(<TurnForm index={inputList.length + 1} register={register} enable={turn} />)
-    );
+  const deleteTurnItem = (id: string) => {
+    console.log(id);
   };
 
   return (
@@ -68,8 +58,55 @@ export default function PcConfig() {
             checked={turn}
           />
         </div>
-        {inputList.map((item, index) => (
-          <div key={index}>{item}</div>
+        {fields.map((item, index) => (
+          <div key={index}>
+            <table className="w-full">
+              <tbody>
+                <tr>
+                  <td className="text-sm">Url</td>
+                  <td>
+                    <input
+                      type="text"
+                      placeholder="URL"
+                      className="input input-sm input-bordered w-full focus:outline-none"
+                      {...register(`test.${index}.urls`)}
+                      disabled={!turn}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td className="text-sm">Username</td>
+                  <td>
+                    <input
+                      type="text"
+                      placeholder="Username"
+                      className="input input-sm input-bordered w-full focus:outline-none"
+                      {...register(`test.${index}.username`)}
+                      disabled={!turn}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td className="text-sm">Credential</td>
+                  <td>
+                    <input
+                      type="text"
+                      placeholder="Credential"
+                      className="input input-sm input-bordered w-full focus:outline-none"
+                      {...register(`test.${index}.credential`)}
+                      disabled={!turn}
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <button
+              className="btn btn-error block ring-1 btn-sm"
+              onClick={() => deleteTurnItem(item.id)}
+            >
+              Remove
+            </button>
+          </div>
         ))}
         <div className="flex justify-between items-center mt-4">
           <div className="space-x-2">
