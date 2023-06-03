@@ -1,10 +1,11 @@
 import React from "react";
 interface Props {
+  index: number;
   register: any;
   enable: boolean;
 }
 
-export const TurnForm = ({ register, enable }: Props) => {
+export const TurnForm = ({ index, register, enable }: Props) => {
   return (
     <>
       <div className="flex flex-row justify-center items-center gap-2">
@@ -13,7 +14,7 @@ export const TurnForm = ({ register, enable }: Props) => {
           type="text"
           placeholder="URL"
           className="input input-sm input-bordered w-full focus:outline-none"
-          {...register("url")}
+          {...register("url" + index)}
           disabled={!enable}
         />
       </div>
@@ -23,7 +24,7 @@ export const TurnForm = ({ register, enable }: Props) => {
           type="text"
           placeholder="Username"
           className="input input-sm input-bordered w-full focus:outline-none"
-          {...register("username")}
+          {...register("username" + index)}
           disabled={!enable}
         />
       </div>
@@ -33,7 +34,7 @@ export const TurnForm = ({ register, enable }: Props) => {
           type="text"
           placeholder="Credential"
           className="input input-sm input-bordered w-full focus:outline-none"
-          {...register("credential")}
+          {...register("credential" + index)}
           disabled={!enable}
         />
       </div>

@@ -58,10 +58,6 @@ export default function LocalVideo() {
     getLocalMedia().then((r) => r);
   }, [mediaStreamLocal, setLocalMediaStream]);
 
-  const handleTest = () => {
-      console.log("Hell World")
-  }
-
   const handleClickVideoMuted = () => {
     if (session === null) return;
     const { video } = session.isMuted();
