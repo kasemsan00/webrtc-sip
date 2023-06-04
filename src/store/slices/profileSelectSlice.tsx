@@ -1,17 +1,17 @@
 import { StateCreator } from "zustand";
-interface IConfig {
+interface Config {
   id: number | undefined;
   domain: string;
   websocket: string;
   extension: string;
   secret: string;
 }
-interface IProfileSelect {
-  profileSelect: IConfig;
+interface ProfileSelect {
+  profileSelect: Config;
   setSelectProfile: (arg0: any) => void;
 }
 
-const profileSelectSlice: StateCreator<IProfileSelect> = (set, get) => ({
+const profileSelectSlice: StateCreator<ProfileSelect> = (set, get) => ({
   profileSelect: {
     id: undefined,
     domain: "",
@@ -19,7 +19,7 @@ const profileSelectSlice: StateCreator<IProfileSelect> = (set, get) => ({
     extension: "",
     secret: "",
   },
-  setSelectProfile(data: IConfig) {
+  setSelectProfile(data: Config) {
     set(() => ({ profileSelect: data }));
   },
 });

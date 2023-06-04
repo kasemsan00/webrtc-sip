@@ -1,11 +1,11 @@
 import { StateCreator } from "zustand";
 
-interface ISessionSlice {
+interface SessionSlice {
   session: any;
   setSession: (arg0: any) => void;
 }
 
-const sessionSlice: StateCreator<ISessionSlice> = (set, get) => ({
+const sessionSlice: StateCreator<SessionSlice> = (set, get) => ({
   session: null,
   setSession(data) {
     set(() => ({ session: data }));

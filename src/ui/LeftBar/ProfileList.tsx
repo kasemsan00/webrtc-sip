@@ -4,7 +4,7 @@ import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import useLocalStorageState from "use-local-storage-state";
 import { useStore } from "@/store/useStore";
 
-export interface IExtensionDetail {
+export interface ExtensionDetail {
   extension: string;
   secret: string;
   domain: string;
@@ -12,8 +12,11 @@ export interface IExtensionDetail {
 }
 
 export default function ProfileList() {
-  const { userAgentData, profileData, profileSelect, setSelectProfile } = useStore((state) => state);
-  const [localStorageProfile, setLocalStorageProfile] = useLocalStorageState<IExtensionDetail>("profileSelect");
+  const { userAgentData, profileData, profileSelect, setSelectProfile } = useStore(
+    (state) => state
+  );
+  const [localStorageProfile, setLocalStorageProfile] =
+    useLocalStorageState<ExtensionDetail>("profileSelect");
 
   useEffect(() => {
     if (profileSelect.id === undefined && localStorageProfile !== undefined) {
@@ -29,14 +32,16 @@ export default function ProfileList() {
     const profileSelect = profileData.find((state: any) => {
       return state.extension === event;
     });
-    setLocalStorageProfile(profileSelect as IExtensionDetail | undefined);
+    setLocalStorageProfile(profileSelect as ExtensionDetail | undefined);
     setSelectProfile(profileSelect);
   };
 
   return (
     <Listbox
       value={
-        localStorageProfile === undefined ? "Select Extension" : localStorageProfile.extension + "@" + localStorageProfile.domain
+        localStorageProfile === undefined
+          ? "Select Extension"
+          : localStorageProfile.extension + "@" + localStorageProfile.domain
       }
       onChange={handleListChange}
     >
@@ -51,7 +56,12 @@ export default function ProfileList() {
             <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
           </span>
         </Listbox.Button>
-        <Transition as={Fragment} leave="transition ease-in duration-100" leaveFrom="opacity-100" leaveTo="opacity-0">
+        <Transition
+          as={Fragment}
+          leave="transition ease-in duration-100"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
           <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
             {profileData.length > 0 &&
               profileData?.map((item: any, index: number) => (
@@ -66,7 +76,9 @@ export default function ProfileList() {
                 >
                   {({ selected }) => (
                     <>
-                      <span className={`block truncate ${selected ? "font-medium" : "font-normal"}`}>
+                      <span
+                        className={`block truncate ${selected ? "font-medium" : "font-normal"}`}
+                      >
                         {item.extension}@{item.domain}
                       </span>
                       {selected ? (
