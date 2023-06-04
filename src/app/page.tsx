@@ -26,10 +26,6 @@ export default function Page() {
   const [isSettingOpen, setIsSettingOpen] = useState(false);
 
   useEffect(() => {
-    console.log(iceServer);
-  }, [iceServer]);
-
-  useEffect(() => {
     const getSettingData = async () => {
       const resp = await getSetting();
       resp.forEach((item: { name: string; value: string }) => {

@@ -27,7 +27,9 @@ export default function CameraConfig({ devices }: Props) {
 
   useEffect(() => {
     if (devices.length > 0 && mediaStreamLocal !== null && selected.deviceId === "") {
-      const used_devices = mediaStreamLocal.getTracks().map((track: MediaStreamTrack) => track.getSettings().deviceId);
+      const used_devices = mediaStreamLocal
+        .getTracks()
+        .map((track: MediaStreamTrack) => track.getSettings().deviceId);
       const index = devices.findIndex((state) => state.deviceId === used_devices[1]);
       const device = devices[index];
       setSelected(device);
@@ -36,7 +38,10 @@ export default function CameraConfig({ devices }: Props) {
 
   const handleChange = (event: string) => {
     const index = devices.findIndex((state) => state.deviceId === event);
+    console.log("index", index);
     const device = devices[index];
+    console.log("device", device);
+
     setSelected(device);
     getNewCamera({ device }).then((r) => r);
   };
@@ -69,7 +74,12 @@ export default function CameraConfig({ devices }: Props) {
               <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
             </span>
           </Listbox.Button>
-          <Transition as={Fragment} leave="transition ease-in duration-100" leaveFrom="opacity-100" leaveTo="opacity-0">
+          <Transition
+            as={Fragment}
+            leave="transition ease-in duration-100"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
             <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
               {devices.map((device, index) => (
                 <Listbox.Option
@@ -83,7 +93,11 @@ export default function CameraConfig({ devices }: Props) {
                 >
                   {({ selected }) => (
                     <>
-                      <span className={`block truncate ${selected ? "font-medium" : "font-normal"}`}>{device.label}</span>
+                      <span
+                        className={`block truncate ${selected ? "font-medium" : "font-normal"}`}
+                      >
+                        {device.label}
+                      </span>
                       {selected ? (
                         <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
                           <CheckIcon className="h-5 w-5" aria-hidden="true" />
