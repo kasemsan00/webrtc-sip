@@ -17,33 +17,7 @@ export const addTurn = async (data: any) => {
   const fetchResponse = await fetch("/api/turn", settings);
   return await fetchResponse.json();
 };
-export const updateTurn = async ({
-  id,
-  url,
-  username,
-  credential,
-}: {
-  id: string;
-  url: string;
-  username: string;
-  credential: string;
-}) => {
-  const settings = {
-    method: "PUT",
-    body: JSON.stringify({
-      id,
-      url,
-      username,
-      credential,
-    }),
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  };
-  const fetchResponse = await fetch("/api/turn", settings);
-  return await fetchResponse.json();
-};
+
 export const getExtension = async () => {
   const response = await fetch("/api/extension");
   if (!response.ok) {
