@@ -1,16 +1,26 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { useStore } from "@/store/useStore";
 import { useForm, useFieldArray } from "react-hook-form";
-import { addTurn } from "@/request/request";
+import { addTurn, updateSetting } from "@/request/request";
+import { MdDelete } from "react-icons/md";
 
 export default function PcConfig() {
   const turnSaveInfoRef = useRef<HTMLSpanElement>(null);
   const { turn, iceServer, setTurnEnable } = useStore((state) => state);
   const { register, control, handleSubmit } = useForm({});
-  const { fields, append } = useFieldArray({
+  const { fields, append, remove } = useFieldArray({
     control,
     name: "test",
   });
+
+  useEffect(() => {
+    if (iceServer.length !== 0) return;
+    append({
+      urls: "",
+      username: "",
+      credential: "",
+    });
+  }, [append, iceServer]);
 
   useEffect(() => {
     if (fields.length !== 0) return;
@@ -18,7 +28,7 @@ export default function PcConfig() {
       append({
         id: item.id,
         urls: item.urls,
-        username: item.urls,
+        username: item.username,
         credential: item.credential,
       });
     });
@@ -28,95 +38,104 @@ export default function PcConfig() {
 
   const addMoreTurn = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    append({ id: "", urls: "", username: "", credential: "" });
+    append({ urls: "", username: "", credential: "" });
   };
 
-  const onSubmit = async () => {
-    console.log(fields);
-    // turnSaveInfoRef.current!.innerHTML = "Saving..";
-    let resp = await addTurn(fields);
-    // if (resp.serverStatus === 2) {
-    //   turnSaveInfoRef.current!.innerHTML = "Save Successful";
-    // }
+  const onSubmit = async (data: any) => {
+    let resp;
+    resp = await updateSetting({
+      name: "turn",
+      value: turn.toString(),
+    });
+    console.log(resp);
+    resp = await addTurn(data.test);
+    if (resp.serverStatus === 2) {
+      turnSaveInfoRef.current!.innerHTML = "Save Successful";
+    }
   };
 
-  const deleteTurnItem = (id: string) => {
-    console.log(id);
+  const deleteTurnItem = (id: any) => {
+    if (fields.length > 1) remove(id);
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="form-control w-full max-w-full focus:outline-none focus:border-none gap-2">
-        <div className="flex flex-row items-center">
-          <label className="label">
-            <span className="label-text">Turn Enable</span>
-          </label>
-          <input
-            type="checkbox"
-            className="toggle toggle-info"
-            onChange={handleToggle}
-            checked={turn}
-          />
-        </div>
+      <div
+        className="form-control w-full max-w-full focus:outline-none focus:border-none gap-2
+      max-h-[450px] overflow-scroll"
+      >
         {fields.map((item, index) => (
-          <div key={index}>
-            <table className="w-full">
-              <tbody>
+          <table key={index}>
+            <tbody>
+              {index === 0 && (
                 <tr>
-                  <td className="text-sm">Url</td>
+                  <td className="text-sm">Enable</td>
                   <td>
                     <input
-                      type="text"
-                      placeholder="URL"
-                      className="input input-sm input-bordered w-full focus:outline-none"
-                      {...register(`test.${index}.urls`)}
-                      disabled={!turn}
+                      type="checkbox"
+                      className="toggle toggle-info"
+                      onChange={handleToggle}
+                      checked={turn}
                     />
                   </td>
                 </tr>
-                <tr>
-                  <td className="text-sm">Username</td>
-                  <td>
-                    <input
-                      type="text"
-                      placeholder="Username"
-                      className="input input-sm input-bordered w-full focus:outline-none"
-                      {...register(`test.${index}.username`)}
-                      disabled={!turn}
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td className="text-sm">Credential</td>
-                  <td>
-                    <input
-                      type="text"
-                      placeholder="Credential"
-                      className="input input-sm input-bordered w-full focus:outline-none"
-                      {...register(`test.${index}.credential`)}
-                      disabled={!turn}
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <button
-              className="btn btn-error block ring-1 btn-sm"
-              onClick={() => deleteTurnItem(item.id)}
-            >
-              Remove
-            </button>
-          </div>
+              )}
+              <tr key={index}>
+                <td className="w-[100px] text-sm">Url</td>
+                <td>
+                  <input
+                    type="text"
+                    placeholder="URL"
+                    className="input input-sm input-bordered w-full focus:outline-none"
+                    {...register(`test.${index}.urls`)}
+                    disabled={!turn}
+                  />
+                </td>
+                <td>
+                  <div
+                    onClick={() => deleteTurnItem(item.id)}
+                    className="h-full w-full flex justify-center items-center text-red-700 cursor-pointer"
+                  >
+                    <MdDelete></MdDelete>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td className="text-sm">Username</td>
+                <td>
+                  <input
+                    type="text"
+                    placeholder="Username"
+                    className="input input-sm input-bordered w-full focus:outline-none"
+                    {...register(`test.${index}.username`)}
+                    disabled={!turn}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td className="text-sm">Credential</td>
+                <td>
+                  <input
+                    type="text"
+                    placeholder="Credential"
+                    className="input input-sm input-bordered w-full focus:outline-none"
+                    {...register(`test.${index}.credential`)}
+                    disabled={!turn}
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
         ))}
-        <div className="flex justify-between items-center mt-4">
-          <div className="space-x-2">
-            <button className="btn btn-warning btn-sm w-[150px]" onClick={addMoreTurn}>
-              Add More
-            </button>
-            <span className="text-green-600" ref={turnSaveInfoRef}></span>
-          </div>
-          <input className="btn btn-primary btn-sm w-[150px]" type="submit" value="Save" />
+      </div>
+      <div className="flex justify-between items-center mt-4">
+        <div className="space-x-2">
+          <button className="btn btn-warning btn-sm w-[150px]" onClick={addMoreTurn}>
+            Add More
+          </button>
+          <span className="text-green-600" ref={turnSaveInfoRef}></span>
         </div>
+        <input className="btn btn-primary btn-sm w-[150px]" type="submit" value="Save" />
       </div>
     </form>
   );

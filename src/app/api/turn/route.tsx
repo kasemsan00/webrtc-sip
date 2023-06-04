@@ -19,16 +19,14 @@ export async function PUT(request: Request) {
   return NextResponse.json(rows);
 }
 export async function POST(request: Request) {
-  // add turn
   const connection = await DB();
   const { data } = await request.json();
-
   await connection.query(`DELETE FROM turn_data`);
 
-  for (const item of data.data) {
+  for (const item of data) {
     await connection.query(
-      `INSERT INTO turn_data( id,urls, username, credential) VALUES  (?,?, ?, ? )`,
-      [item.id, item.urls, item.username, item.credential]
+      `INSERT INTO turn_data( urls, username, credential) VALUES  (?, ?, ? )`,
+      [item.urls, item.username, item.credential]
     );
   }
 
