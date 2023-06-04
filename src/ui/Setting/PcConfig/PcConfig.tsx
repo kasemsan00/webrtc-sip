@@ -42,16 +42,14 @@ export default function PcConfig() {
   };
 
   const onSubmit = async (data: any) => {
+    turnSaveInfoRef.current!.innerHTML = "Saving...";
     let resp;
-    resp = await updateSetting({
+    await updateSetting({
       name: "turn",
       value: turn,
     });
-    console.log(resp);
     resp = await addTurn(data.test);
-    if (resp.serverStatus === 2) {
-      turnSaveInfoRef.current!.innerHTML = "Save Successful";
-    }
+    if (resp.message === "insert complete") turnSaveInfoRef.current!.innerHTML = "Save Successful";
   };
 
   const deleteTurnItem = (id: any) => {
