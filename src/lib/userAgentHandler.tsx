@@ -9,7 +9,6 @@ interface Props {
 }
 
 export const initUserAgent = ({ extension, secret, websocket, domain }: Props) => {
-  console.log({ extension, secret, websocket, domain });
   const socket = new JsSIP.WebSocketInterface(websocket);
   const configuration = {
     sockets: [socket],

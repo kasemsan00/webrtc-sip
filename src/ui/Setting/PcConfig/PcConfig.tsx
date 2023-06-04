@@ -3,6 +3,7 @@ import { useStore } from "@/store/useStore";
 import { useForm, useFieldArray } from "react-hook-form";
 import { addTurn, updateSetting } from "@/request/request";
 import { MdDelete } from "react-icons/md";
+const init = { urls: "", username: "", credential: "" };
 
 export default function PcConfig() {
   const turnSaveInfoRef = useRef<HTMLSpanElement>(null);
@@ -15,11 +16,7 @@ export default function PcConfig() {
 
   useEffect(() => {
     if (iceServer.length !== 0) return;
-    append({
-      urls: "",
-      username: "",
-      credential: "",
-    });
+    append(init);
   }, [append, iceServer]);
 
   useEffect(() => {
@@ -38,22 +35,17 @@ export default function PcConfig() {
 
   const addMoreTurn = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    append({ urls: "", username: "", credential: "" });
+    append(init);
   };
 
   const onSubmit = async (data: any) => {
     turnSaveInfoRef.current!.innerHTML = "Saving...";
-    let resp;
     await updateSetting({
       name: "turn",
       value: turn,
     });
-    resp = await addTurn(data.test);
+    let resp = await addTurn(data.test);
     if (resp.message === "insert complete") turnSaveInfoRef.current!.innerHTML = "Save Successful";
-  };
-
-  const deleteTurnItem = (id: any) => {
-    if (fields.length > 1) remove(id);
   };
 
   return (
@@ -91,7 +83,9 @@ export default function PcConfig() {
                 </td>
                 <td>
                   <div
-                    onClick={() => deleteTurnItem(item.id)}
+                    onClick={() => {
+                      if (fields.length > 1) remove(item.id as any);
+                    }}
                     className="h-full w-full flex justify-center items-center text-red-700 cursor-pointer"
                   >
                     <MdDelete></MdDelete>
