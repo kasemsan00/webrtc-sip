@@ -33,9 +33,7 @@ export default function ConnectSip() {
       (session) => setSession(session)
     );
   };
-  const UserUnregister = () => {
-    userAgentData.unregister();
-  };
+  const UserUnregister = () => userAgentData.unregister();
 
   return (
     <>

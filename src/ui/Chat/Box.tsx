@@ -13,8 +13,7 @@ export default function Box() {
   const [messageData, setMessageData] = useState<Array<IMessageData>>([]);
 
   useEffect(() => {
-    if (userAgentData === null) return;
-    if (userAgentData === undefined) return;
+    if (userAgentData === null || userAgentData === undefined) return;
     userAgentData.on("newMessage", (event: any) => {
       console.log(event);
       if (event.originator === "remote") {

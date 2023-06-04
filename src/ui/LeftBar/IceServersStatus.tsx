@@ -4,6 +4,7 @@ import { useStore } from "@/store/useStore";
 export default function IceServerStatus() {
   const turn = useStore((state) => state.turn);
   const iceServer = useStore((state) => state.iceServer);
+
   return (
     <div className="flex flex-row items-center gap-2">
       Turn

@@ -5,9 +5,7 @@ export default function MobileLayout({ children }: { children: ReactNode }) {
   const mobileLayoutRef = useRef<HTMLDivElement>(null);
   const { userAgentStatus } = useStore((state) => state);
   useEffect(() => {
-    if (userAgentStatus === "Calling") {
-      mobileLayoutRef.current?.classList.add("hidden");
-    }
+    if (userAgentStatus === "Calling") mobileLayoutRef.current?.classList.add("hidden");
   }, [userAgentStatus]);
   return (
     <div
