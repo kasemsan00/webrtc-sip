@@ -45,7 +45,7 @@ export default function PcConfig() {
     let resp;
     resp = await updateSetting({
       name: "turn",
-      value: turn.toString(),
+      value: turn,
     });
     console.log(resp);
     resp = await addTurn(data.test);
