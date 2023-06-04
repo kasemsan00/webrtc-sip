@@ -1,5 +1,4 @@
 import CameraConfig from "@/ui/Setting/Device/CameraConfig";
-import MicrophoneConfig from "@/ui/Setting/Device/MicrophoneConfig";
 import { useEffect, useState } from "react";
 
 export interface Device {

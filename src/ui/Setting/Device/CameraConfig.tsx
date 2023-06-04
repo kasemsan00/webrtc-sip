@@ -1,11 +1,11 @@
 import { Fragment, useEffect, useRef, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
-import { IDevice } from "@/ui/Setting/Device/Device";
+import { Device } from "@/ui/Setting/Device/Device";
 import { useStore } from "@/store/useStore";
 
 interface Props {
-  devices: Array<IDevice>;
+  devices: Array<Device>;
 }
 
 export default function CameraConfig({ devices }: Props) {
@@ -18,7 +18,7 @@ export default function CameraConfig({ devices }: Props) {
     }
   }, [mediaStreamLocal]);
 
-  const [selected, setSelected] = useState<IDevice>({
+  const [selected, setSelected] = useState<Device>({
     label: "",
     deviceId: "",
     groupId: "",
@@ -46,7 +46,7 @@ export default function CameraConfig({ devices }: Props) {
     getNewCamera({ device }).then((r) => r);
   };
 
-  const getNewCamera = async ({ device }: { device: IDevice }) => {
+  const getNewCamera = async ({ device }: { device: Device }) => {
     mediaStreamLocal.getTracks().forEach((track: MediaStreamTrack) => {
       track.stop();
     });
