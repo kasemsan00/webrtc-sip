@@ -74,7 +74,7 @@ export default function CallOut() {
       eventHandlers,
       mediaStream: mediaStreamLocal,
       pcConfig: {
-        iceServers: iceServer,
+        iceServers: turn ? iceServer : undefined,
         iceTransportPolicy: "all",
         rtcpMuxPolicy: "require",
         iceCandidatePoolSize: 0,
