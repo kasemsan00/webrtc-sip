@@ -20,8 +20,14 @@ import Config from "@/ui/Mobile/Config/Config";
 import DialPad from "@/ui/Mobile/Dialpad/DialPad";
 
 export default function Page() {
-  const { isRegistered, setProfile, setIceServer, setTurnEnable } = useStore((state) => state);
+  const { isRegistered, setProfile, iceServer, setIceServer, setTurnEnable } = useStore(
+    (state) => state
+  );
   const [isSettingOpen, setIsSettingOpen] = useState(false);
+
+  useEffect(() => {
+    console.log(iceServer);
+  }, [iceServer]);
 
   useEffect(() => {
     const getSettingData = async () => {
@@ -34,9 +40,10 @@ export default function Page() {
     };
     const getTurnData = async () => {
       const resp = await getTurn();
-      const { id, url, username, credential } = resp[0];
-      const iceServers = { id, url, username, credential };
-      setIceServer(iceServers);
+      setIceServer(resp);
+      // const { id, url, username, credential } = resp[0];
+      // const iceServers = { id, url, username, credential };
+      // setIceServer(iceServers);
     };
     getSettingData().then((r) => r);
     getTurnData().then((r) => r);
