@@ -1,16 +1,16 @@
 import { StateCreator } from "zustand";
 
-interface IProfile {
-  [index: string]: IProfileData;
+interface Profile {
+  [index: string]: ProfileData;
 }
-interface IProfileData {
-  profileData: Array<IProfile>;
-  setProfile: (arg0: Array<IProfile>) => void;
+interface ProfileData {
+  profileData: Array<Profile>;
+  setProfile: (arg0: Array<Profile>) => void;
 }
 
-const profileDataSlice: StateCreator<IProfileData> = (set, get) => ({
+const profileDataSlice: StateCreator<ProfileData> = (set, get) => ({
   profileData: [],
-  setProfile(data: Array<IProfile>) {
+  setProfile(data: Array<Profile>) {
     set(() => ({ profileData: data }));
   },
 });

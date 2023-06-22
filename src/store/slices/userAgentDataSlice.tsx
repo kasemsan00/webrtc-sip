@@ -1,13 +1,13 @@
 import { StateCreator } from "zustand";
 
-interface IUserAgentSlice {
+interface UserAgentSlice {
   isRegistered: boolean;
   userAgentData: any;
   setUserAgentData: (arg0: any) => void;
   setIsRegistered: (arg0: boolean) => void;
 }
 
-const userAgentDataSlice: StateCreator<IUserAgentSlice> = (set) => ({
+const userAgentDataSlice: StateCreator<UserAgentSlice> = (set) => ({
   isRegistered: false,
   userAgentData: undefined,
   setUserAgentData(data: any) {

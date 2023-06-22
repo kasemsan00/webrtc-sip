@@ -1,14 +1,11 @@
 import { StateCreator } from "zustand/esm";
 
-interface IMediaStreamRemote {
+interface MediaStreamRemote {
   mediaStreamRemote: MediaStream | null;
   setRemoteMediaStream: (arg0: MediaStream) => void;
 }
 
-const mediaStreamRemoteSlice: StateCreator<IMediaStreamRemote> = (
-  set,
-  get
-) => ({
+const mediaStreamRemoteSlice: StateCreator<MediaStreamRemote> = (set, get) => ({
   mediaStreamRemote: null,
   setRemoteMediaStream(data) {
     set(() => ({ mediaStreamRemote: data }));

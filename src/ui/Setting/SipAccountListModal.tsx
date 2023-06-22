@@ -18,9 +18,7 @@ export default function SipAccountListModal({ open, configAction, onUpdate, conf
   }, [open]);
 
   useEffect(() => {
-    if (isOpen) {
-      onUpdate(isOpen);
-    }
+    if (isOpen) onUpdate(isOpen);
   }, [isOpen, onUpdate]);
 
   const handleClose = () => {
@@ -30,7 +28,11 @@ export default function SipAccountListModal({ open, configAction, onUpdate, conf
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="fixed inset-0 z-[999] overflow-y-auto pl-[200px]" onClose={handleClose}>
+      <Dialog
+        as="div"
+        className="fixed inset-0 z-[999] overflow-y-auto pl-[200px]"
+        onClose={handleClose}
+      >
         <div className="min-h-screen px-4 text-center">
           <Transition.Child
             as={Fragment}
@@ -58,11 +60,18 @@ export default function SipAccountListModal({ open, configAction, onUpdate, conf
             <div className="border border-indigo-800 inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
               <div className="flex justify-between">
                 <div>SipAccount Config</div>
-                <div className="flex justify-center items-center cursor-pointer" onClick={handleClose}>
+                <div
+                  className="flex justify-center items-center cursor-pointer"
+                  onClick={handleClose}
+                >
                   <IoMdCloseCircle className="text-red-700 w-6 h-6" />
                 </div>
               </div>
-              <SipAccountsConfig setIsOpen={handleClose} configAction={configAction} configIndex={configIndex} />
+              <SipAccountsConfig
+                setIsOpen={handleClose}
+                configAction={configAction}
+                configIndex={configIndex}
+              />
             </div>
           </Transition.Child>
         </div>

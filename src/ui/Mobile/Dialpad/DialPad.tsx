@@ -1,14 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import Call from "@/ui/Dialpad/Call";
+import Call from "@/ui/Mobile/Dialpad/Call";
 import { useStore } from "@/store/useStore";
-import { initUserAgent, eventUserAgent } from "@/lib/userAgentHandler";
 import { MdSettings, MdBackspace } from "react-icons/md";
-
-interface Props {
-  isVisible: boolean;
-  setIsVisible: (arg0: boolean) => void;
-}
 
 const Number = ({
   number,
@@ -54,55 +48,11 @@ const ActionButton = ({
   );
 };
 
-export default function DialPad({ isVisible, setIsVisible }: Props) {
+export default function DialPad() {
   const dialPadRef = useRef<HTMLDivElement>(null);
-  const {
-    userAgentData,
-    mediaStreamLocal,
-    iceServers,
-    profileSelect,
-    setUserAgentData,
-    setUserAgentStatus,
-    setIsRegistered,
-    setRemoteMediaStream,
-    setSession,
-  } = useStore((state) => state);
-  const { id, extension, secret, domain, websocket } = profileSelect;
+  const { userAgentData, mediaStreamLocal, iceServers, profileSelect, setUserAgentStatus } =
+    useStore((state) => state);
   const [destination, setDestination] = useState<string>("");
-
-  // useEffect(() => {
-  //   if (id === undefined) return;
-  //   (async () => {
-  //     const userAgent = await initUserAgent({
-  //       extension,
-  //       secret,
-  //       domain,
-  //       websocket,
-  //     });
-  //     userAgent.start();
-  //     userAgent.register();
-  //     eventUserAgent(
-  //       userAgent,
-  //       (status) => setUserAgentStatus(status),
-  //       (isRegister) => setIsRegistered(isRegister),
-  //       (remoteStream) => setRemoteMediaStream(remoteStream),
-  //       (session) => setSession(session)
-  //     );
-  //     setUserAgentData(userAgent);
-  //   })();
-  // }, [
-  //   domain,
-  //   extension,
-  //   id,
-  //   secret,
-  //   websocket,
-  //   setIsRegistered,
-  //   setRemoteMediaStream,
-  //   setSession,
-  //   setUserAgentData,
-  //   setUserAgentStatus,
-  //   profileSelect,
-  // ]);
 
   const handleClickNumber = (number: string) => {
     if (destination.length >= 10) return;
@@ -125,13 +75,12 @@ export default function DialPad({ isVisible, setIsVisible }: Props) {
       sessionTimersExpires: 9999,
     };
     userAgentData.call("sip:" + destination + "@" + profileSelect.domain, options);
-    setIsVisible(false);
   };
 
   return (
     <AnimatePresence>
       <motion.div
-        ref={dialPadRef}
+        initial={{ opacity: 0, scale: 0 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.2 }}
         exit={{ opacity: 0, scale: 0.8 }}

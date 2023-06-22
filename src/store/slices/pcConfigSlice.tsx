@@ -1,27 +1,22 @@
 import { StateCreator } from "zustand/esm";
 
-interface ITurnConfig {
+interface TurnConfig {
   id: string;
-  url: string;
+  urls: string;
   username: string;
   credential: string;
 }
 
-interface IPcConfig {
+interface PcConfig {
   turn: boolean;
-  iceServer: ITurnConfig;
   setTurnEnable: (arg0: boolean) => void;
-  setIceServer: (arg0: ITurnConfig) => void;
+  iceServer: Array<TurnConfig>;
+  setIceServer: (arg0: Array<TurnConfig>) => void;
 }
 
-const pcConfigSlice: StateCreator<IPcConfig> = (set) => ({
+const pcConfigSlice: StateCreator<PcConfig> = (set) => ({
   turn: true,
-  iceServer: {
-    id: "",
-    url: "",
-    username: "",
-    credential: "",
-  },
+  iceServer: [],
   setTurnEnable(data: any) {
     set(() => ({ turn: data }));
   },

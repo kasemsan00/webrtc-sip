@@ -1,8 +1,7 @@
 import CameraConfig from "@/ui/Setting/Device/CameraConfig";
-import MicrophoneConfig from "@/ui/Setting/Device/MicrophoneConfig";
 import { useEffect, useState } from "react";
 
-export interface IDevice {
+export interface Device {
   deviceId: string;
   groupId: string;
   kind: string;
@@ -10,14 +9,14 @@ export interface IDevice {
 }
 
 export default function Device() {
-  const [videoInput, setVideoInput] = useState<Array<IDevice>>([]);
-  const [audioInput, setAudioInput] = useState<Array<IDevice>>([]);
+  const [videoInput, setVideoInput] = useState<Array<Device>>([]);
+  const [audioInput, setAudioInput] = useState<Array<Device>>([]);
 
   useEffect(() => {
     async function getDeviceList() {
       const resp = await navigator.mediaDevices.enumerateDevices();
-      const videoInput: Array<IDevice> = [];
-      const audioInput: Array<IDevice> = [];
+      const videoInput: Array<Device> = [];
+      const audioInput: Array<Device> = [];
       resp.map((device) => {
         if (device.kind === "videoinput") {
           videoInput.push(device);

@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useStore } from "@/store/useStore";
 
-interface IMessageData {
+interface MessageData {
   user: string;
   message: string;
 }
@@ -10,18 +10,16 @@ export default function Box() {
   const [input, setInput] = useState("");
   const { session, userAgentData } = useStore((state) => state);
   const { domain } = useStore((state) => state.profileSelect);
-  const [messageData, setMessageData] = useState<Array<IMessageData>>([]);
+  const [messageData, setMessageData] = useState<Array<MessageData>>([]);
 
   useEffect(() => {
-    if (userAgentData === null) return;
-    if (userAgentData === undefined) return;
+    if (userAgentData === null || userAgentData === undefined) return;
     userAgentData.on("newMessage", (event: any) => {
       console.log(event);
       if (event.originator === "remote") {
       }
     });
   }, [userAgentData]);
-
   const handleSendMessage = () => {
     setInput("");
     if (userAgentData === null) return;
@@ -38,7 +36,7 @@ export default function Box() {
     <div className="bottom-0 border border-gray-400 w-full h-62 rounded-md">
       <div className="bg-white rounded-t-md px-2">Chat</div>
       <div className="bg-gray-100 max-h-40 h-40 overflow-auto overflow-y-scroll w-full flex flex-col items-start justify-end p-2">
-        {messageData.map((item: IMessageData, index: number) => (
+        {messageData.map((item: MessageData, index: number) => (
           <div key={index}>{item.message}</div>
         ))}
       </div>

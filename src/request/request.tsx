@@ -5,25 +5,10 @@ export const getTurn = async () => {
   }
   return response.json();
 };
-export const updateTurn = async ({
-  id,
-  url,
-  username,
-  credential,
-}: {
-  id: string;
-  url: string;
-  username: string;
-  credential: string;
-}) => {
+export const addTurn = async (data: any) => {
   const settings = {
     method: "POST",
-    body: JSON.stringify({
-      id,
-      url,
-      username,
-      credential,
-    }),
+    body: JSON.stringify({ data }),
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
@@ -32,6 +17,7 @@ export const updateTurn = async ({
   const fetchResponse = await fetch("/api/turn", settings);
   return await fetchResponse.json();
 };
+
 export const getExtension = async () => {
   const response = await fetch("/api/extension");
   if (!response.ok) {

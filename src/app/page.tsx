@@ -15,10 +15,12 @@ import RemoteVideo from "@/ui/Video/RemoteVideo";
 import Box from "@/ui/Chat/Box";
 import IceServersStatus from "@/ui/LeftBar/IceServersStatus";
 import SettingButton from "@/ui/Setting/SettingButton";
-import DialPad from "@/ui/Dialpad/DialPad";
+import MobileLayout from "@/ui/Layout/MobileLayout";
+import Config from "@/ui/Mobile/Config/Config";
+import DialPad from "@/ui/Mobile/Dialpad/DialPad";
 
 export default function Page() {
-  const { setProfile, setIceServer, setTurnEnable } = useStore((state) => state);
+  const { isRegistered, setProfile, setIceServer, setTurnEnable } = useStore((state) => state);
   const [isSettingOpen, setIsSettingOpen] = useState(false);
 
   useEffect(() => {
@@ -31,10 +33,7 @@ export default function Page() {
       });
     };
     const getTurnData = async () => {
-      const resp = await getTurn();
-      const { id, url, username, credential } = resp[0];
-      const iceServers = { id, url, username, credential };
-      setIceServer(iceServers);
+      setIceServer(await getTurn());
     };
     getSettingData().then((r) => r);
     getTurnData().then((r) => r);
@@ -56,11 +55,12 @@ export default function Page() {
     };
   }, []);
 
-  const [isDialPadOpen, setIsDialPadOpen] = useState(false);
-
   return (
     <main className="flex flex-row h-screen bg-white">
-      <DialPad isVisible={isDialPadOpen} setIsVisible={setIsDialPadOpen} />
+      <MobileLayout>
+        <Config />
+        {isRegistered && <DialPad />}
+      </MobileLayout>
       <SidebarLayout>
         <div className="flex flex-col gap-2 w-full">
           <LocalVideo />

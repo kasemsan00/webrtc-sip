@@ -19,40 +19,31 @@ export default function SipAccountsConfig({ setIsOpen, configAction, configIndex
   } = useForm();
 
   const onSubmit = async (data: any) => {
-    console.log(configAction);
-    if (configAction === "Add") {
-      const resp = await insertExtension({
-        domain: data.domain,
-        webSocket: data.webSocket,
-        extension: data.extension,
-        password: data.password,
-      });
-      console.log(resp);
-      if (resp.affectedRows === undefined) {
-        return;
-      }
-      if (resp.affectedRows === 1) {
-        setIsOpen(false);
-        setProfile(await getExtension());
-      }
+    let resp;
+    switch (configAction) {
+      case "Add":
+        resp = await insertExtension({
+          domain: data.domain,
+          webSocket: data.webSocket,
+          extension: data.extension,
+          password: data.password,
+        });
+
+        break;
+      case "Edit":
+        resp = await updateExtension({
+          id: data.id,
+          domain: data.domain,
+          webSocket: data.webSocket,
+          extension: data.extension,
+          password: data.password,
+        });
+        break;
     }
-    if (configAction === "Edit") {
-      console.log(data);
-      const resp = await updateExtension({
-        id: data.id,
-        domain: data.domain,
-        webSocket: data.webSocket,
-        extension: data.extension,
-        password: data.password,
-      });
-      console.log(resp);
-      if (resp.affectedRows === undefined) {
-        return;
-      }
-      if (resp.affectedRows === 1) {
-        setIsOpen(false);
-        setProfile(await getExtension());
-      }
+    if (resp.affectedRows === undefined) return;
+    if (resp.affectedRows === 1) {
+      setIsOpen(false);
+      setProfile(await getExtension());
     }
   };
   const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
