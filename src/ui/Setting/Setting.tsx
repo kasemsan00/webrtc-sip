@@ -83,7 +83,7 @@ export default function Setting({ open, setOpen }: Props) {
                 <div className="flex justify-between items-center mb-2">
                   <h2 className="text-xl">Setting</h2>
                   <AiFillCloseCircle
-                    className="w-8 h-8 text-red-700 cursor-pointer"
+                    className="w-8 h-8 text-red-600 cursor-pointer"
                     onClick={closeModal}
                   />
                 </div>

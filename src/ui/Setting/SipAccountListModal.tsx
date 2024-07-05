@@ -57,14 +57,14 @@ export default function SipAccountListModal({ open, configAction, onUpdate, conf
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <div className="border border-indigo-800 inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+            <div className="border border-indigo-800 inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform dark:bg-gray-600 bg-white shadow-xl rounded-2xl">
               <div className="flex justify-between">
                 <div>SipAccount Config</div>
                 <div
                   className="flex justify-center items-center cursor-pointer"
                   onClick={handleClose}
                 >
-                  <IoMdCloseCircle className="text-red-700 w-6 h-6" />
+                  <IoMdCloseCircle className="text-red-400 w-6 h-6" />
                 </div>
               </div>
               <SipAccountsConfig
