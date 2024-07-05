@@ -79,7 +79,7 @@ export default function Setting({ open, setOpen }: Props) {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block w-full max-w-xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+              <div className="dark:bg-gray-800 inline-block w-full max-w-xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                 <div className="flex justify-between items-center mb-2">
                   <h2 className="text-xl">Setting</h2>
                   <AiFillCloseCircle
@@ -109,7 +109,7 @@ export default function Setting({ open, setOpen }: Props) {
                   <Tab.Panels style={{ height: "500px" }}>
                     <Tab.Panel
                       className={classNames(
-                        "rounded-xl bg-white",
+                        "rounded-xl bg-white dark:bg-gray-800",
                         "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 h-full pt-2"
                       )}
                     >
@@ -122,7 +122,7 @@ export default function Setting({ open, setOpen }: Props) {
                     </Tab.Panel>
                     <Tab.Panel
                       className={classNames(
-                        "rounded-xl bg-white",
+                        "rounded-xl bg-white dark:bg-gray-800",
                         "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 h-full pt-2"
                       )}
                     >
@@ -130,7 +130,7 @@ export default function Setting({ open, setOpen }: Props) {
                     </Tab.Panel>
                     <Tab.Panel
                       className={classNames(
-                        "rounded-xl bg-white",
+                        "rounded-xl bg-white dark:bg-gray-800",
                         "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 h-full pt-2"
                       )}
                     >
