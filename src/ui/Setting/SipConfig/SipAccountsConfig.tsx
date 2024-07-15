@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { getExtension, insertExtension, updateExtension } from "@/request/request";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useStore } from "@/store/useStore";
 
 interface Props {
@@ -63,9 +63,7 @@ export default function SipAccountsConfig({ setIsOpen, configAction, configIndex
   }, [configIndex, profileData, register, setValue]);
 
   return (
-    <form style={{
-      zIndex:999
-    }} onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="w-full space-y-1 mt-4">
         <div className="flex flex-row items-center form-control rounded-none">
           <span className="bg-red w-[120px]">Domain</span>
