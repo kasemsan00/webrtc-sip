@@ -1,9 +1,14 @@
 import { BsFillCircleFill } from "react-icons/bs";
 import { useStore } from "@/store/useStore";
+import { useEffect } from "react";
 
 export default function IceServerStatus() {
   const turn = useStore((state) => state.turn);
   const iceServer = useStore((state) => state.iceServer);
+
+  useEffect(() => {
+    console.log(iceServer[0]);
+  }, [iceServer]);
 
   return (
     <div className="flex flex-row items-center gap-2">

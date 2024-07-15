@@ -7,7 +7,7 @@ const init = { urls: "", username: "", credential: "" };
 
 export default function PcConfig() {
   const turnSaveInfoRef = useRef<HTMLSpanElement>(null);
-  const { turn, iceServer, setTurnEnable } = useStore((state) => state);
+  const { turn, iceServer, setTurnEnable, setIceServer } = useStore((state) => state);
   const { register, control, handleSubmit } = useForm({});
   const { fields, append, remove } = useFieldArray({
     control,
@@ -33,10 +33,10 @@ export default function PcConfig() {
 
   const handleToggle = () => setTurnEnable(!turn);
 
-  const addMoreTurn = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    append(init);
-  };
+  // const addMoreTurn = (event: React.MouseEvent<HTMLButtonElement>) => {
+  //   event.preventDefault();
+  //   append(init);
+  // };
 
   const onSubmit = async (data: any) => {
     turnSaveInfoRef.current!.innerHTML = "Saving...";
@@ -46,6 +46,8 @@ export default function PcConfig() {
     });
     let resp = await addTurn(data.test);
     if (resp.message === "insert complete") turnSaveInfoRef.current!.innerHTML = "Save Successful";
+    // setIceServer
+    setIceServer(data.test);
   };
 
   return (
@@ -122,9 +124,9 @@ export default function PcConfig() {
       </div>
       <div className="flex justify-between items-center mt-4">
         <div className="space-x-2">
-          <button className="btn btn-warning btn-sm w-[150px]" onClick={addMoreTurn}>
-            Add More
-          </button>
+          {/*<button className="btn btn-warning btn-sm w-[150px]" onClick={addMoreTurn}>*/}
+          {/*  Add More*/}
+          {/*</button>*/}
           <span className="text-green-600" ref={turnSaveInfoRef}></span>
         </div>
         <input className="btn btn-primary btn-sm w-[150px]" type="submit" value="Save" />
