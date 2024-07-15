@@ -59,19 +59,19 @@ export default function PcConfig() {
         {fields.map((item, index) => (
           <table key={index}>
             <tbody>
-              {index === 0 && (
-                <tr>
-                  <td className="text-sm">Enable</td>
-                  <td>
-                    <input
-                      type="checkbox"
-                      className="toggle toggle-info"
-                      onChange={handleToggle}
-                      checked={turn}
-                    />
-                  </td>
-                </tr>
-              )}
+              {/*{index === 0 && (*/}
+              {/*  <tr>*/}
+              {/*    <td className="text-sm">Enable</td>*/}
+              {/*    <td>*/}
+              {/*      <input*/}
+              {/*        type="checkbox"*/}
+              {/*        className="toggle toggle-info"*/}
+              {/*        onChange={handleToggle}*/}
+              {/*        checked={turn}*/}
+              {/*      />*/}
+              {/*    </td>*/}
+              {/*  </tr>*/}
+              {/*)}*/}
               <tr key={index}>
                 <td className="w-[100px] text-sm">Url</td>
                 <td>
