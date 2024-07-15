@@ -41,14 +41,6 @@ export default function Setting({ open, setOpen }: Props) {
 
   return (
     <>
-      <SipAccountListModal
-        open={isSipConfigOpen}
-        configAction={configAction}
-        onUpdate={(value) => {
-          setIsSipConfigOpen(value);
-        }}
-        configIndex={selectSipAccountConfigIndex}
-      />
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog
           as="div"
@@ -118,6 +110,14 @@ export default function Setting({ open, setOpen }: Props) {
                         setConfigAction={setConfigAction}
                         configIndex={selectSipAccountConfigIndex}
                         onSelectIndex={setSelectSipAccountConfigIndex}
+                      />
+                      <SipAccountListModal
+                        open={isSipConfigOpen}
+                        configAction={configAction}
+                        onUpdate={(value) => {
+                          setIsSipConfigOpen(value);
+                        }}
+                        configIndex={selectSipAccountConfigIndex}
                       />
                     </Tab.Panel>
                     <Tab.Panel

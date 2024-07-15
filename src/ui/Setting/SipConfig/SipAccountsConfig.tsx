@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { getExtension, insertExtension, updateExtension } from "@/request/request";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { useStore } from "@/store/useStore";
 
 interface Props {
