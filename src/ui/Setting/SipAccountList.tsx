@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { deleteExtension, getExtension } from "@/request/request";
 import { useStore } from "@/store/useStore";
 
