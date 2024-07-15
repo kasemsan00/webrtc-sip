@@ -8,7 +8,7 @@ export default function IceServerStatus() {
 
   useEffect(() => {
     if (iceServer[0] !== undefined) {
-      console.log(iceServer);
+      console.log(iceServer[0]);
     }
   }, [iceServer]);
 
