@@ -83,16 +83,16 @@ export default function PcConfig() {
                     disabled={!turn}
                   />
                 </td>
-                <td>
-                  <div
-                    onClick={() => {
-                      if (fields.length > 1) remove(item.id as any);
-                    }}
-                    className="h-full w-full flex justify-center items-center text-red-700 cursor-pointer"
-                  >
-                    <MdDelete></MdDelete>
-                  </div>
-                </td>
+                {/*<td>*/}
+                {/*  <div*/}
+                {/*    onClick={() => {*/}
+                {/*      if (fields.length > 1) remove(item.id as any);*/}
+                {/*    }}*/}
+                {/*    className="h-full w-full flex justify-center items-center text-red-700 cursor-pointer"*/}
+                {/*  >*/}
+                {/*    <MdDelete></MdDelete>*/}
+                {/*  </div>*/}
+                {/*</td>*/}
               </tr>
               <tr>
                 <td className="text-sm">Username</td>
