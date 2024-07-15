@@ -44,6 +44,7 @@ export default function RemoteVideo() {
     if (mediaStreamRemote === undefined) {
       return;
     }
+    console.log(mediaStreamRemote);
     if (remoteVideoRef.current !== null) {
       remoteVideoRef.current.srcObject = mediaStreamRemote;
     }
