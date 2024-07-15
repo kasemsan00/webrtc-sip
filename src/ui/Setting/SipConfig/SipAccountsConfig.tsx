@@ -63,7 +63,9 @@ export default function SipAccountsConfig({ setIsOpen, configAction, configIndex
   }, [configIndex, profileData, register, setValue]);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form style={{
+      zIndex:999
+    }} onSubmit={handleSubmit(onSubmit)}>
       <div className="w-full space-y-1 mt-4">
         <div className="flex flex-row items-center form-control rounded-none">
           <span className="bg-red w-[120px]">Domain</span>

@@ -1,15 +1,10 @@
-<h3>
-How to use
-</h3>
-
-1. `git clone https://github.com/kasemsan00/webrtc-sip`
-2. `pnpm install`
-3. `pnpm start`
-
-<h3>
-Online Demo
-</h3>
-
-https://webrtc-sip.vercel.app
-
-Hello World
+res.json({
+agent: "9999",
+conference: 0,
+domain: "sipclient.ttrs.or.th",
+extension: "0000171938669",
+password: "93CuW4vhAMTp6HeUavWN",
+status: "create",
+type: "webrtc",
+wss: "wss://sipclient.ttrs.or.th:4443",
+});

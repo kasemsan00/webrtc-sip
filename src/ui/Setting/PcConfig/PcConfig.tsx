@@ -52,7 +52,7 @@ export default function PcConfig() {
     <form onSubmit={handleSubmit(onSubmit)}>
       <div
         className="form-control w-full max-w-full focus:outline-none focus:border-none gap-2
-      max-h-[450px] overflow-scroll"
+      max-h-[450px] overflow-hidden"
       >
         {fields.map((item, index) => (
           <table key={index}>

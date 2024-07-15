@@ -33,7 +33,7 @@ export default function Box() {
   };
 
   return (
-    <div className="dark:bg-gray-600 bottom-0 border border-gray-400 w-full h-62 rounded-md">
+    <div className="dark:bg-gray-600 bottom-0 border dark:border-gray-700 w-full h-62 rounded-md">
       <div className="dark:bg-gray-600 bg-white rounded-t-md px-2">Chat</div>
       <div className=" dark:bg-gray-600 bg-gray-100 max-h-40 h-40 overflow-auto overflow-y-scroll w-full flex flex-col items-start justify-end p-2">
         {messageData.map((item: MessageData, index: number) => (
@@ -41,7 +41,7 @@ export default function Box() {
         ))}
       </div>
       <input
-        className="w-full p-2 z-20 h-10 rounded-b-md border-t focus:outline-none"
+        className="dark:bg-gray-800 w-full p-2 z-20 h-10 rounded-b-md border-t focus:outline-none"
         type="text"
         onChange={(event) => {
           setInput(event.target.value);
