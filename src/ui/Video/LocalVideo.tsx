@@ -117,7 +117,7 @@ export default function LocalVideo() {
           onClick={handleClickVideoMuted}
         >
           {isMuted.video ? (
-            <BsFillCameraVideoFill className="w-5 h-5" />
+            <BsFillCameraVideoFill className="dark:text-gray-700 w-5 h-5" />
           ) : (
             <BsFillCameraVideoOffFill className="w-5 h-5 text-red-700" />
           )}
@@ -128,7 +128,7 @@ export default function LocalVideo() {
           onClick={handleClickMicMuted}
         >
           {isMuted.audio ? (
-            <BsFillMicFill className="w-5 h-5" />
+            <BsFillMicFill className="dark:text-gray-700 w-5 h-5" />
           ) : (
             <BsFillMicMuteFill className="w-5 h-5 text-red-700" />
           )}
