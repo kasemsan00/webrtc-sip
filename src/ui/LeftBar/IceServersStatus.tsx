@@ -7,7 +7,9 @@ export default function IceServerStatus() {
   const iceServer = useStore((state) => state.iceServer);
 
   useEffect(() => {
-    console.log(iceServer[0]);
+    if (iceServer[0] !== undefined) {
+      console.log(iceServer);
+    }
   }, [iceServer]);
 
   return (
