@@ -41,7 +41,7 @@ export default function CallOut() {
       failed: function (data: any) {
         console.log(data);
         setUserAgentStatus(data.cause);
-        alert(data.cause);
+        // alert(data.cause);
         /* Your code here */
       },
       confirmed: function (data: any) {
