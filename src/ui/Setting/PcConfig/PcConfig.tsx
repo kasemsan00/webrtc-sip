@@ -1,17 +1,29 @@
 import React, { useEffect, useRef } from "react";
 import { useStore } from "@/store/useStore";
 import { useForm, useFieldArray } from "react-hook-form";
-import { addTurn, updateSetting } from "@/request/request";
-import { MdDelete } from "react-icons/md";
+import { addTurn } from "@/request/request";
+import { useMutation } from "@tanstack/react-query";
 const init = { urls: "", username: "", credential: "" };
 
 export default function PcConfig() {
   const turnSaveInfoRef = useRef<HTMLSpanElement>(null);
-  const { turn, iceServer, setTurnEnable, setIceServer } = useStore((state) => state);
+  const { turn, iceServer, setIceServer } = useStore((state) => state);
   const { register, control, handleSubmit } = useForm({});
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append } = useFieldArray({
     control,
     name: "test",
+  });
+
+  const { mutate: server_addTurn, isPending } = useMutation({
+    mutationFn: addTurn,
+    onSuccess: (resp) => {
+      if (resp.message === "insert complete") {
+        turnSaveInfoRef.current!.innerHTML = "Save Successful";
+      }
+    },
+    onError: (resp) => {
+      console.log("error", resp);
+    },
   });
 
   useEffect(() => {
@@ -31,22 +43,9 @@ export default function PcConfig() {
     });
   }, [append, fields, iceServer]);
 
-  const handleToggle = () => setTurnEnable(!turn);
-
-  // const addMoreTurn = (event: React.MouseEvent<HTMLButtonElement>) => {
-  //   event.preventDefault();
-  //   append(init);
-  // };
-
   const onSubmit = async (data: any) => {
     turnSaveInfoRef.current!.innerHTML = "Saving...";
-    await updateSetting({
-      name: "turn",
-      value: turn,
-    });
-    let resp = await addTurn(data.test);
-    if (resp.message === "insert complete") turnSaveInfoRef.current!.innerHTML = "Save Successful";
-    // setIceServer
+    server_addTurn(data.test);
     setIceServer(data.test);
   };
 
@@ -59,19 +58,6 @@ export default function PcConfig() {
         {fields.map((item, index) => (
           <table key={index}>
             <tbody>
-              {/*{index === 0 && (*/}
-              {/*  <tr>*/}
-              {/*    <td className="text-sm">Enable</td>*/}
-              {/*    <td>*/}
-              {/*      <input*/}
-              {/*        type="checkbox"*/}
-              {/*        className="toggle toggle-info"*/}
-              {/*        onChange={handleToggle}*/}
-              {/*        checked={turn}*/}
-              {/*      />*/}
-              {/*    </td>*/}
-              {/*  </tr>*/}
-              {/*)}*/}
               <tr key={index}>
                 <td className="w-[100px] text-sm">Url</td>
                 <td>
@@ -83,16 +69,6 @@ export default function PcConfig() {
                     disabled={!turn}
                   />
                 </td>
-                {/*<td>*/}
-                {/*  <div*/}
-                {/*    onClick={() => {*/}
-                {/*      if (fields.length > 1) remove(item.id as any);*/}
-                {/*    }}*/}
-                {/*    className="h-full w-full flex justify-center items-center text-red-700 cursor-pointer"*/}
-                {/*  >*/}
-                {/*    <MdDelete></MdDelete>*/}
-                {/*  </div>*/}
-                {/*</td>*/}
               </tr>
               <tr>
                 <td className="text-sm">Username</td>
@@ -124,12 +100,14 @@ export default function PcConfig() {
       </div>
       <div className="flex justify-between items-center mt-4">
         <div className="space-x-2">
-          {/*<button className="btn btn-warning btn-sm w-[150px]" onClick={addMoreTurn}>*/}
-          {/*  Add More*/}
-          {/*</button>*/}
           <span className="text-green-600" ref={turnSaveInfoRef}></span>
         </div>
-        <input className="btn btn-primary btn-sm w-[150px]" type="submit" value="Save" />
+        <input
+          disabled={isPending}
+          className="btn btn-primary btn-sm w-[150px]"
+          type="submit"
+          value="Save"
+        />
       </div>
     </form>
   );

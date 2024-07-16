@@ -18,6 +18,7 @@ import SettingButton from "@/ui/Setting/SettingButton";
 import MobileLayout from "@/ui/Layout/MobileLayout";
 import Config from "@/ui/Mobile/Config/Config";
 import DialPad from "@/ui/Mobile/Dialpad/DialPad";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 export default function Page() {
   const { isRegistered, setProfile, setIceServer, setTurnEnable } = useStore((state) => state);
@@ -54,31 +55,33 @@ export default function Page() {
       document.removeEventListener("keydown", handleEscapeKey);
     };
   }, []);
-
+  const queryClient = new QueryClient();
   return (
-    <main className="flex flex-row h-screen bg-white">
-      <MobileLayout>
-        <Config />
-        {isRegistered && <DialPad />}
-      </MobileLayout>
-      <SidebarLayout>
-        <div className="flex flex-col gap-2 w-full">
-          <LocalVideo />
-          <ProfileList />
-          <ConnectSip />
-          <StatusConnection />
-          <CallOut />
-          <Box />
-          <IceServersStatus />
-        </div>
-        <div className="flex flex-col gap-2 w-full">
-          <SettingButton handleClick={setIsSettingOpen} />
-        </div>
-      </SidebarLayout>
-      <RemoteLayout>
-        <RemoteVideo />
-      </RemoteLayout>
-      <Setting open={isSettingOpen} setOpen={setIsSettingOpen} />
-    </main>
+    <QueryClientProvider client={queryClient}>
+      <main className="flex flex-row h-screen bg-white">
+        {/*<MobileLayout>*/}
+        {/*  <Config />*/}
+        {/*  {isRegistered && <DialPad />}*/}
+        {/*</MobileLayout>*/}
+        <SidebarLayout>
+          <div className="flex flex-col gap-2 w-full">
+            <LocalVideo />
+            <ProfileList />
+            <ConnectSip />
+            <StatusConnection />
+            <CallOut />
+            <Box />
+            <IceServersStatus />
+          </div>
+          <div className="flex flex-col gap-2 w-full">
+            <SettingButton handleClick={setIsSettingOpen} />
+          </div>
+        </SidebarLayout>
+        <RemoteLayout>
+          <RemoteVideo />
+        </RemoteLayout>
+        <Setting open={isSettingOpen} setOpen={setIsSettingOpen} />
+      </main>
+    </QueryClientProvider>
   );
 }

@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { getExtension, insertExtension, updateExtension } from "@/request/request";
 import React, { useEffect } from "react";
 import { useStore } from "@/store/useStore";
+import { useMutation } from "@tanstack/react-query";
 
 interface Props {
   setIsOpen: (arg0: boolean) => void;
@@ -18,20 +19,39 @@ export default function SipAccountsConfig({ setIsOpen, configAction, configIndex
     formState: {},
   } = useForm();
 
+  const { mutate: server_insertExtension, isPending: isPendingInsert } = useMutation({
+    mutationFn: insertExtension,
+    onSuccess: async (resp) => {
+      if (resp.affectedRows === undefined) return;
+      if (resp.affectedRows === 1) {
+        setIsOpen(false);
+        setProfile(await getExtension());
+      }
+    },
+  });
+  const { mutate: server_updateExtension, isPending: isPendingUpdate } = useMutation({
+    mutationFn: updateExtension,
+    onSuccess: async (resp) => {
+      if (resp.affectedRows === undefined) return;
+      if (resp.affectedRows === 1) {
+        setIsOpen(false);
+        setProfile(await getExtension());
+      }
+    },
+  });
+
   const onSubmit = async (data: any) => {
-    let resp;
     switch (configAction) {
       case "Add":
-        resp = await insertExtension({
+        server_insertExtension({
           domain: data.domain,
           webSocket: data.webSocket,
           extension: data.extension,
           password: data.password,
         });
-
         break;
       case "Edit":
-        resp = await updateExtension({
+        server_updateExtension({
           id: data.id,
           domain: data.domain,
           webSocket: data.webSocket,
@@ -39,11 +59,6 @@ export default function SipAccountsConfig({ setIsOpen, configAction, configIndex
           password: data.password,
         });
         break;
-    }
-    if (resp.affectedRows === undefined) return;
-    if (resp.affectedRows === 1) {
-      setIsOpen(false);
-      setProfile(await getExtension());
     }
   };
   const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -106,7 +121,12 @@ export default function SipAccountsConfig({ setIsOpen, configAction, configIndex
         <button className="btn btn-warning btn-sm w-[100px]" onClick={handleCancel}>
           Cancel
         </button>
-        <input className="btn btn-primary btn-sm w-[100px]" type="submit" value="OK" />
+        <input
+          disabled={configAction === "ADD" ? isPendingInsert : isPendingUpdate}
+          className="btn btn-primary btn-sm w-[100px]"
+          type="submit"
+          value="OK"
+        />
       </div>
     </form>
   );
