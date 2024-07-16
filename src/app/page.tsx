@@ -15,9 +15,6 @@ import RemoteVideo from "@/ui/Video/RemoteVideo";
 import Box from "@/ui/Chat/Box";
 import IceServersStatus from "@/ui/LeftBar/IceServersStatus";
 import SettingButton from "@/ui/Setting/SettingButton";
-import MobileLayout from "@/ui/Layout/MobileLayout";
-import Config from "@/ui/Mobile/Config/Config";
-import DialPad from "@/ui/Mobile/Dialpad/DialPad";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 export default function Page() {

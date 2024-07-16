@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useStore } from "@/store/useStore";
 import { useForm, useFieldArray } from "react-hook-form";
-import { addTurn } from "@/request/request";
+import { updateTurn } from "@/request/request";
 import { useMutation } from "@tanstack/react-query";
 const init = { urls: "", username: "", credential: "" };
 
@@ -9,13 +9,13 @@ export default function PcConfig() {
   const turnSaveInfoRef = useRef<HTMLSpanElement>(null);
   const { turn, iceServer, setIceServer } = useStore((state) => state);
   const { register, control, handleSubmit } = useForm({});
-  const { fields, append } = useFieldArray({
+  const { fields, append, remove } = useFieldArray({
     control,
     name: "test",
   });
 
-  const { mutate: server_addTurn, isPending } = useMutation({
-    mutationFn: addTurn,
+  const { mutate: server_updateTurn, isPending } = useMutation({
+    mutationFn: updateTurn,
     onSuccess: (resp) => {
       if (resp.message === "insert complete") {
         turnSaveInfoRef.current!.innerHTML = "Save Successful";
@@ -33,6 +33,7 @@ export default function PcConfig() {
 
   useEffect(() => {
     if (fields.length !== 0) return;
+    remove(0);
     iceServer.forEach((item: any) => {
       append({
         id: item.id,
@@ -41,11 +42,11 @@ export default function PcConfig() {
         credential: item.credential,
       });
     });
-  }, [append, fields, iceServer]);
+  }, [append, fields, iceServer, remove]);
 
   const onSubmit = async (data: any) => {
-    turnSaveInfoRef.current!.innerHTML = "Saving...";
-    server_addTurn(data.test);
+    // turnSaveInfoRef.current!.innerHTML = "Saving...";
+    server_updateTurn(data.test);
     setIceServer(data.test);
   };
 
