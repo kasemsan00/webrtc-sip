@@ -67,7 +67,7 @@ export default function PcConfig() {
                     placeholder="URL"
                     className="input input-sm input-bordered w-full focus:outline-none"
                     {...register(`test.${index}.urls`)}
-                    disabled={!turn}
+                    disabled={true}
                   />
                 </td>
               </tr>
@@ -79,7 +79,7 @@ export default function PcConfig() {
                     placeholder="Username"
                     className="input input-sm input-bordered w-full focus:outline-none"
                     {...register(`test.${index}.username`)}
-                    disabled={!turn}
+                    disabled={true}
                   />
                 </td>
               </tr>
@@ -91,7 +91,7 @@ export default function PcConfig() {
                     placeholder="Credential"
                     className="input input-sm input-bordered w-full focus:outline-none"
                     {...register(`test.${index}.credential`)}
-                    disabled={!turn}
+                    disabled={true}
                   />
                 </td>
               </tr>
@@ -103,12 +103,12 @@ export default function PcConfig() {
         <div className="space-x-2">
           <span className="text-green-600" ref={turnSaveInfoRef}></span>
         </div>
-        <input
-          disabled={isPending}
-          className="btn btn-primary btn-sm w-[150px]"
-          type="submit"
-          value="Save"
-        />
+        {/*<input*/}
+        {/*  disabled={isPending}*/}
+        {/*  className="btn btn-primary btn-sm w-[150px]"*/}
+        {/*  type="submit"*/}
+        {/*  value="Save"*/}
+        {/*/>*/}
       </div>
     </form>
   );

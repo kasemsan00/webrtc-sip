@@ -35,12 +35,18 @@ export const eventUserAgent = (
     console.log(event);
   });
   userAgent.on("unregistered", (event) => {
+    if (event.cause !== null) {
+      alert(event.cause);
+    }
     console.log("UnRegistered");
     handleStatus("Unregistered");
     handleIsRegister(false);
     console.log(event);
   });
   userAgent.on("registrationFailed", (event) => {
+    if (event.cause !== null) {
+      alert(event.cause);
+    }
     console.log("RegistrationFailed");
     handleStatus("RegistrationFailed");
     handleIsRegister(false);
