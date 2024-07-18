@@ -70,7 +70,7 @@ export default function Page() {
             <Box />
             <IceServersStatus />
           </div>
-          <div className="flex flex-col gap-2 w-full">
+          <div className="fixed w-[calc(100%-15px)] mb-2 bottom-0">
             <SettingButton handleClick={setIsSettingOpen} />
           </div>
         </SidebarLayout>
