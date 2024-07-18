@@ -1,0 +1,1 @@
+docker build --push -t registry.kasemsan.net/webrtc-sip:develop .

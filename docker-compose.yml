@@ -1,0 +1,7 @@
+services:
+  frontend:
+    build: .
+    container_name: webrtc-sip-test
+    restart: always
+    ports:
+      - 3111:3000
