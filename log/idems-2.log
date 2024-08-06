@@ -1,0 +1,58 @@
+SIP/2.0 200 OK
+Via: SIP/2.0/WSS h79mifjvfma3.invalid;branch=z9hG4bK8165223;received=172.25.13.2;rport=20821
+From: <sip:1582172499@sip-idems-center.fm-sp.com>;tag=4ej4nbkp5q
+To: <sip:9999@sip-idems-center.fm-sp.com>;tag=as72515cdf
+Call-ID: mmht7p7krlnesptgrift
+CSeq: 1505 INVITE
+Server: FPBX-15.0.37.5(18.21.0)
+Allow: INVITE, ACK, CANCEL, OPTIONS, BYE, REFER, SUBSCRIBE, NOTIFY, INFO, PUBLISH, MESSAGE
+Supported: replaces, timer
+Session-Expires: 1800;refresher=uas
+Contact: <sip:9999@172.25.22.204:5060;transport=ws>
+Content-Type: application/sdp
+Require: timer
+Content-Length: 1799
+
+v=0
+o=root 954979496 954979496 IN IP4 172.25.22.204
+s=Asterisk PBX 18.21.0
+c=IN IP4 172.25.22.204
+b=CT:384
+t=0 0
+m=audio 14518 RTP/SAVPF 111 126
+a=rtpmap:111 opus/48000/2
+a=fmtp:111 useinbandfec=1
+a=rtpmap:126 telephone-event/8000
+a=fmtp:126 0-16
+a=maxptime:20
+a=ice-ufrag:446659911a44529005836a2942b3a358
+a=ice-pwd:4eff88594fe59647751cd2a27c4d5d25
+a=candidate:Hac1916cc 1 UDP 2130706431 172.25.22.204 14518 typ host
+a=candidate:Hac110001 1 UDP 2130706431 172.17.0.1 14518 typ host
+a=candidate:Ha2a4280 1 UDP 2130706431 10.42.66.128 14518 typ host
+a=candidate:Hac1916cc 2 UDP 2130706430 172.25.22.204 14519 typ host
+a=candidate:Hac110001 2 UDP 2130706430 172.17.0.1 14519 typ host
+a=candidate:Ha2a4280 2 UDP 2130706430 10.42.66.128 14519 typ host
+a=connection:new
+a=setup:active
+a=fingerprint:SHA-256 4A:2A:73:A7:1A:67:DC:76:09:85:DF:E4:2F:F3:8F:02:9F:35:E4:7F:13:B7:E3:BC:CB:D8:6C:B5:DB:41:13:A2
+a=rtcp-mux
+a=sendrecv
+m=video 13612 RTP/SAVPF 96 102
+a=ice-ufrag:39487b0312b7589b3f31bfff76f6d98a
+a=ice-pwd:5e591aea58e9f96e789273e937b7b92a
+a=candidate:Hac1916cc 1 UDP 2130706431 172.25.22.204 13612 typ host
+a=candidate:Hac110001 1 UDP 2130706431 172.17.0.1 13612 typ host
+a=candidate:Ha2a4280 1 UDP 2130706431 10.42.66.128 13612 typ host
+a=candidate:Hac1916cc 2 UDP 2130706430 172.25.22.204 13613 typ host
+a=candidate:Hac110001 2 UDP 2130706430 172.17.0.1 13613 typ host
+a=candidate:Ha2a4280 2 UDP 2130706430 10.42.66.128 13613 typ host
+a=connection:new
+a=setup:active
+a=fingerprint:SHA-256 4A:2A:73:A7:1A:67:DC:76:09:85:DF:E4:2F:F3:8F:02:9F:35:E4:7F:13:B7:E3:BC:CB:D8:6C:B5:DB:41:13:A2
+a=rtpmap:96 VP8/90000
+a=rtcp-fb:* ccm fir
+a=rtpmap:102 H264/90000
+a=fmtp:102 packetization-mode=1;level-asymmetry-allowed=1;profile-level-id=42001F
+a=rtcp-mux
+a=sendrecv
