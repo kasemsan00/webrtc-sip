@@ -53,7 +53,7 @@ export default function SipAccountList({
               key={index}
               value={item.id}
             >
-              {item.extension}@{item.domain}
+              {item.id} - {item.extension}@{item.domain}
             </option>
           ))}
         </select>
