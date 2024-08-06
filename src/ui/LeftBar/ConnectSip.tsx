@@ -13,10 +13,9 @@ export default function ConnectSip() {
     setSession,
   } = useStore((state) => state);
   const { id, extension, secret, domain, websocket } = profileSelect;
-
   const UserRegister = async () => {
     if (id === undefined) return;
-    const userAgent = await initUserAgent({
+    const userAgent = initUserAgent({
       extension,
       secret,
       domain,

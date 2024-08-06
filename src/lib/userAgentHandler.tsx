@@ -15,6 +15,7 @@ export const initUserAgent = ({ extension, secret, websocket, domain }: Props) =
     uri: "sip:" + extension + "@" + domain,
     password: secret,
   };
+  console.log(configuration);
   return new JsSIP.UA(configuration);
 };
 

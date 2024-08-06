@@ -30,8 +30,9 @@ export default function ProfileList() {
     }
     if (profileData === undefined) return;
     const profileSelect = profileData.find((state: any) => {
-      return state.extension === event;
+      return state.id === event;
     });
+    console.log(profileSelect);
     setLocalStorageProfile(profileSelect as ExtensionDetail | undefined);
     setSelectProfile(profileSelect);
   };
@@ -72,7 +73,7 @@ export default function ProfileList() {
                       active ? "bg-amber-100 text-amber-900" : "text-gray-900"
                     }`
                   }
-                  value={item.extension}
+                  value={item.id}
                 >
                   {({ selected }) => (
                     <>
