@@ -68,7 +68,7 @@ export default function DialPad() {
       mediaStream: mediaStreamLocal,
       pcConfig: {
         iceServers: iceServers,
-        iceTransportPolicy: "all",
+        iceTransportPolicy: "relay",
         rtcpMuxPolicy: "require",
         iceCandidatePoolSize: 0,
       },

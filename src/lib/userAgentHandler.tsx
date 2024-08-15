@@ -63,18 +63,51 @@ export const eventUserAgent = (
   });
   userAgent.on("newRTCSession", (ev1: any) => {
     let newSession: RTCSession = ev1.session;
+    console.log("direction", newSession.direction);
+    if (newSession.direction === "incoming") {
+      newSession.answer();
+      inComingCall(newSession);
+    }
+    if (newSession.direction === "outgoing" && newSession.connection !== null) {
+      newSession.connection.addEventListener("addstream", (event: any) => {
+        const { stream } = event;
+        console.log("outgoing setRemoteMediaStream", stream);
+        handleRemoteStream(stream);
+      });
+    }
 
-    newSession.connection.addEventListener("addstream", (event: any) => {
-      const { stream } = event;
-      console.log("setRemoteMediaStream", stream);
-      handleRemoteStream(stream);
+    newSession.on("ended", () => {
+      console.log("ended");
     });
-    newSession.on("ended", () => {});
-    newSession.on("confirmed", () => {});
+    newSession.on("confirmed", (ev: any) => {
+      console.log("confirmed");
+    });
     newSession.on("muted", () => {});
     newSession.on("unmuted", () => {});
     newSession.on("sdp", () => {});
-    newSession.on("peerconnection", function () {});
+    newSession.on("peerconnection", function () {
+      console.log("peerconnection");
+    });
     handleSession(newSession);
   });
+  const inComingCall = (session: RTCSession) => {
+    console.log("inCommingCall session", session);
+    console.log(session.connection);
+    session.connection.addEventListener("addstream", (event: any) => {
+      const { stream } = event;
+      console.log("incoming setRemoteMediaStream", stream);
+      handleRemoteStream(stream);
+    });
+    session.on("progress", () => {});
+    session.on("accepted", () => {});
+    session.on("connecting", () => {
+      console.log("inCommingCall call is in connecting ...");
+    });
+    session.on("confirmed", () => {
+      console.log("confirmed");
+    });
+    session.on("ended", () => {});
+    session.on("failed", () => {});
+    session.on("peerconnection", (e) => {});
+  };
 };
