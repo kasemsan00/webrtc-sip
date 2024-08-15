@@ -1,6 +1,6 @@
 import JsSIP from "jssip";
 import { RTCSession } from "jssip/lib/RTCSession";
-
+import { useStore } from "@/store/useStore";
 interface Props {
   extension: string;
   secret: string;
@@ -20,6 +20,7 @@ export const initUserAgent = ({ extension, secret, websocket, domain }: Props) =
 };
 
 export const eventUserAgent = (
+  mediaStreamLocal: MediaStream,
   userAgent: JsSIP.UA,
   handleStatus: (arg0: string) => void,
   handleIsRegister: (arg0: boolean) => void,
@@ -65,7 +66,40 @@ export const eventUserAgent = (
     let newSession: RTCSession = ev1.session;
     console.log("direction", newSession.direction);
     if (newSession.direction === "incoming") {
-      newSession.answer();
+      newSession.answer({
+        mediaStream: mediaStreamLocal,
+        pcConfig: {
+          iceServers: [
+            {
+              urls: "turn:turn.ttrs.or.th:3478",
+              username: "turn01",
+              credential: " Test1234",
+            },
+          ],
+          iceTransportPolicy: "all",
+          rtcpMuxPolicy: "require",
+          iceCandidatePoolSize: 0,
+          bundlePolicy: "balanced",
+        },
+        sessionTimersExpires: 9999,
+      });
+      // newSession.answer({
+      //   mediaStream: mediaStreamLocal,
+      //   pcConfig: {
+      //     iceServers: [
+      //       {
+      //         urls: "turn:turn.ttrs.or.th:3478?transport=tcp",
+      //         username: "turn01",
+      //         credential: " Test1234",
+      //       },
+      //     ],
+      //     iceTransportPolicy: "relay",
+      //     rtcpMuxPolicy: "require",
+      //     iceCandidatePoolSize: 0,
+      //   },
+      //   sessionTimersExpires: 9999,
+      // });
+
       inComingCall(newSession);
     }
     if (newSession.direction === "outgoing" && newSession.connection !== null) {
@@ -80,7 +114,7 @@ export const eventUserAgent = (
       console.log("ended");
     });
     newSession.on("confirmed", (ev: any) => {
-      console.log("confirmed");
+      // console.log("confirmed");
     });
     newSession.on("muted", () => {});
     newSession.on("unmuted", () => {});
@@ -91,8 +125,7 @@ export const eventUserAgent = (
     handleSession(newSession);
   });
   const inComingCall = (session: RTCSession) => {
-    console.log("inCommingCall session", session);
-    console.log(session.connection);
+    console.log("inComingCall session", session);
     session.connection.addEventListener("addstream", (event: any) => {
       const { stream } = event;
       console.log("incoming setRemoteMediaStream", stream);

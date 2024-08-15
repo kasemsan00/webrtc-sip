@@ -1,5 +1,6 @@
 import { useStore } from "@/store/useStore";
 import { eventUserAgent, initUserAgent } from "@/lib/userAgentHandler";
+import { useEffect, useRef } from "react";
 
 export default function ConnectSip() {
   const {
@@ -11,6 +12,7 @@ export default function ConnectSip() {
     setIsRegistered,
     setRemoteMediaStream,
     setSession,
+    mediaStreamLocal,
   } = useStore((state) => state);
   const { id, extension, secret, domain, websocket } = profileSelect;
   const UserRegister = async () => {
@@ -25,6 +27,7 @@ export default function ConnectSip() {
     userAgent.start();
     userAgent.register();
     eventUserAgent(
+      mediaStreamLocal,
       userAgent,
       (status) => setUserAgentStatus(status),
       (isRegistered) => setIsRegistered(isRegistered),
@@ -33,9 +36,13 @@ export default function ConnectSip() {
     );
   };
   const UserUnregister = () => userAgentData.unregister();
-
+  // const testRef = useRef<HTMLVideoElement>(null);
+  // useEffect(() => {
+  //   testRef.current.srcObject = mediaStreamLocal;
+  // }, [mediaStreamLocal]);
   return (
     <>
+      {/*<video ref={testRef} className="w-20 h-20 bg-black" autoPlay playsInline></video>*/}
       {isRegistered && (
         <button className="btn btn-error" onClick={UserUnregister}>
           Disconnect

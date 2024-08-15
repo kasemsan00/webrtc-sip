@@ -45,13 +45,11 @@ export default function RemoteVideo() {
       return;
     }
     if (mediaStreamRemote !== null) {
-      console.log(mediaStreamRemote);
       setVariant("shown");
     }
     if (remoteVideoRef.current !== null) {
       remoteVideoRef.current.srcObject = mediaStreamRemote;
     }
-    console.log(mediaStreamRemote);
   }, [mediaStreamRemote]);
 
   const handleEndCall = () => {

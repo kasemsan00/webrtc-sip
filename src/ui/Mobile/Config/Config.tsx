@@ -11,12 +11,13 @@ export default function Config() {
     setRemoteMediaStream,
     setSession,
     setUserAgentData,
+    mediaStreamLocal,
   } = useStore((state) => state);
 
   const handleRegister = async () => {
     const { extension, domain, secret, websocket } = profileSelect;
 
-    const userAgent = await initUserAgent({
+    const userAgent = initUserAgent({
       extension,
       domain,
       websocket,
@@ -26,6 +27,7 @@ export default function Config() {
     userAgent.start();
 
     eventUserAgent(
+      mediaStreamLocal,
       userAgent,
       (status) => setUserAgentStatus(status),
       (isRegistered) => setIsRegistered(isRegistered),
