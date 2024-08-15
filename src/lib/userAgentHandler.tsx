@@ -68,37 +68,25 @@ export const eventUserAgent = (
     if (newSession.direction === "incoming") {
       newSession.answer({
         mediaStream: mediaStreamLocal,
+        // pcConfig: {
+        //   rtcpMuxPolicy: "require",
+        //   iceServers: [],
+        // },
         pcConfig: {
           iceServers: [
             {
-              urls: "turn:turn.ttrs.or.th:3478",
+              urls: "turn:turn.ttrs.or.th:3478?transport=tcp",
               username: "turn01",
               credential: " Test1234",
             },
           ],
-          iceTransportPolicy: "all",
+          iceTransportPolicy: "relay",
           rtcpMuxPolicy: "require",
           iceCandidatePoolSize: 0,
           bundlePolicy: "balanced",
         },
         sessionTimersExpires: 9999,
       });
-      // newSession.answer({
-      //   mediaStream: mediaStreamLocal,
-      //   pcConfig: {
-      //     iceServers: [
-      //       {
-      //         urls: "turn:turn.ttrs.or.th:3478?transport=tcp",
-      //         username: "turn01",
-      //         credential: " Test1234",
-      //       },
-      //     ],
-      //     iceTransportPolicy: "relay",
-      //     rtcpMuxPolicy: "require",
-      //     iceCandidatePoolSize: 0,
-      //   },
-      //   sessionTimersExpires: 9999,
-      // });
 
       inComingCall(newSession);
     }
