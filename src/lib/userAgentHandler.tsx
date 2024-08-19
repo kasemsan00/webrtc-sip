@@ -66,27 +66,20 @@ export const eventUserAgent = (
     let newSession: RTCSession = ev1.session;
     console.log("direction", newSession.direction);
     if (newSession.direction === "incoming") {
-      newSession.answer({
+      const option = {
         mediaStream: mediaStreamLocal,
-        // pcConfig: {
-        //   rtcpMuxPolicy: "require",
-        //   iceServers: [],
-        // },
         pcConfig: {
           iceServers: [
             {
-              urls: "turn:turn.ttrs.or.th:3478?transport=tcp",
+              urls: "turn:turn.kasemsan.net:3478?transport=tcp",
               username: "turn01",
               credential: " Test1234",
             },
           ],
-          iceTransportPolicy: "relay",
-          rtcpMuxPolicy: "require",
-          iceCandidatePoolSize: 0,
-          bundlePolicy: "balanced",
         },
         sessionTimersExpires: 9999,
-      });
+      };
+      newSession.answer(option);
 
       inComingCall(newSession);
     }
