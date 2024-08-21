@@ -44,14 +44,18 @@ export default function LocalVideo() {
   useEffect(() => {
     async function getLocalMedia() {
       if (mediaStreamLocal !== null) return;
-      const stream = await navigator.mediaDevices.getUserMedia({
+      const constraints = {
         video: true,
-        audio: false,
-      });
+        audio: true,
+      };
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
       setIsMuted({
         video: true,
-        audio: false,
+        audio: true,
       });
+      // if (constraints.audio === false) {
+      // console.log(stream.getTracks());
+      // }
       setLocalMediaStream(stream);
       return null;
     }
