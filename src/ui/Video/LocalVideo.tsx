@@ -46,11 +46,11 @@ export default function LocalVideo() {
       if (mediaStreamLocal !== null) return;
       const stream = await navigator.mediaDevices.getUserMedia({
         video: true,
-        audio: true,
+        audio: false,
       });
       setIsMuted({
         video: true,
-        audio: true,
+        audio: false,
       });
       setLocalMediaStream(stream);
       return null;
